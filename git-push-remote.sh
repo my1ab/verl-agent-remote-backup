@@ -4,7 +4,8 @@
 # 使用Personal Access Token进行自动认证，正确格式: https://username:token@github.com/username/repo.git
 # GITHUB_TOKEN="${GITHUB_TOKEN:-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}"
 # REMOTE_URL="https://my1ab:$GITHUB_TOKEN@github.com/my1ab/verl-agent-remote-backup.git"
-REMOTE_URL="https://github.com/my1ab/verl-agent-remote-backup.git"
+# REMOTE_URL="https://github.com/my1ab/verl-agent-remote-backup.git"
+REMOTE_URL="git@github.com:my1ab/verl-agent-remote-backup.git"  # SSH方式
 if ! git remote get-url verl-agent-remote-backup &>/dev/null; then
     echo "远程仓库 verl-agent-remote-backup 不存在，正在添加..."
     git remote add verl-agent-remote-backup "$REMOTE_URL"
