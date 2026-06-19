@@ -3,6 +3,7 @@
 
 REMOTE_URL="git@github.com:my1ab/verl-agent-remote-backup.git"  # SSH方式
 REPO_NAME="verl-agent-remote-backup"
+TARGET_BRANCH="main"
 if ! git remote get-url $REPO_NAME &>/dev/null; then
     echo "远程仓库 $REPO_NAME 不存在，正在添加..."
     git remote add $REPO_NAME "$REMOTE_URL"
@@ -32,7 +33,7 @@ git status
 echo ""
 echo "=== 检查并创建目标分支 ==="
 # 手动选择目标分支
-TARGET_BRANCH="main"
+
 # TARGET_BRANCH="my-verl"
 
 if git show-ref --verify --quiet "refs/heads/$TARGET_BRANCH"; then
