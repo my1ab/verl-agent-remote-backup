@@ -19,6 +19,7 @@ dependencies = [
     "pandas", 
     "requests",
     "omegaconf",
+    "huggingface_hub",
 ]
 
 [project.urls]

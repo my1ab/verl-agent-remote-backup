@@ -195,11 +195,7 @@ class BM25Retriever(BaseRetriever):
 class DenseRetriever(BaseRetriever):
     def __init__(self, config):
         super().__init__(config)
-        # 替换这行
-        print(f'path = {self.index_path}')
-        # 使用内存映射模式（只读，不占用物理内存），按需从磁盘读取
-        # 按需从磁盘读取，不占用物理内存（依赖 OS 的 page cache） 避免oom
-        self.index = faiss.read_index(self.index_path, faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY)
+        self.index = faiss.read_index(self.index_path)
         if config.faiss_gpu:
             co = faiss.GpuMultipleClonerOptions()
             co.useFloat16 = True

@@ -197,9 +197,15 @@ class DenseRetriever(BaseRetriever):
         super().__init__(config)
         # 替换这行
         print(f'path = {self.index_path}')
-        # 使用内存映射模式（只读，不占用物理内存），按需从磁盘读取
-        # 按需从磁盘读取，不占用物理内存（依赖 OS 的 page cache） 避免oom
-        self.index = faiss.read_index(self.index_path, faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY)
+        self.index = faiss.read_index(self.index_path)
+        # 改为内存映射模式（只读，不占用物理内存）
+        # self.index = faiss.read_index(self.index_path, faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY)
+        # 修改为：强制使用磁盘索引，完全不加载向量到内存
+        
+        # self.index = faiss.read_index(self.index_path, faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY | faiss.IO_FLAG_ONDISK_SAME_DIR)
+        # 关键：禁用预加载
+        # if hasattr(self.index, 'set_direct_map_type'):
+        #     self.index.set_direct_map_type(faiss.DirectMap.Hashtable)
         if config.faiss_gpu:
             co = faiss.GpuMultipleClonerOptions()
             co.useFloat16 = True
