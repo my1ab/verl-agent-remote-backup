@@ -46,13 +46,13 @@ export PYTHONUNBUFFERED=1
 
 LOG_FILE="$BASE_PATH/coldstart_genaration_search/coldstart_search_gen.log"
 # 注意device设置
-export CUDA_VISIBLE_DEVICES=7
+export CUDA_VISIBLE_DEVICES=6
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 
-# nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search.py \
-#     > $LOG_FILE 2>&1 &
-nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search_local.py \
+nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search.py \
     > $LOG_FILE 2>&1 &
+# nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/test_model.py \
+#     > $LOG_FILE 2>&1 &
 
 echo "Started. PID: $!"
 echo "Log: $LOG_FILE"

@@ -23,6 +23,8 @@ Search Task Coldstart Prompts
 
 
 
+
+
 # ============================================================
 # ════════════════════════════════════════════════════════════════
 # Parallel-env style (multi-path exploration)
@@ -88,7 +90,6 @@ Now it's your turn to choose environments and take actions. Refer to the below a
     2) whether the expected result has been achieved
     3) then choose a group of best environments and take different actions
 11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
 """
 
 
@@ -148,5 +149,4 @@ Now it's your turn to choose environments and take actions. Refer to the below a
     2) whether the expected result has been achieved
     3) then choose a group of best environments and take different actions
 11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
 """

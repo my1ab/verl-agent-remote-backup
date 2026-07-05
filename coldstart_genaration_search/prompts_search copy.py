@@ -21,13 +21,11 @@ Search Task Coldstart Prompts
   <answer> final answer </answer>
 """
 
-
-
 # ============================================================
 # ════════════════════════════════════════════════════════════════
 # Parallel-env style (multi-path exploration)
 # ════════════════════════════════════════════════════════════════
-SYSTEM_PROMPT_SEARCH_PARA = """You are an expert agent tasked with answering questions using a search engine.
+SYSTEM_MESSAGE_SEARCH_PARA = """You are an expert agent tasked with answering questions using a search engine.
 Given a question, you need to reason step-by-step.
 
 Your reasoning process must be enclosed within <think> </think> tags.
@@ -51,46 +49,47 @@ To take multiple actions at the same time in different environments, use the <pa
 <env_i><search> your query for env i </search></env_i>
 </parallel>
 
-Where i is between 1 and {num_parallel}. **Even when acting in only one environment, you MUST still use <parallel> and <env_i> tags.** For example: `<parallel><env_1><search>query</search></env_1></parallel>`.
+Where i is between 1 and {num_parallel}.
 
 Two kinds of actions are allowed in the search environment:
 1. Search action: <search> your search query </search>
    - Use this when you need more information to answer the question
 2. Answer action: <answer> your final answer </answer>
    - Use this when you have enough information to answer confidently
-   - Provide ONLY the answer itself, without detailed illustrations. For example: <answer>2018</answer> or <answer>Beijing</answer>
 
 The search engine will return results wrapped in <information> </information> tags.
+
+**Important rules:**
+1. You MUST always start with <think> before taking any action
+2. You can search multiple times to gather different pieces of information
+3. Each search returns relevant results from the knowledge source
+4. Once you have sufficient information, provide your final answer using <answer>
+5. Always use lowercase tags: <think>, <search>, <answer>
+6. Invalid format and all null actions will fail your task, so check again before you finally respond
+7. The search action format is: <search> your query </search>. The answer action format is: <answer> your answer </answer>
+8. Try to act differently in each environment (try not to be the same) to explore diverse search paths
 """
 
 
-
-USER_PROMPT_NO_HIS_PARA = """You are an expert agent tasked with answering the given question step-by-step.
+SEARCH_PROMPT_NO_HIS_PARA = """You are an expert agent tasked with answering the given question step-by-step.
 Your question: {question}
+
+You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
+
 Your current observations from all environments are:
 {observations}
 
-You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
-Now it's your turn to choose environments and take actions. Refer to the below and system message for full rules.
-
-**Important rules:**
-1. You MUST always start with <think> before taking any action.
-2. You can search multiple times to gather different pieces of information.
-3. Each search returns relevant results from the knowledge source.
-4. Once you have sufficient information, provide your final answer using <answer>.
-5. Always use lowercase tags: <think>, <search>, <answer>.
-6. Invalid format and all null actions will fail your task, so check again before you finally respond.
-7. The search action format is: <search> your query </search>. The answer action format is: <answer> your answer </answer>.
-8. Try to act differently in each environment (try not to be the same) to explore diverse search paths.
-9. All actions — even from a single environment — MUST be wrapped in both `<parallel>` and `<env_i>` tags. For a single action: `<parallel><env_1><search>query</search></env_1></parallel>`. For environments where you don't take action, simply omit their `<env_i>` tags (rather than setting them to null inside `<parallel>`).
-10. When acting in environments with prior history, first evaluate whether previous actions have taken effect:
-    1) whether the environment has changed
-    2) whether the expected result has been achieved
-    3) then choose a group of best environments and take different actions
-11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
+Now it's your turn to choose environments and take actions following the detailed rules below:
+1. You can explore 1 to {num_parallel} paths (indexed from 1 to {total_envs}), act differently in each environment and switch between environments properly to find the answer more efficiently.
+2. You should first reason about the current situation. This reasoning process MUST be enclosed within <think> </think> tags.
+3. After completing your reasoning, choose a group of best environments and take actions:
+   - Search action (when you need more external information): <search> your query </search>
+   - Answer action (when you have enough knowledge): <answer> your final answer </answer>
+4. Use the <parallel> </parallel> tags with <env_i> </env_i> for each environment where you want to act.
+5. For environments where you don't take action, simply omit their <env_i> tags.
+6. Make sure all required tags (<think>, <parallel>, <env_i>) are within the output and in the right place.
+7. Invalid format and all null actions will fail your task, so check again before you finally respond.
 """
-
 
 
 # ════════════════════════════════════════════════════════════════
@@ -98,22 +97,21 @@ Now it's your turn to choose environments and take actions. Refer to the below a
 # ════════════════════════════════════════════════════════════════
 #
 # 继承自 prompt/search.py :: SEARCH_TEMPLATE，为支持并行探索而改造。
-# 变量设计对齐 prompts_webshop.py :: reason_prompt_para_his。
 #
 # ── 继承的原有变量 ─────────────────────────────────────
-#   {task_description}  — 问题 (原 SEARCH_TEMPLATE 中为 {task_description})
+#   {question}     — 问题 (原 SEARCH_TEMPLATE 中为 {task_description})
+#   {step_count}   — 已执行步数
 #
 # ── 新增变量 (并行化) ──────────────────────────────────
-#   {initial_observation}  — 各环境的起始观察 (<observation_i> 标签)
-#   {history_info}         — 多环境独立历史 (In Environment i: Action/Observation)
-#                             替换官方的单环境 {memory_context}
-#   {last_history}         — 最近一步各环境的动作和观察
-#   {total_envs}           — 总环境数 (group_n * env_num)
-#   {num_parallel}         — 每轮最大并行动作数
+#   {history}      — 多环境独立历史 (In Environment i: Action/Observation)
+#                     替换官方的单环境 {memory_context} (<search>/<information> 标签)
+#   {observations} — 各环境的当前观察 (<observation_i> 标签)
+#                     官方 SEARCH_TEMPLATE 无此独立变量 (观察嵌入在 memory_context 中)
+#   {total_envs}   — 总环境数 (group_n * env_num)
+#   {num_parallel} — 每轮最大并行动作数
 #
 # ── 移除的官方变量 ─────────────────────────────────────
-#   {memory_context}  — 被 {history_info} 替换 (单环境 → 多环境)
-#   {step_count}      — 步数信息嵌入在 history_info / last_history 中
+#   {memory_context}  — 被 {history} 替换 (单环境 → 多环境)
 #
 # ── 规则改动 ───────────────────────────────────────────
 #   1. 单环境 (固定 <search> / <answer> 两种动作)
@@ -122,31 +120,26 @@ Now it's your turn to choose environments and take actions. Refer to the below a
 #      → 纯文本 "In Environment i: Action/Observation"
 #   3. 新增并行探索规则 (环境选择、null 动作、环境切换等)
 # ============================================================
-USER_PROMPT_HIS_PARA = """You are an expert agent tasked with answering the given question step-by-step.
-Your question: {task_description}.
-Your initial observation is:
-{initial_observation}.
-{history_info}.
-In your last step, your actions and corresponding observations are:
-{last_history}
+SEARCH_PROMPT_HIS_PARA = """You are an expert agent tasked with answering the given question step-by-step.
+Your question: {question}
 
 You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
-Now it's your turn to choose environments and take actions. Refer to the below and system message for full rules.
 
-**Important rules:**
-1. You MUST always start with <think> before taking any action.
-2. You can search multiple times to gather different pieces of information.
-3. Each search returns relevant results from the knowledge source.
-4. Once you have sufficient information, provide your final answer using <answer>.
-5. Always use lowercase tags: <think>, <search>, <answer>.
-6. Invalid format and all null actions will fail your task, so check again before you finally respond.
-7. The search action format is: <search> your query </search>. The answer action format is: <answer> your answer </answer>.
-8. Try to act differently in each environment (try not to be the same) to explore diverse search paths.
-9. All actions — even from a single environment — MUST be wrapped in both `<parallel>` and `<env_i>` tags. For a single action: `<parallel><env_1><search>query</search></env_1></parallel>`. For environments where you don't take action, simply omit their `<env_i>` tags (rather than setting them to null inside `<parallel>`).
-10. When acting in environments with prior history, first evaluate whether previous actions have taken effect:
-    1) whether the environment has changed
-    2) whether the expected result has been achieved
-    3) then choose a group of best environments and take different actions
-11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
-"""
+Prior to this step, you have already taken {step_count} step(s). Below is the interaction history:
+{history}
+
+Your current observations from all environments are:
+{observations}
+
+Now it's your turn to choose environments and take actions following the detailed rules below:
+1. You can explore 1 to {num_parallel} paths (indexed from 1 to {total_envs}), act differently in each environment and switch between environments properly to find the answer more efficiently.
+2. You should first evaluate whether previous actions have taken effect based on the action history. Check current observations from all environments, then choose a group of best environments to act in.
+3. This reasoning process MUST be enclosed within <think> </think> tags.
+4. After completing your reasoning, choose environments and take actions:
+   - Search action (when you need more external information): <search> your query </search>
+   - Answer action (when you have enough knowledge): <answer> your final answer </answer>
+5. Use the <parallel> </parallel> tags with <env_i> </env_i> for each environment where you want to act.
+6. For environments where you don't take action, simply omit their <env_i> tags.
+7. Make sure all required tags (<think>, <parallel>, <env_i>) are within the output and in the right place.
+8. Invalid format and all null actions will fail your task, so check again before you finally respond.
+9. Check history of actions to avoid repeated actions for more efficiency."""

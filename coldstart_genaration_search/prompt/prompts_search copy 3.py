@@ -23,6 +23,8 @@ Search Task Coldstart Prompts
 
 
 
+
+
 # ============================================================
 # ════════════════════════════════════════════════════════════════
 # Parallel-env style (multi-path exploration)
@@ -61,17 +63,6 @@ Two kinds of actions are allowed in the search environment:
    - Provide ONLY the answer itself, without detailed illustrations. For example: <answer>2018</answer> or <answer>Beijing</answer>
 
 The search engine will return results wrapped in <information> </information> tags.
-"""
-
-
-
-USER_PROMPT_NO_HIS_PARA = """You are an expert agent tasked with answering the given question step-by-step.
-Your question: {question}
-Your current observations from all environments are:
-{observations}
-
-You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
-Now it's your turn to choose environments and take actions. Refer to the below and system message for full rules.
 
 **Important rules:**
 1. You MUST always start with <think> before taking any action.
@@ -88,7 +79,23 @@ Now it's your turn to choose environments and take actions. Refer to the below a
     2) whether the expected result has been achieved
     3) then choose a group of best environments and take different actions
 11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
+"""
+
+USER_PROMPT_NO_HIS_PARA = """You are an expert agent tasked with answering the given question step-by-step.
+Your question: {question}
+
+You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
+
+Your current observations from all environments are:
+{observations}
+
+Now it's your turn to choose environments and take actions. Refer to the system message for full rules.
+
+**CRITICAL — review these rules from system message carefully:**
+- ALL actions — even from a single environment — MUST be wrapped in `<parallel>` and `<env_i>` tags. Format: `<parallel><env_1><search>...</search></env_1></parallel>`
+- Rule 2 (answer action format): <answer> MUST contain ONLY the minimal keyword/phrase — NO sentences, NO extra words. Example: <answer>2018</answer> ✓ vs <answer>2018 at the Winter Olympics</answer> ✗
+- Rules 5-6: Tags, invalid format, or all-null will cause immediate failure.
+- Rule 12 (reward): Every extra word beyond the answer reduces your chance of success. Exact match required.
 """
 
 
@@ -130,23 +137,13 @@ Your initial observation is:
 In your last step, your actions and corresponding observations are:
 {last_history}
 
-You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
-Now it's your turn to choose environments and take actions. Refer to the below and system message for full rules.
+Now it's your turn to choose environments and take actions. Refer to the system message for full rules.
 
-**Important rules:**
-1. You MUST always start with <think> before taking any action.
-2. You can search multiple times to gather different pieces of information.
-3. Each search returns relevant results from the knowledge source.
-4. Once you have sufficient information, provide your final answer using <answer>.
-5. Always use lowercase tags: <think>, <search>, <answer>.
-6. Invalid format and all null actions will fail your task, so check again before you finally respond.
-7. The search action format is: <search> your query </search>. The answer action format is: <answer> your answer </answer>.
-8. Try to act differently in each environment (try not to be the same) to explore diverse search paths.
-9. All actions — even from a single environment — MUST be wrapped in both `<parallel>` and `<env_i>` tags. For a single action: `<parallel><env_1><search>query</search></env_1></parallel>`. For environments where you don't take action, simply omit their `<env_i>` tags (rather than setting them to null inside `<parallel>`).
-10. When acting in environments with prior history, first evaluate whether previous actions have taken effect:
-    1) whether the environment has changed
-    2) whether the expected result has been achieved
-    3) then choose a group of best environments and take different actions
-11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
+**CRITICAL — review these rules from system message carefully:**
+- ALL actions — even from a single environment — MUST be wrapped in `<parallel>` and `<env_i>` tags.
+- Rule 10 (evaluate history): Check if the environment has changed and achieved the expected result before deciding next actions.
+- Rule 11 (avoid repetition): Do NOT issue the same search across multiple environments repeatedly — switch strategies.
+- Rule 2 (answer action format): <answer> MUST contain ONLY the minimal keyword/phrase — NO sentences, NO extra words.
+- Rules 5-6: Tags, invalid format, or all-null will cause immediate failure.
+- Rule 12 (reward): Every extra word beyond the answer reduces your chance of success. Exact match required.
 """

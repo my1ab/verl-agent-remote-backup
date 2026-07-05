@@ -56,7 +56,8 @@ SEARCH_DATA_DIR = os.path.expanduser('~/data/searchR1_processed_direct')
 # ============================================================
 # Model Loading
 # ============================================================
-def load_local_model(tokenizer_path=None, model_path=None, show=1):
+ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-7230"
+def load_local_model(tokenizer_path=ckpt_path, model_path=ckpt_path, show=1):
     global local_model, local_tokenizer
     if model_path is not None:
         print(f"\n{'='*60}")
@@ -645,7 +646,7 @@ class SearchTaskSampler:
     #   split='train' → range(1500, len(goals)),  train.parquet
     #   split='sft'   → range(600, len(goals)),  train.parquet (与 train 同文件)
     _SPLIT_CONFIG = {
-        "test":  {"file": "test.parquet",  "range": (0, 500)},
+        "test":  {"file": "test.parquet",  "range": (0, None)},
         "train": {"file": "train.parquet", "range": (1500, None)},
         # "sft":   {"file": "train.parquet", "range": (600, None)},
         "sft":   {"file": "train.parquet", "range": (0, None)},
@@ -1095,7 +1096,6 @@ if __name__ == "__main__":
 
     # ── 局部超参数 (手动设定) ─────────────────────────────
     # 模型推理
-    use_local_model = False    # True=使用本地模型, False=使用 DeepSeek API
     ds_model = 1               # DeepSeek 模型: 1=Flash, 2=Pro (仅 API 模式生效)
     effort = 1                 # DeepSeek thinking: 0=disabled, 1=high, 2=max
 
@@ -1112,7 +1112,7 @@ if __name__ == "__main__":
 
     # 采样控制
     seed = -1                  # 随机种子: <0 → sequential, >=0 → 随机采样
-    split = "sft"              # 数据分区: test/train/sft/all, 决定 parquet 文件和默认 range
+    split =               # 数据分区: test/train/sft/all, 决定 parquet 文件和默认 range
     sampler_range = None       # 实际数据范围 (start, end), 覆盖 split 默认; None=使用 split 默认
     show_turn = True           # 是否逐轮打印状态信息
 
@@ -1125,12 +1125,11 @@ if __name__ == "__main__":
     # ── Sampler & Output Setup ────────────────────────────
     sampler = SearchTaskSampler(
         data_dir=SEARCH_DATA_DIR,
-        split=split,                # 由 split 变量决定 parquet 文件和默认 range
+        # split="sft",                # 由 split 变量决定 parquet 文件和默认 range
+        split="test",   
         split_range=sampler_range,  # 手动覆盖实际数据范围; None=使用 split 默认
         seed=seed,
     )
-
-    
 
     # 输出控制 (逻辑标记, 从 0 开始, 仅用于文件名标注, 不影响实际采样)
     save_traj = 1              # 是否保存轨迹 (1=保存, 0=不保存)
@@ -1175,7 +1174,8 @@ if __name__ == "__main__":
     # 重置 sampler 状态，然后每组分片前同步计数器
     sampler.reset()
     
-    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_search'
+    # OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_search'
+    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_test'
     os.makedirs(OUTPUT_BASE_DIR, exist_ok=True)
     test_single = 0
     if test_single:
@@ -1192,11 +1192,29 @@ if __name__ == "__main__":
         sampler._goal_idx_counter = chunk_start
 
         output_file = get_unique_filename(
+            # os.path.join(OUTPUT_BASE_DIR, f'search_coldstart_{chunk_start}_{chunk_end}.json')
             os.path.join(OUTPUT_BASE_DIR, f'search_coldstart_{chunk_start}_{chunk_end}.json')
         )
         print(f"\n{'─'*60}")
         print(f"Processing chunk [{chunk_start}, {chunk_end}] → {os.path.basename(output_file)}")
         print(f"{'─'*60}")
+
+        # evaluate_coldstart_data(
+        #     output_file=output_file,
+        #     sampler=sampler,
+        #     max_turns=max_turns,
+        #     show_turn=show_turn,
+        #     his_len=his_len,
+        #     save_traj=save_traj,
+        #     use_local_model=use_local_model,
+        #     ds_model=ds_model,
+        #     effort=effort,
+        #     start_idx=chunk_start,
+        #     end_idx=chunk_end,
+        #     group_n=group_n,
+        #     env_num=env_num,
+        #     num_para=num_para,
+        # )
 
         evaluate_coldstart_data(
             output_file=output_file,
@@ -1205,7 +1223,7 @@ if __name__ == "__main__":
             show_turn=show_turn,
             his_len=his_len,
             save_traj=save_traj,
-            use_local_model=use_local_model,
+            use_local_model=False,
             ds_model=ds_model,
             effort=effort,
             start_idx=chunk_start,

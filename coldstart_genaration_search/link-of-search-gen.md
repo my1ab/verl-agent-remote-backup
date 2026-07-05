@@ -346,3 +346,4 @@ parquet row
 | | `call_search_api()` | HTTP POST 到检索服务器 |
 | `search/projection.py` | `search_projection()` | 动作合法性检查 |
 | `data_preprocess/...py` | `process_single_row()` | 原始数据→训练格式 |
+
