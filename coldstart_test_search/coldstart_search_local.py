@@ -56,9 +56,9 @@ SEARCH_DATA_DIR = os.path.expanduser('~/data/searchR1_processed_direct')
 # ============================================================
 # Model Loading
 # ============================================================
-ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-7230"
-def load_local_model(tokenizer_path=ckpt_path, model_path=ckpt_path, show=1):
+def load_local_model(tokenizer_path=None, model_path=None, show=1):
     global local_model, local_tokenizer
+    # 只有传入时重新定义
     if model_path is not None:
         print(f"\n{'='*60}")
         print(f"Loading tokenizer and model from checkpoint: {tokenizer_path}")
@@ -1199,22 +1199,8 @@ if __name__ == "__main__":
         print(f"Processing chunk [{chunk_start}, {chunk_end}] → {os.path.basename(output_file)}")
         print(f"{'─'*60}")
 
-        # evaluate_coldstart_data(
-        #     output_file=output_file,
-        #     sampler=sampler,
-        #     max_turns=max_turns,
-        #     show_turn=show_turn,
-        #     his_len=his_len,
-        #     save_traj=save_traj,
-        #     use_local_model=use_local_model,
-        #     ds_model=ds_model,
-        #     effort=effort,
-        #     start_idx=chunk_start,
-        #     end_idx=chunk_end,
-        #     group_n=group_n,
-        #     env_num=env_num,
-        #     num_para=num_para,
-        # )
+        ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-7230"
+        load_local_model(tokenizer_path=ckpt_path, model_path=ckpt_path, show=1)
 
         evaluate_coldstart_data(
             output_file=output_file,
