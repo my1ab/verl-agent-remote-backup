@@ -209,6 +209,7 @@ class DenseRetriever(BaseRetriever):
         # 启用 FAISS CPU 多线程并行搜索
         # faiss.omp_set_num_threads(32)
         # print(f'FAISS CPU threads set to: {faiss.omp_get_max_threads()}')
+        # 全部加载到内存，搜索不读盘
         print('loading index using: self.index = faiss.read_index(self.index_path)')
         self.index = faiss.read_index(self.index_path)
         # 使用内存映射模式（只读，不占用物理内存），按需从磁盘读取，不占用物理内存（依赖 OS 的 page cache） 避免oom

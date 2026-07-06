@@ -6,7 +6,7 @@ corpus_file=$save_path/wiki-18.jsonl
 retriever_name=e5
 retriever_path=intfloat/e5-base-v2
 
-export CUDA_VISIBLE_DEVICES=6
+export CUDA_VISIBLE_DEVICES=2
 
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 # LOG_FILE="retrieval_server.log"

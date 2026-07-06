@@ -75,6 +75,10 @@ EXCLUDE_PATHS=(
     # coldstart_genaration_search子文件夹
     coldstart_genaration_search/result_search
     coldstart_genaration_search/result_search_single
+    # coldstart_test_search子文件夹
+    coldstart_test_search/result_test
+    coldstart_test_search/result_test_3epoch
+    coldstart_test_search/result_test_ds    
     *.pt
     *.ckpt
     *.safetensors

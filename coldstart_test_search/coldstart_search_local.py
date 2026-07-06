@@ -216,37 +216,57 @@ def deepseek(messages, ds_model=1, effort=0, show=0, turn=None):
 
 
 # ============================================================
-# Model Test — 以 ChatML 格式测试 DeepSeek API 可达性
+# Model Test — 以 ChatML 格式测试模型可达性（API / 本地）
 # ============================================================
-def test_model(ds_model=1, effort=0):
+def test_model(ds_model=1, effort=0, use_local_model=False):
     """
-    用简单例句测试 DeepSeek API 是否可达。
+    用简单例句测试模型是否可达（DeepSeek API 或本地模型）。
 
     Args:
-        ds_model: 1=Flash, 2=Pro
-        effort: 0=disabled thinking, 1=high, 2=max
+        ds_model: 1=Flash, 2=Pro (仅 API 模式生效)
+        effort: 0=disabled thinking, 1=high, 2=max (仅 API 模式生效)
+        use_local_model: True=使用本地模型, False=使用 DeepSeek API
     """
-    print("=" * 60)
-    print("Testing DeepSeek API connectivity...")
-    print("=" * 60)
-
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Hello! Please respond with a short greeting."},
+        # {"role": "user", "content": "Hello! Please respond with a short greeting."},
+        {"role": "user", "content": "introduce yourself."},
     ]
 
-    try:
-        response = deepseek(messages, ds_model=ds_model, effort=effort, show=1)
-        print(f"\nResponse: {response}")
-        print(f"\n{'='*60}")
-        print("DeepSeek API test PASSED!")
-        print(f"{'='*60}")
-        return True
-    except Exception as e:
-        print(f"\n{'='*60}")
-        print(f"DeepSeek API test FAILED: {e}")
-        print(f"{'='*60}")
-        return False
+    if use_local_model:
+        print("=" * 60)
+        print("Testing Local model connectivity...")
+        print("=" * 60)
+        try:
+            response = local_model_infer(messages, show=1)
+            print(f"\nResponse: {response}")
+            print(f"\n{'='*60}")
+            print("Local model test PASSED!")
+            print(f"{'='*60}")
+            return True
+        except Exception as e:
+            print(f"\n{'='*60}")
+            print(f"Local model test FAILED: {e}")
+            print(f"{'='*60}")
+            import traceback
+            traceback.print_exc()
+            return False
+    else:
+        print("=" * 60)
+        print("Testing DeepSeek API connectivity...")
+        print("=" * 60)
+        try:
+            response = deepseek(messages, ds_model=ds_model, effort=effort, show=1)
+            print(f"\nResponse: {response}")
+            print(f"\n{'='*60}")
+            print("DeepSeek API test PASSED!")
+            print(f"{'='*60}")
+            return True
+        except Exception as e:
+            print(f"\n{'='*60}")
+            print(f"DeepSeek API test FAILED: {e}")
+            print(f"{'='*60}")
+            return False
 
 
 # ============================================================
@@ -650,7 +670,7 @@ class SearchTaskSampler:
         "train": {"file": "train.parquet", "range": (1500, None)},
         # "sft":   {"file": "train.parquet", "range": (600, None)},
         "sft":   {"file": "train.parquet", "range": (0, None)},
-        "all":   {"file": "test.parquet",  "range": (0, None)},
+        # "all":   {"file": "test.parquet",  "range": (0, None)},
     }
 
     def __init__(
@@ -900,6 +920,7 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
         f'search_url: {SEARCH_URL}, topk: {SEARCH_TOPK}',
         f'group_n: {group_n}, env_num: {env_num}, total_envs: {total_envs}, num_para: {num_para}',
     ]
+    # 覆盖式写入
     with open(log_file, 'w') as f:
         for line in config_lines:
             f.write(line + '\n')
@@ -985,6 +1006,7 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
             seperated_trajectories.append(seperated_list)
             total_count += 1
 
+            # 添加式写入
             with open(log_file, 'a') as f:
                 f.write(status_msg + '\n')
 
@@ -1111,14 +1133,15 @@ if __name__ == "__main__":
     num_para = group_n               # 每轮最大并行动作数 (<= total_envs)
 
     # 采样控制
-    seed = -1                  # 随机种子: <0 → sequential, >=0 → 随机采样
-    split =               # 数据分区: test/train/sft/all, 决定 parquet 文件和默认 range
+    seed = -1                  # 随机种子: <0 → sequential, >=0 → 随机采样            
+    split = None               # 数据分区: test/train/sft/all, 决定 parquet 文件和默认 range
     sampler_range = None       # 实际数据范围 (start, end), 覆盖 split 默认; None=使用 split 默认
     show_turn = True           # 是否逐轮打印状态信息
 
-    
 
-    test_model(ds_model, effort)
+    ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-7230"
+    load_local_model(tokenizer_path=ckpt_path, model_path=ckpt_path, show=1)
+    test_model(ds_model, effort, use_local_model=True)
     print(f'[DEBUG] test done')
     # exit(0)
 
@@ -1146,19 +1169,20 @@ if __name__ == "__main__":
         # (5, 9),
         # (10, 14),
         # (15, 19),
-        (0, 99),
+        # (0, 4),
+        # (0, 99),
         (100, 199),
         (200, 299),
         (300, 399),
         (400, 499),
-        (500, 599),
-        (600, 699),
-        (700, 799),
-        (800, 899),
-        (900, 999),
-        (1000, 1099),
-        (1100, 1199),
-        (1200, 1299)
+        # (500, 599),
+        # (600, 699),
+        # (700, 799),
+        # (800, 899),
+        # (900, 999),
+        # (1000, 1099),
+        # (1100, 1199),
+        # (1200, 1299)
     ]
     
     single_index=[
@@ -1175,7 +1199,7 @@ if __name__ == "__main__":
     sampler.reset()
     
     # OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_search'
-    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_test'
+    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_test_search/result_test'
     os.makedirs(OUTPUT_BASE_DIR, exist_ok=True)
     test_single = 0
     if test_single:
@@ -1199,8 +1223,7 @@ if __name__ == "__main__":
         print(f"Processing chunk [{chunk_start}, {chunk_end}] → {os.path.basename(output_file)}")
         print(f"{'─'*60}")
 
-        ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-7230"
-        load_local_model(tokenizer_path=ckpt_path, model_path=ckpt_path, show=1)
+        
 
         evaluate_coldstart_data(
             output_file=output_file,
@@ -1209,7 +1232,8 @@ if __name__ == "__main__":
             show_turn=show_turn,
             his_len=his_len,
             save_traj=save_traj,
-            use_local_model=False,
+            # use_local_model=False,
+            use_local_model=True,
             ds_model=ds_model,
             effort=effort,
             start_idx=chunk_start,

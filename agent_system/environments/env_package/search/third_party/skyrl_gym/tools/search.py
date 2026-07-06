@@ -102,6 +102,7 @@ def call_search_api(
                 time.sleep(delay)
             continue
         except requests.exceptions.Timeout as e:
+            # 日志可见
             last_error = f"{log_prefix}Timeout Error: {e}"
             logger.warning(last_error)
             if attempt < MAX_RETRIES - 1:
