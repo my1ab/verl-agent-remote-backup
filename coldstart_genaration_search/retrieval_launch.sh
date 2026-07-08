@@ -6,12 +6,15 @@ corpus_file=$save_path/wiki-18.jsonl
 retriever_name=e5
 retriever_path=intfloat/e5-base-v2
 
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=0
 
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 # LOG_FILE="retrieval_server.log"
 LOG_FILE="coldstart_genaration_search/retrieval_server.log"
 
+
+PORT=8010
+# --port 8000 \
 # faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY 留在磁盘  使用时再调入
 # 启动http服务器 加载索引+语料库 接收查询文本并返回最相似的文本片段
 nohup python examples/search/retriever/retrieval_server.py \
@@ -20,7 +23,7 @@ nohup python examples/search/retriever/retrieval_server.py \
   --topk 3 \
   --retriever_name $retriever_name \
   --retriever_model $retriever_path \
-  --port 8000 \
+  --port $PORT \
   > $LOG_FILE 2>&1 &
 
 

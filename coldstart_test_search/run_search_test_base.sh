@@ -5,34 +5,6 @@
 set -e
 
 # ================================================================
-# 环境选择: remote(服务器) / local(本地)
-# ================================================================
-USE_REMOTE=1
-
-while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --remote|-r)
-            USE_REMOTE=1
-            shift
-            ;;
-        --local|-l)
-            USE_REMOTE=0
-            shift
-            ;;
-        *)
-            echo "Usage: $0 [--remote/-r | --local/-l]"
-            exit 1
-            ;;
-    esac
-done
-
-if [ $USE_REMOTE -eq 1 ]; then
-    BASE_PATH="/diskpool/home/xuxz/verl-agent"
-else
-    BASE_PATH="/home/dpepo/verl-agent"
-fi
-
-# ================================================================
 # 启动生成脚本
 # ================================================================
 # 前置依赖:
@@ -44,15 +16,16 @@ fi
 export PYTHONPATH=$BASE_PATH:$PYTHONPATH
 export PYTHONUNBUFFERED=1
 
-LOG_FILE="$BASE_PATH/coldstart_genaration_search/coldstart_search_gen.log"
+BASE_PATH="/diskpool/home/xuxz/verl-agent"
+LOG_FILE="$BASE_PATH/coldstart_test_search/search_test_base.log"
 # 注意device设置
-export CUDA_VISIBLE_DEVICES=6
+export CUDA_VISIBLE_DEVICES=5
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 
-nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search.py \
-    > $LOG_FILE 2>&1 &
-# nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/test_model.py \
+# nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search.py \
 #     > $LOG_FILE 2>&1 &
+nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_test_search/coldstart_search_local_base.py \
+    > $LOG_FILE 2>&1 &
 
 echo "Started. PID: $!"
 echo "Log: $LOG_FILE"

@@ -70,7 +70,7 @@ Your question: {question}
 Your current observations from all environments are:
 {observations}
 
-You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
+You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), you can take multiple actions in up to {num_parallel} of them each turn.
 Now it's your turn to choose environments and take actions. Refer to the below and system message for full rules.
 
 **Important rules:**
@@ -88,7 +88,7 @@ Now it's your turn to choose environments and take actions. Refer to the below a
     2) whether the expected result has been achieved
     3) then choose a group of best environments and take different actions
 11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
+12. Search in multiple environments to gather information, but finally answer in one environment finally.
 """
 
 
@@ -130,7 +130,7 @@ Your initial observation is:
 In your last step, your actions and corresponding observations are:
 {last_history}
 
-You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), but you can only take actions in up to {num_parallel} of them each turn.
+You have access to {total_envs} parallel environments (indexed from 1 to {total_envs}), you can take multiple actions in up to {num_parallel} of them each turn.
 Now it's your turn to choose environments and take actions. Refer to the below and system message for full rules.
 
 **Important rules:**
@@ -148,5 +148,5 @@ Now it's your turn to choose environments and take actions. Refer to the below a
     2) whether the expected result has been achieved
     3) then choose a group of best environments and take different actions
 11. Check history of actions to avoid repeated actions for more efficiency.
-12. Only answer in one environment finally.
+12. Search in multiple environments to gather information, but finally answer in one environment finally.
 """
