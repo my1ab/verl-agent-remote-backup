@@ -19,7 +19,7 @@ export PYTHONUNBUFFERED=1
 BASE_PATH="/diskpool/home/xuxz/verl-agent"
 LOG_FILE="$BASE_PATH/coldstart_test_search/search_test_3epoch.log"
 # 注意device设置
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=7
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 
 # nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search.py \

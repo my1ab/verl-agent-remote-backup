@@ -15,7 +15,11 @@ from pydantic import BaseModel
 
 
 def load_corpus(corpus_path: str):
-    corpus = datasets.load_dataset("json", data_files=corpus_path, split="train", num_proc=4)
+    num_proc = 16
+    print(f"Loading corpus from {corpus_path} with num_proc={num_proc} ...")
+    # DEBUG
+    corpus = datasets.load_dataset("json", data_files=corpus_path, split="train", num_proc=num_proc)
+    print(f"Corpus loaded: {len(corpus)} documents")
     return corpus
 
 
@@ -39,7 +43,9 @@ def load_model(model_path: str, use_fp16: bool = False):
     model.cuda()
     if use_fp16:
         model = model.half()
-    tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, trust_remote_code=True)
+    # tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, trust_remote_code=True)
+    # 防止自动挡联网检查  使用local_files_only
+    tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=True, trust_remote_code=True, local_files_only=True)
     return model, tokenizer
 
 
@@ -197,19 +203,24 @@ class DenseRetriever(BaseRetriever):
         super().__init__(config)
         # 替换这行
         print(f'path = {self.index_path}')
+        # 改为（全量加载到内存，搜索不读盘）  避免timeout
+        # 0410 start
+        # 
+        # 启用 FAISS CPU 多线程并行搜索
+        # faiss.omp_set_num_threads(32)
+        # print(f'FAISS CPU threads set to: {faiss.omp_get_max_threads()}')
+        # 全部加载到内存，搜索不读盘
+        print('loading index using: self.index = faiss.read_index(self.index_path)')
         self.index = faiss.read_index(self.index_path)
-        # 改为内存映射模式（只读，不占用物理内存）
+        # 使用内存映射模式（只读，不占用物理内存），按需从磁盘读取，不占用物理内存（依赖 OS 的 page cache） 避免oom
         # self.index = faiss.read_index(self.index_path, faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY)
-        # 修改为：强制使用磁盘索引，完全不加载向量到内存
-        
-        # self.index = faiss.read_index(self.index_path, faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY | faiss.IO_FLAG_ONDISK_SAME_DIR)
-        # 关键：禁用预加载
-        # if hasattr(self.index, 'set_direct_map_type'):
-        #     self.index.set_direct_map_type(faiss.DirectMap.Hashtable)
+        # if config.faiss_gpu 是否触发决定了索引的存储位置和搜索性能：
+        # - faiss_gpu = False: 索引留在磁盘（MMAP 按需读取），CPU RAM 占用极低，搜索受磁盘 IO 影响
+        # - faiss_gpu = True:  将整个索引从磁盘全量读取并复制到 GPU 显存（此时 MMAP 仅节省加载阶段内存），搜索极快
         if config.faiss_gpu:
             co = faiss.GpuMultipleClonerOptions()
-            co.useFloat16 = True
-            co.shard = True
+            co.useFloat16 = True  # 使用 float16 减小 GPU 显存占用
+            co.shard = True       # 在多 GPU 间分片存储索引
             self.index = faiss.index_cpu_to_all_gpus(self.index, co=co)
 
         self.corpus = load_corpus(self.corpus_path)

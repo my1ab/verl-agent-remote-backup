@@ -74,12 +74,18 @@ EXCLUDE_PATHS=(
     coldstart_test_new/model_hislen8_result_v2
     # coldstart_genaration_search子文件夹
     coldstart_genaration_search/result_search
-    coldstart_genaration_search/result_search_singl
+    coldstart_genaration_search/result_search_single
+    coldstart_genaration_search/result_search_seed1 copy
     coldstart_genaration_search/result_search_seed1
     # coldstart_test_search子文件夹
     coldstart_test_search/result_test
     coldstart_test_search/result_test_3epoch
     coldstart_test_search/result_test_ds    
+    # coldstart_test_search_seed1 子文件夹 
+    coldstart_test_search_seed1/test_3.5epoch
+    coldstart_test_search_seed1/test_5epoch
+    # coldstart_test_search_seed1_3B 子文件夹
+    coldstart_test_search_seed1_3B/test_3.5epoch
     *.pt
     *.ckpt
     *.safetensors

@@ -43,7 +43,10 @@ local_tokenizer = None
 # ── 仅在函数内部使用的全局常量 ────────────────────────
 MAX_CONTEXT_LENGTH = 32768    # 本地模型最大上下文长度 (仅本地模式生效)
 BASE_MODEL_PATH = '/diskpool/home/xuxz/ms-swift/model/Qwen2.5-1.5B-Instruct'  # 本地模型路径 (仅本地模式生效)
-SEARCH_URL = 'http://127.0.0.1:8000/retrieve'  # 检索服务器地址
+# SEARCH_URL = 'http://127.0.0.1:8000/retrieve'  # 检索服务器地址
+# 自定义端口
+PORT=8010
+SEARCH_URL = f'http://127.0.0.1:{PORT}/retrieve'
 SEARCH_TOPK = 3               # 每次搜索返回的 top-k 文档数
 SEARCH_TIMEOUT = 60           # 搜索请求超时时间 (秒)
 SEARCH_LOG_REQUESTS = False   # 是否记录搜索请求日志
@@ -58,7 +61,6 @@ SEARCH_DATA_DIR = os.path.expanduser('~/data/searchR1_processed_direct')
 # ============================================================
 def load_local_model(tokenizer_path=None, model_path=None, show=1):
     global local_model, local_tokenizer
-    # 只有传入时重新定义
     if model_path is not None:
         print(f"\n{'='*60}")
         print(f"Loading tokenizer and model from checkpoint: {tokenizer_path}")
@@ -168,11 +170,12 @@ def deepseek(messages, ds_model=1, effort=0, show=0, turn=None):
     Args:
         turn: 当前轮次，用于日志打印（可选）。
     """
-    # client = OpenAI(api_key="sk-3fa0dedd2f1043fa9a861f864108a15d", base_url="https://api.deepseek.com")
-    # client = OpenAI(api_key="sk-ca982270521c4b8184115c7928c96801", base_url="https://api.deepseek.com")
-    # client = OpenAI(api_key="sk-a82b8e25c4a5412b8ccf875a2bb15943", base_url="https://api.deepseek.com")
-    client = OpenAI(api_key="sk-b718f52386c34ffeb714f684d225f688", base_url="https://api.deepseek.com")
+    # client = OpenAI(api_key="sk-b718f52386c34ffeb714f684d225f688", base_url="https://api.deepseek.com")
+    client = OpenAI(api_key="sk-a8d675e7b9f14343b8d38e23718fc21a", base_url="https://api.deepseek.com")
 
+    # 强制flash + high
+    ds_model=1 
+    effort=1
     model_name = "deepseek-v4-flash" if ds_model == 1 else "deepseek-v4-pro"
 
     turn_tag = f"[turn {turn}] "
@@ -216,7 +219,7 @@ def deepseek(messages, ds_model=1, effort=0, show=0, turn=None):
 
 
 # ============================================================
-# Model Test — 以 ChatML 格式测试模型可达性（API / 本地）
+# Model Test — 以 ChatML 格式测试 DeepSeek API 可达性
 # ============================================================
 def test_model(ds_model=1, effort=0, use_local_model=False):
     """
@@ -432,7 +435,8 @@ def get_unique_filename(file_path):
 # ============================================================
 # Trajectory Generation
 # ============================================================
-def get_single_trajectory(env, question, ground_truth, data_source, task_idx=0,
+def get_single_trajectory(env, question, ground_truth, data_source,
+                          physical_idx=0, logical_idx=0,
                           max_turns=10, show_turn=False, his_len=5,
                           use_local_model=True, ds_model=1, effort=0,
                           group_n=1, env_num=1, num_para=1):
@@ -461,7 +465,8 @@ def get_single_trajectory(env, question, ground_truth, data_source, task_idx=0,
         question: The question string
         ground_truth: Ground truth answer(s)
         data_source: Data source name
-        task_idx: Index for tracking
+        physical_idx: 真实行索引 (数据文件中的行号)
+        logical_idx: 逻辑位置索引 (随机数表中的位置)
         max_turns: Maximum number of search/answer turns
         show_turn: Whether to print turn info
         his_len: History window length (-1 for full history)
@@ -486,6 +491,7 @@ def get_single_trajectory(env, question, ground_truth, data_source, task_idx=0,
         "question": question,
         "data_source": data_source
     }] * total_envs
+    # 
     obs_list, info_list = env.reset(kwargs)
     current_obs_list = list(obs_list)
     initial_obs_list = list(obs_list)  # 保存起始观察，供历史轮模板的 {initial_observation} 使用
@@ -520,7 +526,7 @@ def get_single_trajectory(env, question, ground_truth, data_source, task_idx=0,
 
         # ── Prepare partial messages (for training data) ─────────
         partial_messages = [
-            {"task_idx": task_idx, "turn": turn},
+            {"physical_idx": physical_idx, "logical_idx": logical_idx, "turn": turn},
             messages[0],  # system message
             messages[-1],  # current turn user message
         ]
@@ -588,7 +594,8 @@ def get_single_trajectory(env, question, ground_truth, data_source, task_idx=0,
 
         # ── Build single assistant message ───────────────────────
         assistant_msg = {
-            "task_idx": task_idx,
+            # "physical_idx": physical_idx,
+            # "logical_idx": logical_idx,
             "role": "assistant",
             "content": assistant_response,
             "rewards": json.dumps(new_reward_list),
@@ -601,7 +608,8 @@ def get_single_trajectory(env, question, ground_truth, data_source, task_idx=0,
 
         # ── Null termination check ───────────────────────────────
         if all_null and null_count >= 2:
-            status_msg = f"Task {task_idx} exit(all null) at turn {turn + 1}"
+            # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} exit(all null) at turn {turn + 1}"
+            status_msg = f"Task {logical_idx} exit(all null) at turn {turn + 1} (physical_idx={physical_idx})"
             if show_turn:
                 print(status_msg)
             return messages, success_flag, status_msg, seperated_list
@@ -614,15 +622,18 @@ def get_single_trajectory(env, question, ground_truth, data_source, task_idx=0,
             completed_idx = [i for i, d in enumerate(new_done_list[:total_envs]) if d]
             if any_success:
                 success_flag = 1
-                status_msg = f"Task {task_idx} SUCCESS at turn {turn + 1} in environments {completed_idx}"
+                # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} SUCCESS at turn {turn + 1} in environments {completed_idx} data_source={data_source}"
+                status_msg = f"Task {logical_idx} SUCCESS at turn {turn + 1} in envs {completed_idx} data_source={data_source} (physical_idx={physical_idx})"
             else:
-                status_msg = f"Task {task_idx} FAILED at turn {turn + 1} in environments {completed_idx}"
+                # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} FAILED at turn {turn + 1} in environments {completed_idx}"
+                status_msg = f"Task {logical_idx} FAILED at turn {turn + 1} in envs {completed_idx} data_source={data_source} (physical_idx={physical_idx})"
             if show_turn:
                 print(status_msg)
             break
 
     else:
-        status_msg = f"Task {task_idx} out of max turn"
+        # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} out of max turn"
+        status_msg = f"Task {logical_idx} out of max turn (physical_idx={physical_idx})"
         if show_turn:
             print(status_msg)
 
@@ -648,16 +659,14 @@ class SearchTaskSampler:
         sampler = SearchTaskSampler(
             data_path="~/data/searchR1_processed_direct/test.parquet",
             split="test",
-            seed=42,
-            sequential=True,
+            seed=-1,        # <0 → sequential, >=0 → random
         )
-        # 遍历所有任务
-        while sampler.has_next():
-            tasks = sampler.sample(batch_size=1)
-            for task in tasks:
-                question = task["question"]
-                ground_truth = task["ground_truth"]
-                ...
+        # 通过 current_idx 选取随机数表中的元素
+        tasks = sampler.sample(current_idx=42)
+        for task in tasks:
+            question = task["question"]
+            ground_truth = task["ground_truth"]
+            ...
     """
 
     # ── split → parquet 文件名 / 行索引范围的映射 ──────────────
@@ -667,8 +676,10 @@ class SearchTaskSampler:
     #   split='sft'   → range(600, len(goals)),  train.parquet (与 train 同文件)
     _SPLIT_CONFIG = {
         "test":  {"file": "test.parquet",  "range": (0, None)},
-        "train": {"file": "train.parquet", "range": (1500, None)},
+        "train": {"file": "train.parquet", "range": (0, None)},
         # "sft":   {"file": "train.parquet", "range": (600, None)},
+        # "sft":   {"file": "train.parquet", "range": (0, None)},
+        # "sft":   {"file": "train.parquet", "range": (0, 79167)},
         "sft":   {"file": "train.parquet", "range": (0, None)},
         # "all":   {"file": "test.parquet",  "range": (0, None)},
     }
@@ -677,25 +688,17 @@ class SearchTaskSampler:
         self,
         data_dir: str = None,
         split: str = "test",
-        split_range: tuple = None,
         seed: int = 42,
-        sequential: bool = True,
-        exclude: bool = False,
         batch_size: int = 1,
     ):
         """
         Args:
             data_dir: parquet 所在目录, 默认使用 SEARCH_DATA_DIR
-            split: 数据分区名, 决定文件和默认行范围:
+            split: 数据分区名, 决定文件和行范围:
                      test  → test.parquet  (0~499)
                      train → train.parquet (1500~end)
-                     sft   → train.parquet (600~end)
-            split_range: 自定义 (start, end) 范围, 覆盖 split 的默认值
-            seed: 随机种子 (>=0 时使用, 决定 exclude/random 模式);
-                  当 seed < 0 时强制使用 sequential 模式, seed 仅用于日志。
-            sequential: 顺序不重复采样 (如 WebShop sequential=True)
-            exclude: 随机不重复采样 (如 WebShop exclude=True)
-                      与 sequential 互斥, sequential 优先
+                     sft   → train.parquet (0~end)
+            seed: 随机种子; <0 → sequential 顺序采样, >=0 → 随机采样 (使用 seed 初始化 RNG)
             batch_size: 每次 sample() 返回的任务数
         """
         data_dir = SEARCH_DATA_DIR
@@ -716,47 +719,35 @@ class SearchTaskSampler:
         print(f"  Total rows: {self._total_rows}")
 
         # 确定可用索引范围 (对应 WebShop 的 self.goal_idxs)
-        if split_range is not None:
-            start, end = split_range
+        self.start, self.end = split_cfg["range"]
+
+        if self.end is None:
+            self.end = self._total_rows
         else:
-            start, end = split_cfg["range"]
+            self.end = min(self.end, self._total_rows)
+        self.start = min(self.start, self.end)
 
-        if end is None:
-            end = self._total_rows
-        end = min(end, self._total_rows)
-        start = min(start, end)
-
-        self._goal_idxs = list(range(start, end))
-        print(f"  Split '{split}': goal_idxs = [{start}, {end})  ({len(self._goal_idxs)} tasks)")
+        self._goal_idxs = list(range(self.start, self.end))
+        print(f"  Split '{split}': goal_idxs = [{self.start}, {self.end})  ({len(self._goal_idxs)} tasks)")
 
         # ── 采样模式选择 ────────────────────────────────────────
-        # seed < 0 → 强制 sequential (忽略传入的 sequential/exclude)
-        # seed >= 0 → 按传入参数, seed 决定随机序列
+        # seed < 0 → sequential 顺序采样, seed >= 0 → 随机采样
         if seed < 0:
             self._sequential = True
-            self._exclude = False
             self._seed = seed
             self._rng = None
-            mode = "sequential (seed<0 forced)"
+            mode = "sequential"
         else:
             self._seed = seed
             self._rng = np.random.RandomState(seed)
-            self._sequential = sequential
-            self._exclude = exclude and not sequential
-            if self._sequential:
-                mode = "sequential"
-            elif self._exclude:
-                mode = f"exclude (seed={seed})"
-            else:
-                mode = f"random (seed={seed})"
+            self._sequential = False
+            mode = f"random (seed={seed})"
 
         self._batch_size = batch_size
-        self._goal_idx_counter = 0       # 顺序计数器
-        self._used_goal_idxs = set()     # 已用索引集合 (exclude 模式)
-        self._is_exhausted = False
+        self._shuffle_table = None    # 随机数表，首次 sample() 时构建
 
         print(f"Sampling mode: {mode}")
-        print(f"Seed: {seed}")
+        # print(f"Seed: {seed}")
 
     # ── 公开接口 ─────────────────────────────────────────────────
 
@@ -781,97 +772,106 @@ class SearchTaskSampler:
 
     @property
     def remaining(self) -> int:
-        if self._sequential:
-            return len(self._goal_idxs) - self._goal_idx_counter
-        elif self._exclude:
-            return len(self._goal_idxs) - len(self._used_goal_idxs)
-        else:
-            return len(self._goal_idxs)  # random 模式可重复, 永不耗尽
+        return len(self._shuffle_table) if self._shuffle_table is not None else len(self._goal_idxs)
 
     def has_next(self) -> bool:
-        return self.remaining > 0
+        return True
 
     def reset(self) -> None:
-        """重置采样状态 (清空计数器和已用集合)。"""
-        self._goal_idx_counter = 0
-        self._used_goal_idxs = set()
-        self._is_exhausted = False
+        """重置采样状态 (清空随机数表，下次 sample 时重建)。"""
+        self._shuffle_table = None
 
-    def sample(self, n: int = None) -> list[dict]:
-        """采样 n 个任务, 每个任务包含 question / ground_truth / data_source。
+    # table_size=10000
+    def _build_shuffle_table(self):
+        """构建随机数表：固定长度 1000，每个元素是 _goal_idxs 中的位置索引。
+        
+        - seed < 0 (sequential): 按顺序填充 [0, 1, 2, ..., 999] % n
+        - seed >= 0 (random): 从 RNG 随机抽取 (可重复)
+        
+        Args:
+            table_size: 随机数表长度; 默认 None 则使用 self.end - self.start
+        """
+        n = len(self._goal_idxs)
+    
+        table_size = self.end - self.start
+        if n == 0:
+            self._shuffle_table = []
+            return
+        if self._sequential:
+            self._shuffle_table = [i for i in range(table_size)]
+        else:
+            # self._shuffle_table = list(self._rng.choice(n, size=table_size, replace=True))
+            self._shuffle_table = list(self._rng.choice(n, size=table_size, replace=False))
+        print(f'Shuffle table built: {len(self._shuffle_table)}/{table_size} entries')
 
-        行为模仿 WebShopMultiProcessEnv.reset():
-          - sequential=True: 顺序取, 计数器前进
-          - exclude=True:     随机取, 标记已用
-          - 否则:             随机取 (可重复)
+    def sample(self, current_idx: int = 0) -> list[dict]:
+        """从随机数表中选取一个任务。
+
+        首次调用时自动构建随机数表。
+
+        Args:
+            current_idx: 随机数表中的位置索引 (0-based)
 
         Returns:
-            list[dict]: 每个 dict 包含:
+            list[dict]: 包含一个 dict，字段:
                 "question":     str
                 "ground_truth": str or dict
                 "data_source":  str
-                "task_idx":     int (全局行号, 用于日志和轨迹追踪)
+                "physical_idx": int (真实行索引)
+                "logical_idx":  int (随机数表中的逻辑位置)
         """
-        if n is None:
-            n = self._batch_size
+        if self._shuffle_table is None:
+            raise KeyError("self._shuffle_table not built yet. Call _build_shuffle_table() to build it.")
+        # self._build_shuffle_table()
 
-        if not self.has_next():
-            raise RuntimeError("No tasks remaining in sampler")
+        if current_idx < 0 or current_idx >= len(self._shuffle_table):
+            raise IndexError(
+                f"current_idx {current_idx} out of range [0, {len(self._shuffle_table)})"
+            )
 
-        # ── 选择索引 ────────────────────────────────────────────
-        if self._sequential:
-            # 顺序取 (对应 WebShop sequential=True)
-            avail = self._goal_idxs[self._goal_idx_counter:]
-            selected = avail[:n]
-            self._goal_idx_counter += len(selected)
-        elif self._exclude:
-            # 不重复随机取 (对应 WebShop exclude=True)
-            avail = [g for g in self._goal_idxs if g not in self._used_goal_idxs]
-            k = min(n, len(avail))
-            selected = list(self._rng.choice(avail, size=k, replace=False))
-            self._used_goal_idxs.update(selected)
-        else:
-            # 随机可重复 (对应 WebShop 原始行为)
-            k = min(n, len(self._goal_idxs))
-            selected = list(self._rng.choice(self._goal_idxs, size=k, replace=False))
+        pos_in_goal = self._shuffle_table[current_idx]
+        idx = self._goal_idxs[pos_in_goal]
 
-        # ── 组装返回结果 ────────────────────────────────────────
-        tasks = []
-        for idx in selected:
-            row = self._df.iloc[idx]
-            env_kwargs = row.get("env_kwargs", {})
-            if isinstance(env_kwargs, str):
-                env_kwargs = json.loads(env_kwargs)
+        row = self._df.iloc[idx]
+        env_kwargs = row.get("env_kwargs", {})
+        if isinstance(env_kwargs, str):
+            env_kwargs = json.loads(env_kwargs)
 
-            question = env_kwargs.get("question", row.get("question", ""))
-            ground_truth = env_kwargs.get("ground_truth", row.get("ground_truth", ""))
-            data_source = env_kwargs.get("data_source", row.get("data_source", "unknown"))
+        question = env_kwargs.get("question") or row.get("question")
+        ground_truth = env_kwargs.get("ground_truth") or row.get("ground_truth")
+        data_source = env_kwargs.get("data_source") or row.get("data_source")
 
-            tasks.append({
-                "question": question,
-                "ground_truth": ground_truth,
-                "data_source": data_source,
-                "task_idx": int(idx),
-            })
+        if not question:
+            raise KeyError(f"Missing 'question' in row {idx} (env_kwargs={env_kwargs})")
+        if not ground_truth:
+            raise KeyError(f"Missing 'ground_truth' in row {idx}")
+        if not data_source:
+            raise KeyError(f"Missing 'data_source' in row {idx}")
 
-        return tasks
+        return [{
+            "question": question,
+            "ground_truth": ground_truth,
+            "data_source": data_source,
+            "physical_idx": int(idx),
+            "logical_idx": current_idx,
+        }]
 
     def __len__(self) -> int:
         return self.total_tasks
 
     def __repr__(self) -> str:
+        tbl_status = "built" if self._shuffle_table is not None else "unbuilt"
         return (
             f"SearchTaskSampler(total={self.total_tasks}, "
-            f"remaining={self.remaining}, "
-            f"sequential={self._sequential}, "
-            f"exclude={self._exclude})"
+            f"shuffle_table={tbl_status}, "
+            f"sequential={self._sequential})"
         )
 
 
 # ============================================================
 # Main Evaluation
 # ============================================================
-def evaluate_coldstart_data(output_file, sampler, max_turns=10,
+def evaluate_coldstart_data(output_file, sampler, max_turns=25,
                             show_turn=False, his_len=5,
                             save_traj=1, use_local_model=True,
                             ds_model=1, effort=0,
@@ -890,18 +890,12 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
         use_local_model: 是否使用本地模型
         ds_model: DeepSeek 模型 (1=Flash, 2=Pro)
         effort: DeepSeek thinking 级别
-        start_idx: 起始索引 (用于文件名标注)
-        end_idx: 结束索引 (用于文件名标注)
+        start_idx: 在随机序列中的起始逻辑位置
+        end_idx: 在随机序列中的结束逻辑位置
         group_n: 并行组数
         env_num: 每组环境数
         num_para: 每轮最大并行动作数
     """
-    # 如果提供了 start/end idx, 嵌入到文件名中
-    # 在外部实现
-    # if start_idx is not None and end_idx is not None:
-    #     base, ext = os.path.splitext(output_file)
-    #     output_file = f"{base}_{start_idx}_{end_idx}{ext}"
-
     log_file = output_file.replace('.json', '.log')
 
     start_time = time.time()
@@ -909,6 +903,7 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
 
     print(f'Start time: {start_time_str}')
     print(f'log_file: {log_file}')
+    print(f"{'─'*80}")
 
     # Log configuration
     total_envs = group_n * env_num
@@ -920,7 +915,6 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
         f'search_url: {SEARCH_URL}, topk: {SEARCH_TOPK}',
         f'group_n: {group_n}, env_num: {env_num}, total_envs: {total_envs}, num_para: {num_para}',
     ]
-    # 覆盖式写入
     with open(log_file, 'w') as f:
         for line in config_lines:
             f.write(line + '\n')
@@ -959,25 +953,25 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
     success_count = 0
     total_count = 0
 
-    # ── 用 start_idx/end_idx 截断实际处理的范围 ──────────────
-    goal_slice = sampler._goal_idxs
+    # ── 用 start_idx/end_idx 从随机数表中定位逻辑分片 ─────
     if start_idx is not None and end_idx is not None:
         if end_idx < start_idx:
             raise ValueError(f"end_idx ({end_idx}) must be >= start_idx ({start_idx})")
-        goal_slice = goal_slice[start_idx:end_idx + 1]
-        print(f"Processing idx range: [{start_idx}, {end_idx}]  ({len(goal_slice)} tasks)")
+        print(f"Processing logical range: [{start_idx}, {end_idx}]")
 
-    for absolute_idx in tqdm(goal_slice, desc="Evaluating test data"):
-        tasks = sampler.sample(n=1)
+    for pos in tqdm(range(start_idx, end_idx + 1), desc="Evaluating test data"):
+        tasks = sampler.sample(current_idx=pos)
         if not tasks:
             break
         task = tasks[0]
+        physical_idx = task["physical_idx"]
+        logical_idx = task["logical_idx"]
         question = task["question"]
         ground_truth = task["ground_truth"]
         data_source = task["data_source"]
 
         if not question:
-            print(f"WARNING: Skipping idx {absolute_idx} - empty question")
+            print(f"WARNING: Skipping physical_idx={physical_idx}, logical_idx={logical_idx} - empty question")
             continue
 
         try:
@@ -986,7 +980,8 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
                 question=question,
                 ground_truth=ground_truth,
                 data_source=data_source,
-                task_idx=absolute_idx,
+                physical_idx=physical_idx,
+                logical_idx=logical_idx,
                 max_turns=max_turns,
                 show_turn=show_turn,
                 his_len=his_len,
@@ -998,29 +993,30 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
                 num_para=num_para,
             )
 
-            # 保存轨迹时附带 task_idx
+            # 保存轨迹时附带 physical_idx 和 logical_idx
             all_trajectories.append({
-                "task_idx": absolute_idx,
+                "physical_idx": physical_idx,
+                "logical_idx": logical_idx,
                 "trajectory": trajectory
             })
             seperated_trajectories.append(seperated_list)
             total_count += 1
 
-            # 添加式写入
             with open(log_file, 'a') as f:
                 f.write(status_msg + '\n')
 
             if success_flag == 1:
                 success_trajectories.append({
-                    "task_idx": absolute_idx,
+                    "physical_idx": physical_idx,
+                    "logical_idx": logical_idx,
                     "trajectory": trajectory
                 })
-                success_indices.append(absolute_idx)
+                # success_indices.append(physical_idx)
+                success_indices.append(logical_idx)
                 success_count += 1
-                # print(f"\n  *** SUCCESS: {absolute_idx} | {status_msg}")
 
         except Exception as e:
-            error_msg = f"Error evaluating sample {absolute_idx}: {e}"
+            error_msg = f"Error evaluating physical_idx={physical_idx}, logical_idx={logical_idx}: {e}"
             print(f"\n  {error_msg}")
             with open(log_file, 'a') as f:
                 f.write(error_msg + '\n')
@@ -1046,12 +1042,12 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=10,
                 json.dump(success_trajectories, f, indent=4)
             print(f"Success trajectories saved to {success_output}")
 
-        if seperated_trajectories:
-            seperated_output = output_file.replace('.json', '_seperated.json')
-            with open(seperated_output, 'w') as f:
-                json.dump(seperated_trajectories, f, indent=4)
-            print(f"Seperated data saved to {seperated_output}")
-            print(f"Seperated count: {len(seperated_trajectories)}")
+        # if seperated_trajectories:
+        #     seperated_output = output_file.replace('.json', '_seperated.json')
+        #     with open(seperated_output, 'w') as f:
+        #         json.dump(seperated_trajectories, f, indent=4)
+        #     print(f"Seperated data saved to {seperated_output}")
+        #     print(f"Seperated count: {len(seperated_trajectories)}")
 
     # Final log
     with open(log_file, 'a') as f:
@@ -1133,25 +1129,25 @@ if __name__ == "__main__":
     num_para = group_n               # 每轮最大并行动作数 (<= total_envs)
 
     # 采样控制
-    seed = -1                  # 随机种子: <0 → sequential, >=0 → 随机采样            
-    split = None               # 数据分区: test/train/sft/all, 决定 parquet 文件和默认 range
-    sampler_range = None       # 实际数据范围 (start, end), 覆盖 split 默认; None=使用 split 默认
+    seed = 1                  # 随机种子: <0 → sequential, >=0 → 随机采样
+                 # 数据分区: test/train/sft, 决定 parquet 文件和行范围
     show_turn = True           # 是否逐轮打印状态信息
 
-
-    # ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-7230"
     ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-4500"
     load_local_model(tokenizer_path=ckpt_path, model_path=ckpt_path, show=1)
+
     test_model(ds_model, effort, use_local_model=True)
     print(f'[DEBUG] test done')
+
+    # test_model(ds_model, effort)
+    # print(f'[DEBUG] test done')
     # exit(0)
 
     # ── Sampler & Output Setup ────────────────────────────
     sampler = SearchTaskSampler(
         data_dir=SEARCH_DATA_DIR,
-        # split="sft",                # 由 split 变量决定 parquet 文件和默认 range
-        split="test",   
-        split_range=sampler_range,  # 手动覆盖实际数据范围; None=使用 split 默认
+        # split="sft",
+        split="test",
         seed=seed,
     )
 
@@ -1161,11 +1157,7 @@ if __name__ == "__main__":
     # ── 分片配置：手动管理，支持任意分片方案 ──────────────
     # 每项为 (start, end) 闭区间，顺序不重复
     slice_ranges = [
-        (0, 99),
-        (100, 199),
-        (200, 299),
-        (300, 399),
-        (400, 499)
+        (0, 2)
     ]
     
     single_index=[
@@ -1181,10 +1173,9 @@ if __name__ == "__main__":
     # 重置 sampler 状态，然后每组分片前同步计数器
     sampler.reset()
     
-    # OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_search'
-    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_test_search/result_test_3epoch'
+    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1'
     os.makedirs(OUTPUT_BASE_DIR, exist_ok=True)
-    test_single = 0
+    # test_single = 0
     # if test_single:
     #     range1 = [(x, x) for x in single_index]
     #     OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_search_single'
@@ -1194,20 +1185,17 @@ if __name__ == "__main__":
     #     range1 = slice_ranges
     range1 = slice_ranges
     
-    max_turns = 25
+    # max_turns = 25
+    max_turns = 10
     for chunk_start, chunk_end in range1:
-        # 将 sampler 内部指针同步到 chunk 的起始位置
-        sampler._goal_idx_counter = chunk_start
-
         output_file = get_unique_filename(
-            # os.path.join(OUTPUT_BASE_DIR, f'search_coldstart_{chunk_start}_{chunk_end}.json')
             os.path.join(OUTPUT_BASE_DIR, f'search_coldstart_{chunk_start}_{chunk_end}.json')
         )
-        print(f"\n{'─'*60}")
+        print(f"{'─'*60}")
         print(f"Processing chunk [{chunk_start}, {chunk_end}] → {os.path.basename(output_file)}")
         print(f"{'─'*60}")
-
-        
+        sampler._build_shuffle_table()
+        print(f"{'─'*60}")
 
         evaluate_coldstart_data(
             output_file=output_file,
@@ -1216,10 +1204,9 @@ if __name__ == "__main__":
             show_turn=show_turn,
             his_len=his_len,
             save_traj=save_traj,
-            # use_local_model=False,
             use_local_model=True,
-            ds_model=ds_model,
-            effort=effort,
+            ds_model=1,
+            effort=1,
             start_idx=chunk_start,
             end_idx=chunk_end,
             group_n=group_n,

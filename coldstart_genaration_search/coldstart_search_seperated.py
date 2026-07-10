@@ -45,7 +45,7 @@ MAX_CONTEXT_LENGTH = 32768    # 本地模型最大上下文长度 (仅本地模�
 BASE_MODEL_PATH = '/diskpool/home/xuxz/ms-swift/model/Qwen2.5-1.5B-Instruct'  # 本地模型路径 (仅本地模式生效)
 # SEARCH_URL = 'http://127.0.0.1:8000/retrieve'  # 检索服务器地址
 # 自定义端口
-PORT=8010 
+PORT=8010
 SEARCH_URL = f'http://127.0.0.1:{PORT}/retrieve'
 SEARCH_TOPK = 3               # 每次搜索返回的 top-k 文档数
 SEARCH_TIMEOUT = 60           # 搜索请求超时时间 (秒)
@@ -170,11 +170,12 @@ def deepseek(messages, ds_model=1, effort=0, show=0, turn=None):
     Args:
         turn: 当前轮次，用于日志打印（可选）。
     """
-    # client = OpenAI(api_key="sk-3fa0dedd2f1043fa9a861f864108a15d", base_url="https://api.deepseek.com")
-    # client = OpenAI(api_key="sk-ca982270521c4b8184115c7928c96801", base_url="https://api.deepseek.com")
-    # client = OpenAI(api_key="sk-a82b8e25c4a5412b8ccf875a2bb15943", base_url="https://api.deepseek.com")
-    client = OpenAI(api_key="sk-b718f52386c34ffeb714f684d225f688", base_url="https://api.deepseek.com")
+    # client = OpenAI(api_key="sk-b718f52386c34ffeb714f684d225f688", base_url="https://api.deepseek.com")
+    client = OpenAI(api_key="sk-a8d675e7b9f14343b8d38e23718fc21a", base_url="https://api.deepseek.com")
 
+    # 强制flash + high
+    ds_model=1 
+    effort=1
     model_name = "deepseek-v4-flash" if ds_model == 1 else "deepseek-v4-pro"
 
     turn_tag = f"[turn {turn}] "
@@ -587,7 +588,8 @@ def get_single_trajectory(env, question, ground_truth, data_source,
 
         # ── Null termination check ───────────────────────────────
         if all_null and null_count >= 2:
-            status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} exit(all null) at turn {turn + 1}"
+            # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} exit(all null) at turn {turn + 1}"
+            status_msg = f"Task {logical_idx} exit(all null) at turn {turn + 1} (physical_idx={physical_idx})"
             if show_turn:
                 print(status_msg)
             return messages, success_flag, status_msg, seperated_list
@@ -601,16 +603,17 @@ def get_single_trajectory(env, question, ground_truth, data_source,
             if any_success:
                 success_flag = 1
                 # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} SUCCESS at turn {turn + 1} in environments {completed_idx} data_source={data_source}"
-                status_msg = f"Task {logical_idx} SUCCESS at turn {turn + 1} in environments {completed_idx} data_source={data_source} (physical_idx={physical_idx})"
+                status_msg = f"Task {logical_idx} SUCCESS at turn {turn + 1} in envs {completed_idx} data_source={data_source} (physical_idx={physical_idx})"
             else:
                 # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} FAILED at turn {turn + 1} in environments {completed_idx}"
-                status_msg = f"Task {logical_idx} FAILED at turn {turn + 1} in environments {completed_idx} data_source={data_source} (physical_idx={physical_idx})"
+                status_msg = f"Task {logical_idx} FAILED at turn {turn + 1} in envs {completed_idx} data_source={data_source} (physical_idx={physical_idx})"
             if show_turn:
                 print(status_msg)
             break
 
     else:
-        status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} out of max turn"
+        # status_msg = f"Task physical_idx={physical_idx}, logical_idx={logical_idx} out of max turn"
+        status_msg = f"Task {logical_idx} out of max turn (physical_idx={physical_idx})"
         if show_turn:
             print(status_msg)
 
@@ -656,7 +659,8 @@ class SearchTaskSampler:
         "train": {"file": "train.parquet", "range": (0, None)},
         # "sft":   {"file": "train.parquet", "range": (600, None)},
         # "sft":   {"file": "train.parquet", "range": (0, None)},
-        "sft":   {"file": "train.parquet", "range": (0, 79167)},
+        # "sft":   {"file": "train.parquet", "range": (0, 79167)},
+        "sft":   {"file": "train.parquet", "range": (0, None)},
         # "all":   {"file": "test.parquet",  "range": (0, None)},
     }
 
@@ -879,6 +883,7 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=25,
 
     print(f'Start time: {start_time_str}')
     print(f'log_file: {log_file}')
+    print(f"{'─'*80}")
 
     # Log configuration
     total_envs = group_n * env_num
@@ -986,7 +991,8 @@ def evaluate_coldstart_data(output_file, sampler, max_turns=25,
                     "logical_idx": logical_idx,
                     "trajectory": trajectory
                 })
-                success_indices.append(physical_idx)
+                # success_indices.append(physical_idx)
+                success_indices.append(logical_idx)
                 success_count += 1
 
         except Exception as e:
@@ -1109,14 +1115,17 @@ if __name__ == "__main__":
 
     
 
-    test_model(ds_model, effort)
+    # ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-7230"
+    ckpt_path = "/diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-4500"
+    load_local_model(tokenizer_path=ckpt_path, model_path=ckpt_path, show=1)
+    test_model(ds_model, effort, use_local_model=True)
     print(f'[DEBUG] test done')
-    # exit(0)
 
     # ── Sampler & Output Setup ────────────────────────────
     sampler = SearchTaskSampler(
         data_dir=SEARCH_DATA_DIR,
-        split="sft",
+        # split="sft",
+        split="test",
         seed=seed,
     )
 
@@ -1129,20 +1138,20 @@ if __name__ == "__main__":
     # 每项为 (start, end) 闭区间，顺序不重复
     slice_ranges = [
         # (0, 2),
-        (3, 5),
-        # (0, 99),
-        # (100, 199),
-        # (200, 299),
-        # (300, 399),
-        # (400, 499),
-        # (500, 599),
-        # (600, 699),
-        # (700, 799),
-        # (800, 899),
-        # (900, 999),
-        # (1000, 1099),
-        # (1100, 1199),
-        # (1200, 1299)
+        # (3, 5),
+        (0, 99),
+        (100, 199),
+        (200, 299),
+        (300, 399),
+        (400, 499),
+        (500, 599),
+        (600, 699),
+        (700, 799),
+        (800, 899),
+        (900, 999),
+        (1000, 1099),
+        (1100, 1199),
+        (1200, 1299)
     ]
     
     single_index=[
@@ -1158,7 +1167,7 @@ if __name__ == "__main__":
     # 重置 sampler 状态，然后每组分片前同步计数器
     sampler.reset()
     
-    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/result_search_seed1'
+    OUTPUT_BASE_DIR = '/diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1'
     os.makedirs(OUTPUT_BASE_DIR, exist_ok=True)
     # test_single = 0
     # if test_single:
@@ -1170,15 +1179,18 @@ if __name__ == "__main__":
     #     range1 = slice_ranges
     range1 = slice_ranges
     
-    max_turns = 20
+    # max_turns = 25
+    # max_turns = 20
+    max_turns = 15
     for chunk_start, chunk_end in range1:
         output_file = get_unique_filename(
             os.path.join(OUTPUT_BASE_DIR, f'search_coldstart_{chunk_start}_{chunk_end}.json')
         )
-        print(f"\n{'─'*60}")
+        print(f"{'─'*60}")
         print(f"Processing chunk [{chunk_start}, {chunk_end}] → {os.path.basename(output_file)}")
         print(f"{'─'*60}")
         sampler._build_shuffle_table()
+        print(f"{'─'*60}")
 
         evaluate_coldstart_data(
             output_file=output_file,
@@ -1188,8 +1200,8 @@ if __name__ == "__main__":
             his_len=his_len,
             save_traj=save_traj,
             use_local_model=False,
-            ds_model=ds_model,
-            effort=effort,
+            ds_model=1,
+            effort=1,
             start_idx=chunk_start,
             end_idx=chunk_end,
             group_n=group_n,

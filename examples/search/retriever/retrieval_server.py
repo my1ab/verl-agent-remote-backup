@@ -38,7 +38,7 @@ def load_docs(corpus, doc_idxs):
 
 def load_model(model_path: str, use_fp16: bool = False):
     # model_config = AutoConfig.from_pretrained(model_path, trust_remote_code=True)
-    model = AutoModel.from_pretrained(model_path, trust_remote_code=True)
+    model = AutoModel.from_pretrained(model_path, trust_remote_code=True, local_files_only=True)
     model.eval()
     model.cuda()
     if use_fp16:
@@ -201,36 +201,74 @@ class BM25Retriever(BaseRetriever):
 class DenseRetriever(BaseRetriever):
     def __init__(self, config):
         super().__init__(config)
-        # 替换这行
         print(f'path = {self.index_path}')
-        # 改为（全量加载到内存，搜索不读盘）  避免timeout
-        # 0410 start
-        # 
-        # 启用 FAISS CPU 多线程并行搜索
-        # faiss.omp_set_num_threads(32)
-        # print(f'FAISS CPU threads set to: {faiss.omp_get_max_threads()}')
-        # 全部加载到内存，搜索不读盘
-        print('loading index using: self.index = faiss.read_index(self.index_path)')
-        self.index = faiss.read_index(self.index_path)
-        # 使用内存映射模式（只读，不占用物理内存），按需从磁盘读取，不占用物理内存（依赖 OS 的 page cache） 避免oom
-        # self.index = faiss.read_index(self.index_path, faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY)
-        # if config.faiss_gpu 是否触发决定了索引的存储位置和搜索性能：
-        # - faiss_gpu = False: 索引留在磁盘（MMAP 按需读取），CPU RAM 占用极低，搜索受磁盘 IO 影响
-        # - faiss_gpu = True:  将整个索引从磁盘全量读取并复制到 GPU 显存（此时 MMAP 仅节省加载阶段内存），搜索极快
-        if config.faiss_gpu:
-            co = faiss.GpuMultipleClonerOptions()
-            co.useFloat16 = True  # 使用 float16 减小 GPU 显存占用
-            co.shard = True       # 在多 GPU 间分片存储索引
-            self.index = faiss.index_cpu_to_all_gpus(self.index, co=co)
 
-        self.corpus = load_corpus(self.corpus_path)
-        self.encoder = Encoder(
-            model_name=self.retrieval_method,
-            model_path=config.retrieval_model_path,
-            pooling_method=config.retrieval_pooling_method,
-            max_length=config.retrieval_query_max_length,
-            use_fp16=config.retrieval_use_fp16,
-        )
+        if config.faiss_gpu:
+            # GPU 分支：先并行加载语料库和模型
+            self.corpus = load_corpus(self.corpus_path)
+            self.encoder = Encoder(
+                model_name=self.retrieval_method,
+                model_path=config.retrieval_model_path,
+                pooling_method=config.retrieval_pooling_method,
+                max_length=config.retrieval_query_max_length,
+                use_fp16=config.retrieval_use_fp16,
+            )
+
+            # MMAP 加载索引（不占用 CPU 物理内存），分块拷贝到 GPU fp16
+            print('Loading index (MMAP → GPU float16 chunked) ...')
+            cpu_index = faiss.read_index(
+                self.index_path,
+                faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY
+            )
+            ntotal = cpu_index.ntotal
+            d = cpu_index.d
+            metric_type = cpu_index.metric_type
+            print(f'  MMAP done. ntotal={ntotal}, d={d}')
+
+            chunk_size = 500_000   # 每块 500K × 768 × 4B ≈ 1.5 GB 输入
+
+            from tqdm import tqdm
+            starts = list(range(0, ntotal, chunk_size))
+            shards = []
+            for start in tqdm(starts, desc='  GPU transfer', unit='chunk'):
+                end = min(start + chunk_size, ntotal)
+                vecs = cpu_index.reconstruct_n(start, end - start)
+                # 每个分片独立 GpuIndexFlat + 独立 StandardGpuResources
+                # 避免共享资源时 deallocMemory 断言失败
+                shard_res = faiss.StandardGpuResources()
+                shard_res.noTempMemory()
+                shard_cfg = faiss.GpuIndexFlatConfig()
+                shard_cfg.device = 0
+                shard_cfg.useFloat16 = True
+                shard = faiss.GpuIndexFlat(shard_res, d, metric_type, shard_cfg)
+                shard.add(vecs)
+                shards.append(shard)
+                del vecs
+
+            # 用 IndexShards 包装所有小分片
+            gpu_index = faiss.IndexShards(d, True)  # own_shards=True
+            for shard in shards:
+                gpu_index.add_shard(shard)
+
+            del cpu_index
+            self.index = gpu_index
+            print(f'  GPU index ready. ntotal={self.index.ntotal}')
+        else:
+            # CPU 分支：MMAP 模式，不占用物理内存
+            print('loading index (CPU, without MMAP) ...')
+            self.index = faiss.read_index(
+                self.index_path,
+                # faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY
+            )
+            self.corpus = load_corpus(self.corpus_path)
+            self.encoder = Encoder(
+                model_name=self.retrieval_method,
+                model_path=config.retrieval_model_path,
+                pooling_method=config.retrieval_pooling_method,
+                max_length=config.retrieval_query_max_length,
+                use_fp16=config.retrieval_use_fp16,
+            )
+
         self.topk = config.retrieval_topk
         self.batch_size = config.retrieval_batch_size
 
