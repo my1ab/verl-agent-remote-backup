@@ -6,7 +6,7 @@ corpus_file=$save_path/wiki-18.jsonl
 retriever_name=e5
 retriever_path=intfloat/e5-base-v2
 
-export CUDA_VISIBLE_DEVICES=7
+export CUDA_VISIBLE_DEVICES=6
 # export HF_TOKEN=${HF_TOKEN:-your_hf_token_here}
 
 START_TIME=$(date +%s)
@@ -44,7 +44,8 @@ PORT=8010
 # 带时间戳的日志文件，避免多进程写入冲突
 # TIMESTAMP=$(date '+%Y%m%d_%H%M%S')
 # LOG_FILE="coldstart_genaration_search/retrieval_server_faiss_${TIMESTAMP}.log"
-LOG_FILE="coldstart_genaration_search/retrieval_server_faiss.log"
+# LOG_FILE="coldstart_genaration_search/retrieval_server_faiss.log"
+LOG_FILE="coldstart_genaration_search/retrieval_server.log"
 echo "Log file: $LOG_FILE"
 # faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY 留在磁盘  使用时再调入
 # 启动http服务器 加载索引+语料库 接收查询文本并返回最相似的文本片段
@@ -56,7 +57,6 @@ nohup python examples/search/retriever/retrieval_server.py \
   --retriever_name $retriever_name \
   --retriever_model $retriever_path \
   --port $PORT \
-  --faiss_gpu \
   > $LOG_FILE 2>&1 &
 
 

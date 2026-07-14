@@ -15,6 +15,12 @@ import time
 import numpy as np
 from tqdm import tqdm
 
+# ===== 路径集中配置 =====
+_DPEPO_USER_HOME = os.environ.get('DPEPO_USER_HOME', '/diskpool/home/xuxz')
+_DATA_ROOT = os.path.join(_DPEPO_USER_HOME, 'data')
+_VERL_AGENT_ROOT = os.path.join(_DPEPO_USER_HOME, 'verl-agent')
+# =========================
+
 # Add parent directory to sys.path for module imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'verl-agent'))
@@ -425,7 +431,7 @@ def generate_coldstart_data(output_file, num_cpus=0.1, num_samples=500, turns=50
     if remote == 0:
         base_path = '/home/dpepo/data/'
     else:
-        base_path = '/diskpool/home/xuxz/data/'    
+        base_path = _DATA_ROOT
 
     if load_all == 0:
         file_path = os.path.join(base_path, 'items_shuffle_1000.json')
@@ -556,7 +562,7 @@ if __name__ == "__main__":
     if remote == 0:
         OUTPUT_FILE = f'/home/dpepo/verl-agent/coldstart_result_webshop/WebShop_coldstart.json'  
     else:
-        OUTPUT_FILE = f'/diskpool/home/xuxz/verl-agent/coldstart_result_webshop/WebShop_coldstart.json'
+        OUTPUT_FILE = os.path.join(_VERL_AGENT_ROOT, 'coldstart_result_webshop', 'WebShop_coldstart.json')
         
     if OUTPUT_FILE and not os.path.exists(os.path.dirname(OUTPUT_FILE)):
             os.makedirs(os.path.dirname(OUTPUT_FILE))
