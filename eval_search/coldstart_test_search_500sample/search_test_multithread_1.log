@@ -1,0 +1,97 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+import build_search_envs success
+
+============================================================
+Loading tokenizer and model from checkpoint: /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-4500
+============================================================
+Loading tokenizer...
+Tokenizer loaded: Qwen2TokenizerFast
+Set tokenizer model_max_length to: 32768
+Set tokenizer truncation_side to: right
+============================================================
+
+Loading model weights from /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-4500
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+============================================================
+Model loaded successfully!
+Model type: Qwen2ForCausalLM
+Model device: cuda:0
+Model dtype: torch.bfloat16
+Number of parameters: 1,543,714,304
+Max context length: 32768
+============================================================
+load_local_model success
+============================================================
+============================================================
+Testing Local model connectivity...
+============================================================
+
+Response: UIScreen
+I am an artificial intelligence designed to assist with a wide range of tasks, from answering questions to helping with homework and more. I can talk about anything you like, from science and history to current events and entertainment. Just let me know what you'd like to chat about!
+
+============================================================
+Local model test PASSED!
+============================================================
+[DEBUG] test done
+SearchTaskSampler loading: /diskpool/home/xuxz/data/searchR1_processed_direct/test.parquet
+  Total rows: 51713
+  Split 'test': goal_idxs = [0, 51713)  (51713 tasks)
+Sampling mode: random (seed=1)
+
+================================================================================
+Generating with sampler: SearchTaskSampler(total=51713, shuffle_table=unbuilt, sequential=False)
+Parallel config: group_n=5, env_num=1, total_envs=5, num_para=5
+Slice ranges: [(0, 9)]
+================================================================================
+
+────────────────────────────────────────────────────────────
+Processing chunk [0, 9] → search_coldstart_0_9.json
+ThreadPool workers: 10
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 04:15:58
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_9.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 10, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 10
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [0, 9]
+
+Total tasks to process: 10
+ThreadPool workers: 10
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/10 [00:00<?, ?it/s]Task 2 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=16613)
+Multi-thread evaluating:  10%|█         | 1/10 [00:35<05:22, 35.87s/it]Task 3 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=28376)
+Multi-thread evaluating:  20%|██        | 2/10 [00:42<02:27, 18.42s/it]Task 5 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=9246)
+Multi-thread evaluating:  30%|███       | 3/10 [00:50<01:38, 14.02s/it]Task 0 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=9403)
+Multi-thread evaluating:  40%|████      | 4/10 [00:52<00:55,  9.18s/it]Task 6 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45530)
+Multi-thread evaluating:  50%|█████     | 5/10 [00:57<00:37,  7.56s/it]Task 9 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33754)
+Multi-thread evaluating:  60%|██████    | 6/10 [00:58<00:21,  5.26s/it]Task 7 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=22667)
+Multi-thread evaluating:  70%|███████   | 7/10 [00:59<00:12,  4.08s/it]Task 1 FAILED at turn 3 in envs [0] data_source=musique (physical_idx=50544)
+Multi-thread evaluating:  80%|████████  | 8/10 [01:06<00:09,  4.96s/it]Task 4 SUCCESS at turn 7 in envs [0] data_source=popqa (physical_idx=19007)
+Multi-thread evaluating:  90%|█████████ | 9/10 [01:46<00:15, 15.84s/it]Task 8 FAILED at turn 10 in envs [0] data_source=2wikimultihopqa (physical_idx=41251)
+Multi-thread evaluating: 100%|██████████| 10/10 [03:25<00:00, 41.56s/it]Multi-thread evaluating: 100%|██████████| 10/10 [03:25<00:00, 20.55s/it]
+
+============================================================
+Total: 10, Success: 2, Rate: 20.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_9.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_9_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_9_seperated.json
+Seperated count: 10
+Elapsed time: 205.5s
+
+================================================================================
+All chunks completed!
+================================================================================

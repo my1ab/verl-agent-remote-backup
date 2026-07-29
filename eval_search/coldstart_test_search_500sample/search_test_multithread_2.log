@@ -1,0 +1,108 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+import build_search_envs success
+
+============================================================
+Loading tokenizer and model from checkpoint: /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-4500
+============================================================
+Loading tokenizer...
+Tokenizer loaded: Qwen2TokenizerFast
+Set tokenizer model_max_length to: 32768
+Set tokenizer truncation_side to: right
+============================================================
+
+Loading model weights from /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260705-053350/checkpoint-4500
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+============================================================
+Model loaded successfully!
+Model type: Qwen2ForCausalLM
+Model device: cuda:0
+Model dtype: torch.bfloat16
+Number of parameters: 1,543,714,304
+Max context length: 32768
+============================================================
+load_local_model success
+============================================================
+============================================================
+Testing Local model connectivity...
+============================================================
+
+Response: 中超
+我是来自阿里云的大规模语言模型，我叫通义千问。我可以帮助解答各种问题，提供信息，甚至参与对话。请随时告诉我你需要什么帮助。
+
+============================================================
+Local model test PASSED!
+============================================================
+[DEBUG] test done
+SearchTaskSampler loading: /diskpool/home/xuxz/data/searchR1_processed_direct/test.parquet
+  Total rows: 51713
+  Split 'test': goal_idxs = [0, 51713)  (51713 tasks)
+Sampling mode: random (seed=1)
+
+================================================================================
+Generating with sampler: SearchTaskSampler(total=51713, shuffle_table=unbuilt, sequential=False)
+Parallel config: group_n=5, env_num=1, total_envs=5, num_para=5
+Slice ranges: [(0, 19)]
+================================================================================
+
+────────────────────────────────────────────────────────────
+Processing chunk [0, 19] → search_coldstart_0_19.json
+ThreadPool workers: 20
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 04:34:21
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_19.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 10, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 20
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [0, 19]
+
+Total tasks to process: 20
+ThreadPool workers: 20
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/20 [00:00<?, ?it/s][Search Request ID: 5c8dac88-d1a7-457b-8157-76068e54bef8] Connection Error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+Task 6 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45530)
+Multi-thread evaluating:   5%|▌         | 1/20 [01:13<23:11, 73.25s/it]Task 2 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=16613)
+Multi-thread evaluating:  10%|█         | 2/20 [01:14<09:20, 31.17s/it]Task 4 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=19007)
+Multi-thread evaluating:  15%|█▌        | 3/20 [01:18<05:18, 18.73s/it]Task 0 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9403)
+Multi-thread evaluating:  20%|██        | 4/20 [01:22<03:27, 12.94s/it]Task 5 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9246)
+Multi-thread evaluating:  25%|██▌       | 5/20 [01:27<02:26,  9.77s/it]Task 12 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31108)
+Multi-thread evaluating:  30%|███       | 6/20 [01:39<02:28, 10.57s/it]Task 10 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=18196)
+Multi-thread evaluating:  35%|███▌      | 7/20 [02:29<05:04, 23.44s/it]Task 9 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=33754)
+Multi-thread evaluating:  40%|████      | 8/20 [02:31<03:21, 16.82s/it]Task 11 FAILED at turn 3 in envs [0] data_source=nq (physical_idx=3415)
+Multi-thread evaluating:  45%|████▌     | 9/20 [02:33<02:14, 12.23s/it]Task 13 exit(all null) at turn 3 (physical_idx=22151)
+Multi-thread evaluating:  50%|█████     | 10/20 [02:34<01:26,  8.61s/it]Task 16 FAILED at turn 3 in envs [0] data_source=nq (physical_idx=116)
+Multi-thread evaluating:  55%|█████▌    | 11/20 [02:41<01:11,  8.00s/it]Task 14 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=45984)
+Multi-thread evaluating:  60%|██████    | 12/20 [02:42<00:48,  6.07s/it]Task 19 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=48658)
+Multi-thread evaluating:  65%|██████▌   | 13/20 [02:50<00:46,  6.66s/it]Task 17 exit(all null) at turn 3 (physical_idx=7091)
+Multi-thread evaluating:  70%|███████   | 14/20 [03:00<00:45,  7.65s/it]Task 7 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=22667)
+Multi-thread evaluating:  75%|███████▌  | 15/20 [03:30<01:11, 14.34s/it]Task 3 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=28376)
+Multi-thread evaluating:  80%|████████  | 16/20 [03:32<00:43, 10.76s/it]Task 15 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=40404)
+Multi-thread evaluating:  85%|████████▌ | 17/20 [03:52<00:39, 13.32s/it]Task 1 out of max turn (physical_idx=50544)
+Multi-thread evaluating:  90%|█████████ | 18/20 [05:03<01:01, 30.86s/it]Task 8 out of max turn (physical_idx=41251)
+Multi-thread evaluating:  95%|█████████▌| 19/20 [05:11<00:23, 23.81s/it]Task 18 FAILED at turn 10 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=22856)
+Multi-thread evaluating: 100%|██████████| 20/20 [05:25<00:00, 20.91s/it]Multi-thread evaluating: 100%|██████████| 20/20 [05:25<00:00, 16.27s/it]
+
+============================================================
+Total: 20, Success: 3, Rate: 15.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_19.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_19_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search/test_seed1/search_coldstart_0_19_seperated.json
+Seperated count: 20
+Elapsed time: 325.5s
+
+================================================================================
+All chunks completed!
+================================================================================

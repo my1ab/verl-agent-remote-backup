@@ -1,0 +1,167 @@
+Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1
+Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+/diskpool/home/xuxz/miniconda3/envs/verl_train/lib/python3.11/site-packages/typer/completion.py:122: DeprecationWarning: 'BaseCommand' is deprecated and will be removed in Click 9.0. Use 'Command' instead.
+  cli: click.BaseCommand,
+import WebAgentTextEnv success
+
+================================================================================
+
+Output file: /diskpool/home/xuxz/verl-agent/eval_webshop/coldstart_test_new/model_hislen8_result_v2/1.5B_epoch5_hislen8_test_v2_3.json
+
+================================================================================
+
+
+============================================================
+Loading tokenizer and model from checkpoint: /diskpool/home/xuxz/ms-swift/checkpoint/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260602-201729/checkpoint-8800
+ 
+============================================================
+Loading tokenizer...
+Tokenizer loaded: Qwen2TokenizerFast
+Set tokenizer model_max_length to: 32768
+Set tokenizer truncation_side to: right
+============================================================
+============================================================
+load_local_model success
+============================================================
+
+================================================================================
+
+Start time: 2026-07-31 05:53:26
+log_file: /diskpool/home/xuxz/verl-agent/eval_webshop/coldstart_test_new/model_hislen8_result_v2/1.5B_epoch5_hislen8_test_v2_3.log
+
+================================================================================
+
+Evaluating test samples (idx 0 to 99) with 50 max turns each...
+group_n: 5, env_num: 1, num_para: 5
+load_all: 0, human_goals: False, limit_goals: -1, seed: 42, start_index: 0, end_idx: 99
+using local model (Qwen2.5-1.5/3/7B), path: /diskpool/home/xuxz/ms-swift/checkpoint/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260602-201729/checkpoint-8800
+prompt: 3, his_len: 8, Max context length: 32768
+
+================================================================================
+
+file_path: /diskpool/home/xuxz/data/items_shuffle_1000.json 
+ attr_path: /diskpool/home/xuxz/data/items_ins_v2_1000.json
+/diskpool/home/xuxz/miniconda3/envs/verl_train/lib/python3.11/site-packages/opentelemetry/util/_importlib_metadata.py:32: DeprecationWarning: SelectableGroups dict interface is deprecated. Use select.
+  return EntryPoints(ep for group_eps in eps.values() for ep in group_eps)
+2026-07-31 05:53:28,872	INFO worker.py:1908 -- Started a local Ray instance. View the dashboard at [1m[32mhttp://127.0.0.1:8265 [39m[22m
+[36m(pid=34121)[0m Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1
+[36m(pid=34121)[0m Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+[36m(pid=34121)[0m Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+[36m(pid=34121)[0m See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+[36m(WebshopWorker pid=34121)[0m <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+[36m(WebshopWorker pid=34121)[0m <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+[36m(WebshopWorker pid=34121)[0m <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+[36m(WebshopWorker pid=34119)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train/lib/python3.11/site-packages/typer/completion.py:122: DeprecationWarning: 'BaseCommand' is deprecated and will be removed in Click 9.0. Use 'Command' instead.
+[36m(WebshopWorker pid=34119)[0m   cli: click.BaseCommand,
+[36m(pid=34120)[0m Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1[32m [repeated 4x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+[36m(pid=34120)[0m Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.[32m [repeated 4x across cluster][0m
+[36m(pid=34120)[0m Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.[32m [repeated 4x across cluster][0m
+[36m(pid=34120)[0m See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34119)[0m Products loaded.
+[36m(WebshopWorker pid=34119)[0m Keys cleaned.
+[36m(WebshopWorker pid=34119)[0m Attributes loaded.
+[36m(WebshopWorker pid=34119)[0m   0%|          | 0/1000 [00:00<?, ?it/s]100%|██████████| 1000/1000 [00:00<00:00, 139586.79it/s]
+
+ Split: test, Goal indices: range(0, 500), Exclude: True, Sequential: True 
+
+Environment built, took 12.59743857383728 seconds
+Evaluating test data:   0%|          | 0/100 [00:00<?, ?it/s][36m(WebshopWorker pid=34119)[0m Loaded 6910 goals.
+[36m(WebshopWorker pid=34119)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train/lib/python3.11/site-packages/bs4/element.py:784: DeprecationWarning: The 'text' argument to find()-type methods is deprecated. Use 'string' instead.
+[36m(WebshopWorker pid=34119)[0m   warnings.warn(
+ 
+Task 0 FAILED at turn 13 in environments [0]
+Evaluating test data:   1%|          | 1/100 [03:04<5:04:28, 184.53s/it] 
+Task 1 SUCCESS at turn 6 in environments [0]
+Evaluating test data:   2%|▏         | 2/100 [04:08<3:05:55, 113.84s/it] 
+Task 2 FAILED at turn 12 in environments [3]
+Evaluating test data:   3%|▎         | 3/100 [06:45<3:35:35, 133.36s/it] 
+Task 3 SUCCESS at turn 5 in environments [3]
+Evaluating test data:   4%|▍         | 4/100 [07:55<2:53:17, 108.31s/it] 
+Task 4 FAILED at turn 8 in environments [4]
+Evaluating test data:   5%|▌         | 5/100 [09:30<2:43:45, 103.43s/it] 
+Task 5 FAILED at turn 46 in environments [1]
+Evaluating test data:   6%|▌         | 6/100 [21:52<8:22:10, 320.54s/it] 
+Task 6 SUCCESS at turn 9 in environments [0, 1, 2, 3, 4]
+Evaluating test data:   7%|▋         | 7/100 [23:46<6:32:11, 253.03s/it] 
+Task 7 FAILED at turn 10 in environments [0]
+Evaluating test data:   8%|▊         | 8/100 [26:04<5:32:03, 216.55s/it] 
+Task 8 FAILED at turn 14 in environments [4]
+Evaluating test data:   9%|▉         | 9/100 [29:18<5:17:32, 209.37s/it] 
+Task 9 out of max turn
+Evaluating test data:  10%|█         | 10/100 [42:01<9:30:31, 380.35s/it] 
+Task 10 FAILED at turn 32 in environments [2]
+Evaluating test data:  11%|█         | 11/100 [50:12<10:14:17, 414.13s/it] 
+Task 11 SUCCESS at turn 8 in environments [1, 3, 4]
+Evaluating test data:  12%|█▏        | 12/100 [51:47<7:45:03, 317.09s/it]  
+Task 12 SUCCESS at turn 5 in environments [0]
+Evaluating test data:  13%|█▎        | 13/100 [52:37<5:42:41, 236.34s/it] 
+Task 13 SUCCESS at turn 7 in environments [0, 2, 3, 4]
+Evaluating test data:  14%|█▍        | 14/100 [54:04<4:33:47, 191.02s/it] 
+Task 14 FAILED at turn 5 in environments [2]
+Evaluating test data:  15%|█▌        | 15/100 [55:03<3:34:28, 151.40s/it] 
+Task 15 SUCCESS at turn 5 in environments [0, 1]
+Evaluating test data:  16%|█▌        | 16/100 [56:07<2:54:58, 124.98s/it] 
+Task 16 SUCCESS at turn 5 in environments [0]
+Evaluating test data:  17%|█▋        | 17/100 [57:12<2:28:00, 107.00s/it] 
+Task 17 SUCCESS at turn 10 in environments [1]
+Evaluating test data:  18%|█▊        | 18/100 [59:38<2:42:02, 118.57s/it] 
+Task 18 SUCCESS at turn 41 in environments [0]
+Evaluating test data:  19%|█▉        | 19/100 [1:11:58<6:52:03, 305.23s/it] 
+Task 19 FAILED at turn 7 in environments [0, 1, 4]
+Evaluating test data:  20%|██        | 20/100 [1:13:27<5:20:25, 240.32s/it] 
+Task 20 SUCCESS at turn 7 in environments [0, 1, 2, 3, 4]
+Evaluating test data:  21%|██        | 21/100 [1:14:42<4:11:08, 190.73s/it] 
+Task 21 FAILED at turn 44 in environments [1]
+Evaluating test data:  22%|██▏       | 22/100 [1:24:58<6:53:48, 318.31s/it] 
+Task 22 FAILED at turn 11 in environments [0, 4]
+Evaluating test data:  23%|██▎       | 23/100 [1:27:34<5:46:09, 269.73s/it] 
+Task 23 FAILED at turn 19 in environments [3]
+Evaluating test data:  24%|██▍       | 24/100 [1:33:02<6:03:44, 287.17s/it] 
+Task 24 SUCCESS at turn 7 in environments [1]
+Evaluating test data:  25%|██▌       | 25/100 [1:34:44<4:49:26, 231.55s/it] 
+Task 25 FAILED at turn 8 in environments [3]
+Evaluating test data:  26%|██▌       | 26/100 [1:36:33<4:00:22, 194.90s/it] 
+Task 26 FAILED at turn 10 in environments [4]
+Evaluating test data:  27%|██▋       | 27/100 [1:38:44<3:33:45, 175.69s/it] 
+Task 27 SUCCESS at turn 5 in environments [0, 1, 3]
+Evaluating test data:  28%|██▊       | 28/100 [1:39:39<2:47:24, 139.51s/it] 
+Task 28 SUCCESS at turn 6 in environments [3]
+Evaluating test data:  29%|██▉       | 29/100 [1:40:59<2:24:08, 121.81s/it] 
+Task 29 FAILED at turn 8 in environments [0, 4]
+Evaluating test data:  30%|███       | 30/100 [1:42:48<2:17:36, 117.95s/it] 
+Task 30 SUCCESS at turn 5 in environments [0]
+Evaluating test data:  31%|███       | 31/100 [1:43:52<1:56:52, 101.63s/it] 
+Task 31 FAILED at turn 7 in environments [3]
+Evaluating test data:  32%|███▏      | 32/100 [1:45:41<1:57:33, 103.72s/it] 
+Task 32 SUCCESS at turn 7 in environments [1, 3]
+Evaluating test data:  33%|███▎      | 33/100 [1:47:17<1:53:30, 101.65s/it] 
+Task 33 SUCCESS at turn 19 in environments [1, 3]
+Evaluating test data:  34%|███▍      | 34/100 [1:52:14<2:56:07, 160.12s/it] 
+Task 34 FAILED at turn 35 in environments [4]
+Evaluating test data:  35%|███▌      | 35/100 [2:00:25<4:40:56, 259.33s/it] 
+*** SIGTERM received at time=1785455852 on cpu 118 ***
+PC: @     0x64cda668ba31  (unknown)  PyTuple_New
+    @     0x71cfaca42520  (unknown)  (unknown)
+    @ ... and at least 2 more frames
+[2026-07-31 07:57:32,028 E 25126 25126] logging.cc:496: *** SIGTERM received at time=1785455852 on cpu 118 ***
+[2026-07-31 07:57:32,028 E 25126 25126] logging.cc:496: PC: @     0x64cda668ba31  (unknown)  PyTuple_New
+[2026-07-31 07:57:32,029 E 25126 25126] logging.cc:496:     @     0x71cfaca42520  (unknown)  (unknown)
+[2026-07-31 07:57:32,029 E 25126 25126] logging.cc:496:     @ ... and at least 2 more frames
+Evaluating test data:  35%|███▌      | 35/100 [2:03:53<3:50:04, 212.38s/it]
+[36m(WebshopWorker pid=34118)[0m Products loaded.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m Keys cleaned.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m Attributes loaded.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m Loaded 6910 goals.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34120)[0m <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34120)[0m <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34120)[0m <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type swigvarlink has no __module__ attribute[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train/lib/python3.11/site-packages/typer/completion.py:122: DeprecationWarning: 'BaseCommand' is deprecated and will be removed in Click 9.0. Use 'Command' instead.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m   cli: click.BaseCommand,[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m   0%|          | 0/1000 [00:00<?, ?it/s]100%|██████████| 1000/1000 [00:00<00:00, 140212.07it/s][32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train/lib/python3.11/site-packages/bs4/element.py:784: DeprecationWarning: The 'text' argument to find()-type methods is deprecated. Use 'string' instead.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=34118)[0m   warnings.warn([32m [repeated 4x across cluster][0m

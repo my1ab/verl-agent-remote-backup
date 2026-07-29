@@ -1,7 +1,7 @@
 # export export CUDA_VISIBLE_DEVICES=2
 curl -s https://api.deepseek.com/chat/completions \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer sk-a82b8e25c4a5412b8ccf875a2bb15943" \
+  -H "Authorization: Bearer sk-a8d675e7b9f14343b8d38e23718fc21a" \
   -d '{
     "model": "deepseek-chat",
     "messages": [

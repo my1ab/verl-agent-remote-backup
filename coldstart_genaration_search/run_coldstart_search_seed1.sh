@@ -15,14 +15,14 @@ set -e
 export PYTHONPATH=$BASE_PATH:$PYTHONPATH
 export PYTHONUNBUFFERED=1
 
-BASE_PATH="/diskpool/home/xuxz/verl-agent"
-LOG_FILE="$BASE_PATH/coldstart_genaration_search/coldstart_search_gen_seed1.log"
+BASE_PATH="/diskpool/home/xuxz/verl-agent/coldstart_genaration_search/log"
+LOG_FILE="$BASE_PATH/coldstart_search_gen_seed1_1792_1999.log"
 # 注意device设置
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=5
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 
 
-nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search_seperated.py \
+nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/coldstart_search_seed1.py \
     > $LOG_FILE 2>&1 &
 # nohup python3 /diskpool/home/xuxz/verl-agent/coldstart_genaration_search/test_model.py \
 #     > $LOG_FILE 2>&1 &

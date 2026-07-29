@@ -1,0 +1,1200 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+import build_search_envs success
+
+============================================================
+Loading tokenizer and model from checkpoint: /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8_seed1/v0-20260709-204552/checkpoint-7465
+============================================================
+Loading tokenizer...
+Tokenizer loaded: Qwen2TokenizerFast
+Set tokenizer model_max_length to: 32768
+Set tokenizer truncation_side to: right
+============================================================
+
+Loading model weights from /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8_seed1/v0-20260709-204552/checkpoint-7465
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+============================================================
+Model loaded successfully!
+Model type: Qwen2ForCausalLM
+Model device: cuda:0
+Model dtype: torch.bfloat16
+Number of parameters: 1,543,714,304
+Max context length: 32768
+============================================================
+load_local_model success
+============================================================
+============================================================
+Testing Local model connectivity...
+============================================================
+
+Response: user
+I'm sorry, but I need to clarify that you mentioned "introduce yourself" but your message is incomplete. You haven't provided the full message yet. Could you please complete your message so I can assist you properly?
+
+============================================================
+Local model test PASSED!
+============================================================
+[DEBUG] test done
+SearchTaskSampler loading: /diskpool/home/xuxz/data/searchR1_processed_direct/test.parquet
+  Total rows: 51713
+  Split 'test': goal_idxs = [0, 51713)  (51713 tasks)
+Sampling mode: random (seed=1)
+
+================================================================================
+Generating with sampler: SearchTaskSampler(total=51713, shuffle_table=unbuilt, sequential=False)
+Parallel config: group_n=5, env_num=1, total_envs=5, num_para=5
+Slice ranges: [(0, 99), (100, 199), (200, 299), (300, 399), (400, 499)]
+================================================================================
+
+────────────────────────────────────────────────────────────
+Processing chunk [0, 99] → search_coldstart_0_99.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 08:46:16
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_0_99.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [0, 99]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 0 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9403)
+Multi-thread evaluating:   1%|          | 1/100 [00:20<34:08, 20.69s/it]Task 3 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=28376)
+Multi-thread evaluating:   2%|▏         | 2/100 [01:12<1:04:05, 39.24s/it]Task 4 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=19007)
+Multi-thread evaluating:   3%|▎         | 3/100 [02:06<1:14:10, 45.88s/it]Task 2 FAILED at turn 9 in envs [0] data_source=popqa (physical_idx=16613)
+Multi-thread evaluating:   4%|▍         | 4/100 [02:21<53:28, 33.42s/it]  Task 5 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9246)
+Multi-thread evaluating:   5%|▌         | 5/100 [02:40<45:04, 28.47s/it]Task 6 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45530)
+Multi-thread evaluating:   6%|▌         | 6/100 [02:51<35:09, 22.44s/it]Task 7 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=22667)
+Multi-thread evaluating:   7%|▋         | 7/100 [03:07<31:28, 20.31s/it]Task 1 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=50544)
+Multi-thread evaluating:   8%|▊         | 8/100 [03:47<41:01, 26.76s/it]Task 9 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=33754)
+Multi-thread evaluating:   9%|▉         | 9/100 [03:56<32:09, 21.21s/it]Task 10 SUCCESS at turn 2 in envs [1] data_source=popqa (physical_idx=18196)
+Multi-thread evaluating:  10%|█         | 10/100 [04:07<26:48, 17.88s/it]Task 12 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=31108)
+Multi-thread evaluating:  11%|█         | 11/100 [05:07<45:29, 30.66s/it]Task 11 FAILED at turn 5 in envs [0] data_source=nq (physical_idx=3415)
+Multi-thread evaluating:  12%|█▏        | 12/100 [05:25<39:31, 26.95s/it]Task 13 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=22151)
+Multi-thread evaluating:  13%|█▎        | 13/100 [05:57<41:31, 28.64s/it]Task 14 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45984)
+Multi-thread evaluating:  14%|█▍        | 14/100 [06:14<35:58, 25.10s/it]Task 16 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=116)
+Multi-thread evaluating:  15%|█▌        | 15/100 [06:49<39:35, 27.95s/it]Task 15 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40404)
+Multi-thread evaluating:  16%|█▌        | 16/100 [06:53<29:02, 20.74s/it]Task 8 out of max turn (physical_idx=41251)
+Multi-thread evaluating:  17%|█▋        | 17/100 [07:13<28:36, 20.68s/it]Task 17 SUCCESS at turn 2 in envs [1] data_source=triviaqa (physical_idx=7091)
+Multi-thread evaluating:  18%|█▊        | 18/100 [07:18<21:25, 15.67s/it]Task 18 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=22856)
+Multi-thread evaluating:  19%|█▉        | 19/100 [07:21<16:10, 11.98s/it]Task 20 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12983)
+Multi-thread evaluating:  20%|██        | 20/100 [07:36<17:05, 12.82s/it]Task 19 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=48658)
+Multi-thread evaluating:  21%|██        | 21/100 [07:45<15:29, 11.77s/it]Task 21 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=42339)
+Multi-thread evaluating:  22%|██▏       | 22/100 [07:51<13:09, 10.12s/it]Task 22 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5330)
+Multi-thread evaluating:  23%|██▎       | 23/100 [07:55<10:32,  8.21s/it]Task 23 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46017)
+Multi-thread evaluating:  24%|██▍       | 24/100 [08:01<09:26,  7.46s/it]Task 26 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=29915)
+Multi-thread evaluating:  25%|██▌       | 25/100 [08:55<27:01, 21.62s/it]Task 24 SUCCESS at turn 11 in envs [0] data_source=popqa (physical_idx=26819)
+Multi-thread evaluating:  26%|██▌       | 26/100 [11:03<1:05:55, 53.45s/it]Task 25 FAILED at turn 11 in envs [0] data_source=popqa (physical_idx=16106)
+Multi-thread evaluating:  27%|██▋       | 27/100 [11:12<48:39, 39.99s/it]  Task 29 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=40626)
+Multi-thread evaluating:  28%|██▊       | 28/100 [11:34<41:26, 34.54s/it]Task 30 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=40931)
+Multi-thread evaluating:  29%|██▉       | 29/100 [12:59<59:03, 49.91s/it]Task 27 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=46654)
+Multi-thread evaluating:  30%|███       | 30/100 [13:31<51:57, 44.54s/it]Task 31 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=12119)
+Multi-thread evaluating:  31%|███       | 31/100 [13:33<36:27, 31.71s/it]Task 33 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=41207)
+Multi-thread evaluating:  32%|███▏      | 32/100 [14:08<36:58, 32.63s/it]Task 32 SUCCESS at turn 3 in envs [0] data_source=nq (physical_idx=2343)
+Multi-thread evaluating:  33%|███▎      | 33/100 [14:17<28:28, 25.49s/it]Task 35 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35648)
+Multi-thread evaluating:  34%|███▍      | 34/100 [14:45<28:58, 26.35s/it]Task 34 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=41436)
+Multi-thread evaluating:  35%|███▌      | 35/100 [14:46<20:19, 18.77s/it]Task 28 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=15129)
+Multi-thread evaluating:  36%|███▌      | 36/100 [14:56<17:09, 16.08s/it]Task 36 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21703)
+Multi-thread evaluating:  37%|███▋      | 37/100 [15:05<14:49, 14.11s/it]Task 38 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=48390)
+Multi-thread evaluating:  38%|███▊      | 38/100 [15:15<13:06, 12.69s/it]Task 39 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27560)
+Multi-thread evaluating:  39%|███▉      | 39/100 [15:25<12:16, 12.08s/it]Task 40 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33568)
+Multi-thread evaluating:  40%|████      | 40/100 [15:32<10:32, 10.54s/it]Task 37 FAILED at turn 6 in envs [0] data_source=musique (physical_idx=51462)
+Multi-thread evaluating:  41%|████      | 41/100 [15:52<13:05, 13.32s/it]Task 41 SUCCESS at turn 3 in envs [0] data_source=nq (physical_idx=2924)
+Multi-thread evaluating:  42%|████▏     | 42/100 [15:59<11:06, 11.49s/it]Task 42 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=27438)
+Multi-thread evaluating:  43%|████▎     | 43/100 [16:05<09:08,  9.62s/it]Task 43 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47558)
+Multi-thread evaluating:  44%|████▍     | 44/100 [16:10<07:43,  8.27s/it]Task 45 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=13987)
+Multi-thread evaluating:  45%|████▌     | 45/100 [16:22<08:42,  9.51s/it]Task 46 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27733)
+Multi-thread evaluating:  46%|████▌     | 46/100 [16:28<07:30,  8.34s/it]Task 47 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38706)
+Multi-thread evaluating:  47%|████▋     | 47/100 [16:42<08:50, 10.01s/it]Task 44 FAILED at turn 5 in envs [1] data_source=popqa (physical_idx=24139)
+Multi-thread evaluating:  48%|████▊     | 48/100 [16:45<06:52,  7.93s/it]Task 48 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46206)
+Multi-thread evaluating:  49%|████▉     | 49/100 [16:48<05:26,  6.40s/it]Task 51 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46940)
+Multi-thread evaluating:  50%|█████     | 50/100 [17:07<08:27, 10.15s/it]Task 50 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=39567)
+Multi-thread evaluating:  51%|█████     | 51/100 [17:14<07:34,  9.28s/it]Task 52 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12593)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [17:31<09:13, 11.53s/it]Task 53 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2721)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [17:41<08:49, 11.27s/it]Task 49 FAILED at turn 6 in envs [3] data_source=popqa (physical_idx=23353)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [17:53<08:48, 11.49s/it]Task 55 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31150)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [18:04<08:31, 11.37s/it]Task 56 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=3666)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [18:12<07:36, 10.37s/it]Task 57 FAILED at turn 2 in envs [0] data_source=musique (physical_idx=51315)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [18:30<08:58, 12.52s/it]Task 58 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23397)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [18:40<08:14, 11.78s/it]Task 59 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27812)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [18:55<08:46, 12.85s/it]Task 60 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=14357)
+Multi-thread evaluating:  60%|██████    | 60/100 [19:34<13:46, 20.65s/it]Task 54 SUCCESS at turn 12 in envs [0] data_source=hotpotqa (physical_idx=29600)
+Multi-thread evaluating:  61%|██████    | 61/100 [20:25<19:15, 29.64s/it]Task 62 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=26147)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [20:27<13:34, 21.43s/it]Task 64 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35940)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [20:57<14:46, 23.95s/it]Task 61 FAILED at turn 8 in envs [0] data_source=popqa (physical_idx=28069)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [21:05<11:28, 19.14s/it]Task 66 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=795)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [21:34<12:57, 22.22s/it]Task 65 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=27348)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [21:45<10:40, 18.85s/it]Task 67 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14873)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [22:04<10:25, 18.95s/it]Task 63 FAILED at turn 7 in envs [0] data_source=hotpotqa (physical_idx=32668)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [22:08<07:40, 14.39s/it]Task 68 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=121)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [22:11<05:39, 10.96s/it]Task 69 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6631)
+Multi-thread evaluating:  70%|███████   | 70/100 [22:26<06:02, 12.10s/it]Task 70 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5411)
+Multi-thread evaluating:  71%|███████   | 71/100 [22:29<04:31,  9.35s/it]Task 72 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=8764)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [23:01<07:30, 16.07s/it]Task 71 SUCCESS at turn 5 in envs [0] data_source=hotpotqa (physical_idx=34656)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [23:11<06:26, 14.31s/it]Task 73 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=19582)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [23:16<05:04, 11.71s/it]Task 74 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=28656)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [23:23<04:14, 10.20s/it]Task 75 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=7456)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [23:31<03:47,  9.46s/it]Task 77 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=8400)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [23:47<04:24, 11.50s/it]Task 78 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2676)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [23:56<03:55, 10.69s/it]Task 80 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14349)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [24:18<04:55, 14.05s/it]Task 76 FAILED at turn 7 in envs [0] data_source=triviaqa (physical_idx=7745)
+Multi-thread evaluating:  80%|████████  | 80/100 [24:46<06:07, 18.40s/it]Task 79 FAILED at turn 6 in envs [0] data_source=hotpotqa (physical_idx=34287)
+Multi-thread evaluating:  81%|████████  | 81/100 [25:11<06:25, 20.27s/it]Task 82 FAILED at turn 2 in envs [4] data_source=popqa (physical_idx=21667)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [25:14<04:32, 15.15s/it]Task 81 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=42419)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [25:20<03:30, 12.40s/it]Task 84 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=31007)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [25:48<04:33, 17.10s/it]Task 85 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=9771)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [26:06<04:17, 17.19s/it]Task 86 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46959)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [26:18<03:42, 15.88s/it]Task 87 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38278)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [26:30<03:11, 14.74s/it]Task 83 FAILED at turn 7 in envs [0] data_source=popqa (physical_idx=24081)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [26:35<02:21, 11.75s/it]Task 89 SUCCESS at turn 4 in envs [0] data_source=hotpotqa (physical_idx=34982)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [27:40<05:05, 27.73s/it]Task 88 FAILED at turn 7 in envs [0] data_source=popqa (physical_idx=24305)
+Multi-thread evaluating:  90%|█████████ | 90/100 [28:13<04:53, 29.32s/it]Task 91 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35930)
+Multi-thread evaluating:  91%|█████████ | 91/100 [28:34<04:00, 26.71s/it]Task 92 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=11868)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [28:39<02:42, 20.30s/it]Task 90 FAILED at turn 8 in envs [0] data_source=triviaqa (physical_idx=6024)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [28:45<01:52, 16.04s/it]Task 94 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33105)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [28:59<01:32, 15.37s/it]Task 95 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11783)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [29:07<01:05, 13.19s/it]Task 96 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1926)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [29:24<00:56, 14.20s/it]Task 97 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=19868)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [29:35<00:39, 13.20s/it]Task 93 FAILED at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=37372)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [29:42<00:22, 11.46s/it]Task 99 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1923)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [29:53<00:11, 11.29s/it]Task 98 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=22496)
+Multi-thread evaluating: 100%|██████████| 100/100 [31:45<00:00, 41.39s/it]Multi-thread evaluating: 100%|██████████| 100/100 [31:45<00:00, 19.05s/it]
+
+============================================================
+Total: 100, Success: 44, Rate: 44.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_0_99.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_0_99_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_0_99_seperated.json
+Seperated count: 100
+Elapsed time: 1905.3s
+────────────────────────────────────────────────────────────
+Processing chunk [100, 199] → search_coldstart_100_199.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 09:18:01
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_100_199.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [100, 199]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 100 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30768)
+Multi-thread evaluating:   1%|          | 1/100 [00:12<20:02, 12.14s/it]Task 102 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=44089)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:20<16:32, 10.13s/it]Task 103 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46872)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:55<34:49, 21.54s/it]Task 101 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=41581)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:59<23:06, 14.44s/it]Task 104 SUCCESS at turn 4 in envs [0] data_source=popqa (physical_idx=25220)
+Multi-thread evaluating:   5%|▌         | 5/100 [01:13<22:19, 14.10s/it]Task 105 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12668)
+Multi-thread evaluating:   6%|▌         | 6/100 [01:15<15:58, 10.20s/it]Task 108 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=22806)
+Multi-thread evaluating:   7%|▋         | 7/100 [01:31<18:48, 12.13s/it]Task 107 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=20664)
+Multi-thread evaluating:   8%|▊         | 8/100 [01:48<20:36, 13.44s/it]Task 106 SUCCESS at turn 6 in envs [0] data_source=popqa (physical_idx=18412)
+Multi-thread evaluating:   9%|▉         | 9/100 [01:56<17:59, 11.86s/it]Task 109 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=11973)
+Multi-thread evaluating:  10%|█         | 10/100 [02:05<16:22, 10.92s/it]Task 110 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9924)
+Multi-thread evaluating:  11%|█         | 11/100 [02:11<14:03,  9.47s/it]Task 113 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10373)
+Multi-thread evaluating:  12%|█▏        | 12/100 [02:33<19:31, 13.31s/it]Task 112 FAILED at turn 3 in envs [0] data_source=nq (physical_idx=2843)
+Multi-thread evaluating:  13%|█▎        | 13/100 [02:36<14:50, 10.23s/it]Task 114 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1415)
+Multi-thread evaluating:  14%|█▍        | 14/100 [02:58<19:38, 13.70s/it]Task 115 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42624)
+Multi-thread evaluating:  15%|█▌        | 15/100 [03:02<15:26, 10.90s/it]Task 117 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47491)
+Multi-thread evaluating:  16%|█▌        | 16/100 [03:25<20:11, 14.42s/it]Task 116 SUCCESS at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=40223)
+Multi-thread evaluating:  17%|█▋        | 17/100 [03:55<26:22, 19.06s/it]Task 118 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=18256)
+Multi-thread evaluating:  18%|█▊        | 18/100 [03:58<19:33, 14.31s/it]Task 119 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=36337)
+Multi-thread evaluating:  19%|█▉        | 19/100 [04:23<23:43, 17.57s/it]Task 121 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=45409)
+Multi-thread evaluating:  20%|██        | 20/100 [05:20<38:59, 29.24s/it]Task 111 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=triviaqa (physical_idx=14070)
+Multi-thread evaluating:  21%|██        | 21/100 [05:33<32:12, 24.46s/it]Task 122 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44846)
+Multi-thread evaluating:  22%|██▏       | 22/100 [06:08<35:49, 27.56s/it]Task 123 SUCCESS at turn 3 in envs [0] data_source=nq (physical_idx=691)
+Multi-thread evaluating:  23%|██▎       | 23/100 [06:19<29:07, 22.69s/it]Task 124 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47453)
+Multi-thread evaluating:  24%|██▍       | 24/100 [06:34<25:58, 20.51s/it]Task 120 SUCCESS at turn 11 in envs [0] data_source=popqa (physical_idx=26335)
+Multi-thread evaluating:  25%|██▌       | 25/100 [06:52<24:30, 19.61s/it]Task 126 FAILED at turn 9 in envs [0] data_source=triviaqa (physical_idx=10950)
+Multi-thread evaluating:  26%|██▌       | 26/100 [09:22<1:12:19, 58.64s/it]Task 128 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32699)
+Multi-thread evaluating:  27%|██▋       | 27/100 [10:02<1:04:49, 53.28s/it]Task 125 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=30406)
+Multi-thread evaluating:  28%|██▊       | 28/100 [11:06<1:07:43, 56.43s/it]Task 129 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=38574)
+Multi-thread evaluating:  29%|██▉       | 29/100 [11:09<47:51, 40.44s/it]  Task 127 FAILED at turn 14 in envs [0] data_source=2wikimultihopqa (physical_idx=43851)
+Multi-thread evaluating:  30%|███       | 30/100 [11:29<40:04, 34.35s/it]Task 131 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=44485)
+Multi-thread evaluating:  31%|███       | 31/100 [11:36<29:57, 26.05s/it]Task 130 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=24566)
+Multi-thread evaluating:  32%|███▏      | 32/100 [11:41<22:24, 19.77s/it]Task 132 SUCCESS at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=47237)
+Multi-thread evaluating:  33%|███▎      | 33/100 [12:14<26:26, 23.68s/it]Task 133 SUCCESS at turn 4 in envs [0] data_source=musique (physical_idx=49174)
+Multi-thread evaluating:  34%|███▍      | 34/100 [12:23<21:16, 19.35s/it]Task 134 FAILED at turn 7 in envs [0] data_source=triviaqa (physical_idx=5687)
+Multi-thread evaluating:  35%|███▌      | 35/100 [13:15<31:32, 29.11s/it]Task 135 FAILED at turn 6 in envs [0] data_source=triviaqa (physical_idx=11519)
+Multi-thread evaluating:  36%|███▌      | 36/100 [13:37<28:50, 27.04s/it]Task 137 SUCCESS at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=47113)
+Multi-thread evaluating:  37%|███▋      | 37/100 [14:17<32:29, 30.95s/it]Task 138 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=42033)
+Multi-thread evaluating:  38%|███▊      | 38/100 [14:28<25:36, 24.78s/it]Task 136 FAILED at turn 9 in envs [0] data_source=popqa (physical_idx=19802)
+Multi-thread evaluating:  39%|███▉      | 39/100 [14:41<21:46, 21.42s/it]Task 139 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7861)
+Multi-thread evaluating:  40%|████      | 40/100 [14:50<17:30, 17.51s/it]Task 141 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14508)
+Multi-thread evaluating:  41%|████      | 41/100 [15:00<15:01, 15.29s/it]Task 140 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=33733)
+Multi-thread evaluating:  42%|████▏     | 42/100 [15:05<11:56, 12.36s/it]Task 142 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44095)
+Multi-thread evaluating:  43%|████▎     | 43/100 [15:22<12:54, 13.59s/it]Task 143 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21185)
+Multi-thread evaluating:  44%|████▍     | 44/100 [15:24<09:26, 10.12s/it]Task 144 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5374)
+Multi-thread evaluating:  45%|████▌     | 45/100 [15:27<07:11,  7.85s/it]Task 146 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31904)
+Multi-thread evaluating:  46%|████▌     | 46/100 [15:46<10:18, 11.46s/it]Task 147 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=11617)
+Multi-thread evaluating:  47%|████▋     | 47/100 [16:06<12:22, 14.01s/it]Task 145 SUCCESS at turn 5 in envs [0] data_source=hotpotqa (physical_idx=35897)
+Multi-thread evaluating:  48%|████▊     | 48/100 [16:26<13:41, 15.79s/it]Task 148 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35069)
+Multi-thread evaluating:  49%|████▉     | 49/100 [16:27<09:37, 11.33s/it]Task 149 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4157)
+Multi-thread evaluating:  50%|█████     | 50/100 [16:30<07:20,  8.81s/it]Task 151 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4511)
+Multi-thread evaluating:  51%|█████     | 51/100 [16:43<08:13, 10.08s/it]Task 152 SUCCESS at turn 3 in envs [0] data_source=musique (physical_idx=49643)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [16:59<09:22, 11.72s/it]Task 153 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=15187)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [17:07<08:26, 10.78s/it]Task 154 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=25527)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [17:22<09:08, 11.92s/it]Task 155 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33476)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [17:26<07:16,  9.70s/it]Task 156 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=8090)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [17:44<08:48, 12.01s/it]Task 158 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1049)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [18:13<12:18, 17.16s/it]Task 157 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=39330)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [18:32<12:25, 17.76s/it]Task 150 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=15320)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [19:22<18:37, 27.27s/it]Task 160 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=46268)
+Multi-thread evaluating:  60%|██████    | 60/100 [19:24<13:16, 19.92s/it]Task 161 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=19814)
+Multi-thread evaluating:  61%|██████    | 61/100 [20:04<16:44, 25.75s/it]Task 162 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=37293)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [20:09<12:22, 19.54s/it]Task 163 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31876)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [20:34<13:06, 21.26s/it]Task 164 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=28993)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [20:37<09:24, 15.68s/it]Task 165 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39505)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [20:57<10:00, 17.16s/it]Task 166 SUCCESS at turn 4 in envs [0] data_source=hotpotqa (physical_idx=34267)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [21:47<15:11, 26.80s/it]Task 159 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=19624)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [21:55<11:38, 21.16s/it]Task 169 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38239)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [22:08<10:03, 18.85s/it]Task 168 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46889)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [22:11<07:18, 14.15s/it]Task 167 FAILED at turn 7 in envs [0] data_source=2wikimultihopqa (physical_idx=44765)
+Multi-thread evaluating:  70%|███████   | 70/100 [22:30<07:42, 15.42s/it]Task 171 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=3695)
+Multi-thread evaluating:  71%|███████   | 71/100 [22:32<05:33, 11.48s/it]Task 172 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=17734)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [22:46<05:39, 12.13s/it]Task 170 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=37836)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [22:55<05:06, 11.34s/it]Task 173 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=22131)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [23:02<04:17,  9.89s/it]Task 174 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47043)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [23:06<03:28,  8.33s/it]Task 177 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=17841)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [23:46<07:02, 17.61s/it]Task 178 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=37734)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [24:39<10:54, 28.47s/it]Task 179 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21882)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [25:14<11:10, 30.47s/it]Task 175 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=39245)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [27:14<19:58, 57.09s/it]Task 180 SUCCESS at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=38260)
+Multi-thread evaluating:  80%|████████  | 80/100 [27:19<13:51, 41.55s/it]Task 176 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=31723)
+Multi-thread evaluating:  81%|████████  | 81/100 [27:24<09:42, 30.68s/it]Task 182 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=8355)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [27:45<08:17, 27.61s/it]Task 183 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47318)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [27:47<05:42, 20.14s/it]Task 184 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34374)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [28:12<05:43, 21.44s/it]Task 185 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=29796)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [28:30<05:06, 20.43s/it]Task 181 SUCCESS at turn 6 in envs [0] data_source=nq (physical_idx=973)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [28:35<03:39, 15.69s/it]Task 186 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35611)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [28:38<02:35, 11.94s/it]Task 187 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7910)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [28:48<02:16, 11.41s/it]Task 188 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=40875)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [28:51<01:37,  8.84s/it]Task 189 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=34621)
+Multi-thread evaluating:  90%|█████████ | 90/100 [29:06<01:47, 10.76s/it]Task 190 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14425)
+Multi-thread evaluating:  91%|█████████ | 91/100 [29:11<01:22,  9.15s/it]Task 192 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=16936)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [29:28<01:30, 11.34s/it]Task 191 FAILED at turn 4 in envs [0] data_source=musique (physical_idx=51402)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [29:36<01:13, 10.47s/it]Task 194 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32772)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [29:57<01:21, 13.65s/it]Task 195 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=38760)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [30:16<01:15, 15.02s/it]Task 196 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=26996)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [30:18<00:44, 11.10s/it]Task 197 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=43057)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [30:43<00:45, 15.27s/it]Task 193 FAILED at turn 8 in envs [0] data_source=musique (physical_idx=51381)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [30:51<00:26, 13.13s/it]Task 198 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=38343)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [30:56<00:10, 10.62s/it]Task 199 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33055)
+Multi-thread evaluating: 100%|██████████| 100/100 [30:58<00:00,  8.27s/it]Multi-thread evaluating: 100%|██████████| 100/100 [30:58<00:00, 18.59s/it]
+
+============================================================
+Total: 100, Success: 41, Rate: 41.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_100_199.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_100_199_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_100_199_seperated.json
+Seperated count: 100
+Elapsed time: 1859.0s
+────────────────────────────────────────────────────────────
+Processing chunk [200, 299] → search_coldstart_200_299.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 09:49:00
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_200_299.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [200, 299]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 202 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6702)
+Multi-thread evaluating:   1%|          | 1/100 [00:18<29:53, 18.11s/it]Task 200 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30971)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:20<14:38,  8.96s/it]Task 201 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=36758)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:34<17:54, 11.08s/it]Task 203 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7580)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:36<12:15,  7.66s/it]Task 204 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34173)
+Multi-thread evaluating:   5%|▌         | 5/100 [00:39<09:27,  5.98s/it]Task 205 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11210)
+Multi-thread evaluating:   6%|▌         | 6/100 [00:49<11:26,  7.30s/it]Task 207 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35269)
+Multi-thread evaluating:   7%|▋         | 7/100 [01:14<20:07, 12.98s/it]Task 208 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4477)
+Multi-thread evaluating:   8%|▊         | 8/100 [01:16<14:29,  9.46s/it]Task 209 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=24851)
+Multi-thread evaluating:   9%|▉         | 9/100 [03:16<1:07:05, 44.24s/it]Task 210 SUCCESS at turn 6 in envs [0] data_source=popqa (physical_idx=24691)
+Multi-thread evaluating:  10%|█         | 10/100 [03:21<48:10, 32.11s/it] Task 212 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21426)
+Multi-thread evaluating:  11%|█         | 11/100 [03:51<46:32, 31.37s/it]Task 213 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=11524)
+Multi-thread evaluating:  12%|█▏        | 12/100 [04:59<1:02:23, 42.54s/it]Task 206 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=49210)
+Multi-thread evaluating:  13%|█▎        | 13/100 [05:05<45:22, 31.30s/it]  Task 214 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42158)
+Multi-thread evaluating:  14%|█▍        | 14/100 [05:20<37:57, 26.48s/it]Task 215 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=23808)
+Multi-thread evaluating:  15%|█▌        | 15/100 [05:39<34:12, 24.15s/it]Task 216 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31332)
+Multi-thread evaluating:  16%|█▌        | 16/100 [05:52<29:24, 21.01s/it]Task 218 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=41833)
+Multi-thread evaluating:  17%|█▋        | 17/100 [06:18<30:57, 22.38s/it]Task 217 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44022)
+Multi-thread evaluating:  18%|█▊        | 18/100 [06:21<22:42, 16.62s/it]Task 211 FAILED at turn 13 in envs [0] data_source=popqa (physical_idx=23427)
+Multi-thread evaluating:  19%|█▉        | 19/100 [06:39<23:00, 17.05s/it]Task 220 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29263)
+Multi-thread evaluating:  20%|██        | 20/100 [06:48<19:28, 14.60s/it]Task 222 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=42137)
+Multi-thread evaluating:  21%|██        | 21/100 [07:57<40:34, 30.82s/it]Task 219 FAILED at turn 6 in envs [0] data_source=hotpotqa (physical_idx=35271)
+Multi-thread evaluating:  22%|██▏       | 22/100 [08:01<29:34, 22.75s/it]Task 221 FAILED at turn 6 in envs [0] data_source=musique (physical_idx=51119)
+Multi-thread evaluating:  23%|██▎       | 23/100 [08:17<26:48, 20.89s/it]Task 225 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=45153)
+Multi-thread evaluating:  24%|██▍       | 24/100 [09:04<36:21, 28.70s/it]Task 223 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=24327)
+Multi-thread evaluating:  25%|██▌       | 25/100 [09:29<34:31, 27.62s/it]Task 226 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5048)
+Multi-thread evaluating:  26%|██▌       | 26/100 [09:36<26:29, 21.48s/it]Task 227 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11464)
+Multi-thread evaluating:  27%|██▋       | 27/100 [09:54<24:50, 20.42s/it]Task 228 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11103)
+Multi-thread evaluating:  28%|██▊       | 28/100 [10:05<20:59, 17.50s/it]Task 224 SUCCESS at turn 9 in envs [0] data_source=hotpotqa (physical_idx=35624)
+Multi-thread evaluating:  29%|██▉       | 29/100 [10:14<17:32, 14.82s/it]Task 230 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=10866)
+Multi-thread evaluating:  30%|███       | 30/100 [10:27<16:51, 14.45s/it]Task 229 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=26441)
+Multi-thread evaluating:  31%|███       | 31/100 [10:30<12:34, 10.93s/it]Task 231 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=20569)
+Multi-thread evaluating:  32%|███▏      | 32/100 [10:42<12:38, 11.15s/it]Task 232 FAILED at turn 5 in envs [0] data_source=triviaqa (physical_idx=12942)
+Multi-thread evaluating:  33%|███▎      | 33/100 [11:41<28:42, 25.71s/it]Task 233 FAILED at turn 5 in envs [0] data_source=triviaqa (physical_idx=7633)
+Multi-thread evaluating:  34%|███▍      | 34/100 [11:44<20:47, 18.90s/it]Task 235 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4647)
+Multi-thread evaluating:  35%|███▌      | 35/100 [12:15<24:18, 22.43s/it]Task 234 FAILED at turn 8 in envs [0] data_source=musique (physical_idx=51329)
+Multi-thread evaluating:  36%|███▌      | 36/100 [13:09<33:59, 31.86s/it]Task 237 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=43448)
+Multi-thread evaluating:  37%|███▋      | 37/100 [13:28<29:22, 27.98s/it]Task 236 SUCCESS at turn 7 in envs [0] data_source=triviaqa (physical_idx=10753)
+Multi-thread evaluating:  38%|███▊      | 38/100 [13:49<26:42, 25.85s/it]Task 238 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=47541)
+Multi-thread evaluating:  39%|███▉      | 39/100 [14:08<24:21, 23.95s/it]Task 241 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=48472)
+Multi-thread evaluating:  40%|████      | 40/100 [14:41<26:43, 26.73s/it]Task 242 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6071)
+Multi-thread evaluating:  41%|████      | 41/100 [15:17<28:50, 29.32s/it]Task 243 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=43269)
+Multi-thread evaluating:  42%|████▏     | 42/100 [17:08<52:01, 53.82s/it]Task 244 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14464)
+Multi-thread evaluating:  43%|████▎     | 43/100 [17:47<46:58, 49.45s/it]Task 239 FAILED at turn 13 in envs [0] data_source=hotpotqa (physical_idx=30213)
+Multi-thread evaluating:  44%|████▍     | 44/100 [17:52<33:44, 36.14s/it]Task 245 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33623)
+Multi-thread evaluating:  45%|████▌     | 45/100 [18:21<31:15, 34.10s/it]Task 240 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=34999)
+Multi-thread evaluating:  46%|████▌     | 46/100 [18:51<29:26, 32.72s/it]Task 247 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21387)
+Multi-thread evaluating:  47%|████▋     | 47/100 [18:53<20:46, 23.52s/it]Task 246 FAILED at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=43732)
+Multi-thread evaluating:  48%|████▊     | 48/100 [19:14<19:50, 22.90s/it]Task 248 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=11235)
+Multi-thread evaluating:  49%|████▉     | 49/100 [19:31<17:51, 21.01s/it]Task 250 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=22982)
+Multi-thread evaluating:  50%|█████     | 50/100 [19:59<19:14, 23.10s/it]Task 249 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=27312)
+Multi-thread evaluating:  51%|█████     | 51/100 [20:10<15:56, 19.53s/it]Task 252 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23262)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [20:22<13:51, 17.32s/it]Task 253 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32638)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [20:34<12:18, 15.72s/it]Task 254 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=44832)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [21:48<25:28, 33.24s/it]Task 256 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21183)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [22:41<29:22, 39.17s/it]Task 257 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=6365)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [23:10<26:23, 35.99s/it]Task 258 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=3626)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [23:35<23:23, 32.63s/it]Task 251 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=17540)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [24:12<23:48, 34.00s/it]Task 259 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1999)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [24:15<16:52, 24.68s/it]Task 260 FAILED at turn 3 in envs [0] data_source=musique (physical_idx=50249)
+Multi-thread evaluating:  60%|██████    | 60/100 [24:58<20:05, 30.13s/it]Task 255 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=51494)
+Multi-thread evaluating:  61%|██████    | 61/100 [25:22<18:28, 28.43s/it][Search Request ID: 0254a99d-30fd-4c45-80c2-7cb258f3460e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e9946f9e-2909-46a6-ab00-e5f07e13e50b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f60ae55b-db20-4189-8acb-41f92819e468] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a0f59337-ba6c-4c12-b034-443c5b000fb8] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 04732139-4327-4f30-beba-71ee3a62a325] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de92c20b-9de0-41c6-b527-e8f0a5b38f3e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0d93498-a28f-492b-80da-aa9c374475da] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 95e5005f-0dae-4eaf-b3b9-8ec1d37a8bae] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 60a36a32-332f-4637-bb73-1ee86b849573] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Task 261 SUCCESS at turn 5 in envs [0] data_source=popqa (physical_idx=23616)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [26:38<26:55, 42.52s/it]Task 263 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=19190)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [26:40<18:44, 30.40s/it]Task 262 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=30111)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [26:41<12:58, 21.63s/it]Task 264 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7433)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [26:55<11:13, 19.24s/it]Task 266 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=3367)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [27:01<08:48, 15.56s/it]Task 265 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=34074)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [27:08<07:00, 12.74s/it]Task 267 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=13002)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [27:28<08:04, 15.15s/it]Task 269 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39998)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [27:33<06:12, 12.01s/it]Task 271 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10036)
+Multi-thread evaluating:  70%|███████   | 70/100 [27:59<08:01, 16.05s/it]Task 268 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=28689)
+Multi-thread evaluating:  71%|███████   | 71/100 [28:02<05:51, 12.11s/it]Task 272 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26894)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [28:22<06:48, 14.58s/it]Task 273 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1739)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [28:24<04:50, 10.77s/it]Task 270 FAILED at turn 6 in envs [0] data_source=triviaqa (physical_idx=8045)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [28:43<05:46, 13.34s/it]Task 274 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26711)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [28:46<04:13, 10.15s/it]Task 275 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=15979)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [28:48<03:05,  7.73s/it]Task 277 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=17366)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [29:05<04:02, 10.53s/it]Task 278 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4888)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [29:08<03:02,  8.28s/it]Task 276 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=39938)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [29:23<03:39, 10.43s/it]Task 280 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=22612)
+Multi-thread evaluating:  80%|████████  | 80/100 [29:29<02:57,  8.86s/it]Task 279 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=11627)
+Multi-thread evaluating:  81%|████████  | 81/100 [29:36<02:38,  8.35s/it]Task 281 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=37631)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [29:41<02:12,  7.34s/it]Task 284 FAILED at turn 6 in envs [0] data_source=hotpotqa (physical_idx=30757)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [31:08<08:54, 31.46s/it]Task 282 FAILED at turn 9 in envs [0] data_source=popqa (physical_idx=21957)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [31:42<08:31, 31.99s/it]Task 285 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6213)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [31:44<05:45, 23.01s/it]Task 286 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39285)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [32:02<05:03, 21.65s/it]Task 288 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46596)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [32:52<06:30, 30.05s/it]Task 283 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=37080)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [33:27<06:18, 31.58s/it]Task 289 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33940)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [33:29<04:10, 22.77s/it]Task 291 FAILED at turn 2 in envs [0] data_source=musique (physical_idx=50296)
+Multi-thread evaluating:  90%|█████████ | 90/100 [33:56<03:58, 23.85s/it]Task 287 FAILED at turn 9 in envs [0] data_source=popqa (physical_idx=16111)
+Multi-thread evaluating:  91%|█████████ | 91/100 [33:59<02:39, 17.69s/it]Task 292 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29575)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [34:25<02:40, 20.08s/it]Task 290 FAILED at turn 6 in envs [0] data_source=musique (physical_idx=51201)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [34:45<02:21, 20.15s/it]Task 294 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=41247)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [35:03<01:56, 19.45s/it]Task 295 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=36615)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [35:12<01:21, 16.33s/it]Task 296 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1635)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [35:27<01:03, 15.90s/it]Task 297 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=28477)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [35:35<00:41, 13.75s/it]Task 298 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30412)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [35:48<00:26, 13.31s/it]Task 293 FAILED at turn 10 in envs [0] data_source=popqa (physical_idx=16861)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [36:03<00:13, 13.95s/it]Task 299 FAILED at turn 7 in envs [0] data_source=popqa (physical_idx=15727)
+Multi-thread evaluating: 100%|██████████| 100/100 [36:31<00:00, 18.24s/it]Multi-thread evaluating: 100%|██████████| 100/100 [36:31<00:00, 21.92s/it]
+
+============================================================
+Total: 100, Success: 36, Rate: 36.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_200_299.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_200_299_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_200_299_seperated.json
+Seperated count: 100
+Elapsed time: 2192.0s
+────────────────────────────────────────────────────────────
+Processing chunk [300, 399] → search_coldstart_300_399.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 10:25:32
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_300_399.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [300, 399]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 301 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11528)
+Multi-thread evaluating:   1%|          | 1/100 [00:15<25:44, 15.60s/it]Task 302 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21700)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:20<15:01,  9.20s/it]Task 300 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40342)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:23<10:17,  6.37s/it]Task 303 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26215)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:36<14:43,  9.20s/it]Task 304 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32266)
+Multi-thread evaluating:   5%|▌         | 5/100 [00:39<10:42,  6.76s/it]Task 307 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=47146)
+Multi-thread evaluating:   6%|▌         | 6/100 [01:35<37:09, 23.72s/it]Task 305 FAILED at turn 6 in envs [0] data_source=hotpotqa (physical_idx=34662)
+Multi-thread evaluating:   7%|▋         | 7/100 [02:02<38:05, 24.57s/it]Task 308 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31039)
+Multi-thread evaluating:   8%|▊         | 8/100 [02:06<27:49, 18.14s/it]Task 309 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10515)
+Multi-thread evaluating:   9%|▉         | 9/100 [02:21<25:58, 17.12s/it]Task 310 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46027)
+Multi-thread evaluating:  10%|█         | 10/100 [02:29<21:21, 14.24s/it]Task 311 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=25668)
+Multi-thread evaluating:  11%|█         | 11/100 [02:53<25:49, 17.41s/it]Task 312 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7312)
+Multi-thread evaluating:  12%|█▏        | 12/100 [03:06<23:22, 15.94s/it]Task 314 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32284)
+Multi-thread evaluating:  13%|█▎        | 13/100 [03:36<29:23, 20.27s/it]Task 313 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=41133)
+Multi-thread evaluating:  14%|█▍        | 14/100 [03:40<21:42, 15.15s/it]Task 316 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26239)
+Multi-thread evaluating:  15%|█▌        | 15/100 [04:09<27:43, 19.57s/it]Task 306 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=44815)
+Multi-thread evaluating:  16%|█▌        | 16/100 [04:40<31:51, 22.76s/it]Task 315 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=34556)
+Multi-thread evaluating:  17%|█▋        | 17/100 [04:43<23:26, 16.94s/it]Task 317 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6790)
+Multi-thread evaluating:  18%|█▊        | 18/100 [04:46<17:22, 12.72s/it]Task 318 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47531)
+Multi-thread evaluating:  19%|█▉        | 19/100 [04:56<16:13, 12.02s/it]Task 319 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=25933)
+Multi-thread evaluating:  20%|██        | 20/100 [05:00<12:39,  9.49s/it]Task 320 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47228)
+Multi-thread evaluating:  21%|██        | 21/100 [05:03<10:02,  7.63s/it]Task 322 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=14200)
+Multi-thread evaluating:  22%|██▏       | 22/100 [05:22<14:13, 10.94s/it]Task 323 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=37710)
+Multi-thread evaluating:  23%|██▎       | 23/100 [05:26<11:23,  8.88s/it]Task 324 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4088)
+Multi-thread evaluating:  24%|██▍       | 24/100 [05:51<17:17, 13.65s/it]Task 325 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=3278)
+Multi-thread evaluating:  25%|██▌       | 25/100 [05:56<14:03, 11.24s/it]Task 326 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=15597)
+Multi-thread evaluating:  26%|██▌       | 26/100 [06:27<21:03, 17.07s/it]Task 321 FAILED at turn 8 in envs [0] data_source=triviaqa (physical_idx=6372)
+Multi-thread evaluating:  27%|██▋       | 27/100 [06:53<23:54, 19.65s/it]Task 328 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=28224)
+Multi-thread evaluating:  28%|██▊       | 28/100 [06:55<17:29, 14.57s/it]Task 327 FAILED at turn 5 in envs [0] data_source=nq (physical_idx=1968)
+Multi-thread evaluating:  29%|██▉       | 29/100 [07:06<15:58, 13.49s/it]Task 329 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10591)
+Multi-thread evaluating:  30%|███       | 30/100 [07:10<12:23, 10.63s/it]Task 330 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=40000)
+Multi-thread evaluating:  31%|███       | 31/100 [07:13<09:41,  8.42s/it]Task 331 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11114)
+Multi-thread evaluating:  32%|███▏      | 32/100 [07:27<11:11,  9.88s/it]Task 332 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=10230)
+Multi-thread evaluating:  33%|███▎      | 33/100 [07:30<08:49,  7.91s/it]Task 333 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=3305)
+Multi-thread evaluating:  34%|███▍      | 34/100 [07:34<07:17,  6.63s/it]Task 334 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2278)
+Multi-thread evaluating:  35%|███▌      | 35/100 [07:44<08:31,  7.86s/it]Task 335 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32551)
+Multi-thread evaluating:  36%|███▌      | 36/100 [07:47<06:49,  6.40s/it]Task 336 FAILED at turn 4 in envs [0] data_source=musique (physical_idx=49655)
+Multi-thread evaluating:  37%|███▋      | 37/100 [08:25<16:36, 15.81s/it]Task 338 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40529)
+Multi-thread evaluating:  38%|███▊      | 38/100 [08:31<13:10, 12.75s/it]Task 340 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31590)
+Multi-thread evaluating:  39%|███▉      | 39/100 [08:51<15:13, 14.97s/it]Task 339 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=44674)
+Multi-thread evaluating:  40%|████      | 40/100 [09:14<17:30, 17.51s/it]Task 341 FAILED at turn 4 in envs [0] data_source=bamboogle (physical_idx=51676)
+Multi-thread evaluating:  41%|████      | 41/100 [09:51<22:54, 23.29s/it]Task 342 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=39141)
+Multi-thread evaluating:  42%|████▏     | 42/100 [09:55<16:49, 17.40s/it]Task 343 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1297)
+Multi-thread evaluating:  43%|████▎     | 43/100 [10:13<16:49, 17.71s/it]Task 344 FAILED at turn 2 in envs [0] data_source=musique (physical_idx=49261)
+Multi-thread evaluating:  44%|████▍     | 44/100 [10:17<12:38, 13.54s/it]Task 345 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33190)
+Multi-thread evaluating:  45%|████▌     | 45/100 [10:39<14:35, 15.91s/it]Task 346 SUCCESS at turn 3 in envs [0] data_source=musique (physical_idx=49462)
+Multi-thread evaluating:  46%|████▌     | 46/100 [10:50<13:07, 14.58s/it]Task 337 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=26672)
+Multi-thread evaluating:  47%|████▋     | 47/100 [10:59<11:20, 12.83s/it]Task 349 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2860)
+Multi-thread evaluating:  48%|████▊     | 48/100 [11:32<16:28, 19.01s/it]Task 350 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=17702)
+Multi-thread evaluating:  49%|████▉     | 49/100 [12:45<29:46, 35.03s/it]Task 348 FAILED at turn 8 in envs [0] data_source=2wikimultihopqa (physical_idx=40831)
+Multi-thread evaluating:  50%|█████     | 50/100 [13:13<27:32, 33.04s/it]Task 351 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=34589)
+Multi-thread evaluating:  51%|█████     | 51/100 [13:36<24:25, 29.92s/it]Task 347 FAILED at turn 12 in envs [0] data_source=triviaqa (physical_idx=13629)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [13:57<21:51, 27.32s/it]Task 353 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2156)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [14:10<18:06, 23.13s/it]Task 354 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21658)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [14:27<16:18, 21.28s/it]Task 352 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=17191)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [14:45<15:11, 20.25s/it]Task 356 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=18458)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [15:07<15:19, 20.90s/it]Task 357 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38419)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [15:10<11:04, 15.44s/it]Task 359 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29506)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [15:35<12:41, 18.12s/it]Task 358 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46513)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [15:46<10:57, 16.05s/it]Task 355 FAILED at turn 9 in envs [0] data_source=musique (physical_idx=50827)
+Multi-thread evaluating:  60%|██████    | 60/100 [16:18<13:51, 20.78s/it]Task 360 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=8913)
+Multi-thread evaluating:  61%|██████    | 61/100 [16:24<10:37, 16.34s/it]Task 361 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35805)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [16:25<07:29, 11.82s/it]Task 364 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=4417)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [16:46<08:56, 14.49s/it]Task 362 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=25428)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [17:11<10:39, 17.77s/it]Task 365 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=30303)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [17:31<10:45, 18.43s/it]Task 366 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=10561)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [17:47<10:00, 17.67s/it]Task 367 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=6682)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [18:08<10:17, 18.73s/it]Task 368 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=8567)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [18:17<08:28, 15.88s/it]Task 369 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=13851)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [18:44<09:55, 19.20s/it]Task 370 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40763)
+Multi-thread evaluating:  70%|███████   | 70/100 [19:00<09:08, 18.29s/it]Task 371 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=15953)
+Multi-thread evaluating:  71%|███████   | 71/100 [19:14<08:05, 16.75s/it]Task 372 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10544)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [19:21<06:27, 13.83s/it]Task 363 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=51185)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [19:26<05:07, 11.39s/it]Task 375 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4441)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [19:44<05:49, 13.44s/it]Task 374 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=37871)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [19:47<04:16, 10.28s/it]Task 377 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=3818)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [20:10<05:38, 14.11s/it]Task 373 FAILED at turn 8 in envs [0] data_source=2wikimultihopqa (physical_idx=38440)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [20:39<07:03, 18.42s/it]Task 378 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=14603)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [20:49<05:50, 15.92s/it]Task 379 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9026)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [21:04<05:29, 15.67s/it]Task 380 SUCCESS at turn 4 in envs [0] data_source=popqa (physical_idx=18319)
+Multi-thread evaluating:  80%|████████  | 80/100 [21:34<06:36, 19.81s/it]Task 381 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=42792)
+Multi-thread evaluating:  81%|████████  | 81/100 [21:34<04:27, 14.08s/it]Task 382 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27872)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [21:46<03:58, 13.24s/it]Task 383 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=20188)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [22:03<04:06, 14.48s/it]Task 376 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=26395)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [22:37<05:25, 20.34s/it]Task 385 SUCCESS at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=44335)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [22:57<05:04, 20.33s/it]Task 384 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=25533)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [23:23<05:06, 21.91s/it]Task 386 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=33059)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [23:35<04:07, 19.03s/it]Task 387 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=42878)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [23:40<02:57, 14.78s/it]Task 389 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21138)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [23:50<02:26, 13.32s/it]Task 390 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35541)
+Multi-thread evaluating:  90%|█████████ | 90/100 [24:10<02:33, 15.32s/it]Task 391 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1877)
+Multi-thread evaluating:  91%|█████████ | 91/100 [24:13<01:45, 11.71s/it]Task 392 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35473)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [24:30<01:46, 13.32s/it]Task 388 FAILED at turn 7 in envs [0] data_source=popqa (physical_idx=25656)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [24:50<01:47, 15.31s/it]Task 393 FAILED at turn 3 in envs [0] data_source=musique (physical_idx=51032)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [24:53<01:09, 11.55s/it]Task 394 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46083)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [25:02<00:53, 10.75s/it]Task 396 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=36203)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [25:07<00:36,  9.20s/it]Task 398 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=839)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [25:23<00:32, 10.96s/it]Task 397 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=45144)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [25:23<00:15,  7.93s/it]Task 399 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5629)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [25:40<00:10, 10.43s/it]Task 395 FAILED at turn 14 in envs [0] data_source=popqa (physical_idx=17644)
+Multi-thread evaluating: 100%|██████████| 100/100 [26:32<00:00, 22.98s/it]Multi-thread evaluating: 100%|██████████| 100/100 [26:32<00:00, 15.92s/it]
+
+============================================================
+Total: 100, Success: 35, Rate: 35.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_300_399.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_300_399_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_300_399_seperated.json
+Seperated count: 100
+Elapsed time: 1592.5s
+────────────────────────────────────────────────────────────
+Processing chunk [400, 499] → search_coldstart_400_499.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 10:52:05
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_400_499.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [400, 499]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 402 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30561)
+Multi-thread evaluating:   1%|          | 1/100 [00:16<27:40, 16.78s/it]Task 400 SUCCESS at turn 4 in envs [2] data_source=popqa (physical_idx=19118)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:32<26:05, 15.97s/it]Task 401 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=47500)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:35<16:37, 10.28s/it]Task 403 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33602)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:37<11:17,  7.06s/it]Task 405 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=23615)
+Multi-thread evaluating:   5%|▌         | 5/100 [01:01<20:39, 13.05s/it]Task 406 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44691)
+Multi-thread evaluating:   6%|▌         | 6/100 [01:05<15:29,  9.89s/it]Task 404 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=43106)
+Multi-thread evaluating:   7%|▋         | 7/100 [01:18<17:15, 11.14s/it]Task 407 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=12939)
+Multi-thread evaluating:   8%|▊         | 8/100 [01:29<16:58, 11.07s/it]Task 408 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=38186)
+Multi-thread evaluating:   9%|▉         | 9/100 [01:32<12:57,  8.55s/it]Task 409 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30566)
+Multi-thread evaluating:  10%|█         | 10/100 [01:35<09:56,  6.63s/it]Task 410 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=17999)
+Multi-thread evaluating:  11%|█         | 11/100 [01:43<10:47,  7.28s/it]Task 411 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=41429)
+Multi-thread evaluating:  12%|█▏        | 12/100 [01:46<08:27,  5.77s/it]Task 413 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=10886)
+Multi-thread evaluating:  13%|█▎        | 13/100 [02:01<12:42,  8.76s/it]Task 414 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39648)
+Multi-thread evaluating:  14%|█▍        | 14/100 [02:02<09:04,  6.33s/it]Task 412 FAILED at turn 4 in envs [0] data_source=nq (physical_idx=1067)
+Multi-thread evaluating:  15%|█▌        | 15/100 [02:08<08:48,  6.22s/it]Task 415 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=118)
+Multi-thread evaluating:  16%|█▌        | 16/100 [02:17<09:49,  7.02s/it]Task 416 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26238)
+Multi-thread evaluating:  17%|█▋        | 17/100 [02:19<07:36,  5.50s/it]Task 418 SUCCESS at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=39610)
+Multi-thread evaluating:  18%|█▊        | 18/100 [04:02<47:35, 34.82s/it]Task 420 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7260)
+Multi-thread evaluating:  19%|█▉        | 19/100 [04:44<49:49, 36.91s/it]Task 421 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=43622)
+Multi-thread evaluating:  20%|██        | 20/100 [05:21<49:23, 37.04s/it]Task 417 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=39290)
+Multi-thread evaluating:  21%|██        | 21/100 [05:42<42:30, 32.29s/it]Task 422 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=39690)
+Multi-thread evaluating:  22%|██▏       | 22/100 [05:53<33:39, 25.89s/it]Task 423 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11242)
+Multi-thread evaluating:  23%|██▎       | 23/100 [06:01<26:21, 20.54s/it]Task 419 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=17377)
+Multi-thread evaluating:  24%|██▍       | 24/100 [06:10<21:24, 16.91s/it]Task 424 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=37753)
+Multi-thread evaluating:  25%|██▌       | 25/100 [06:26<20:46, 16.62s/it]Task 426 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=8023)
+Multi-thread evaluating:  26%|██▌       | 26/100 [06:28<15:17, 12.40s/it]Task 428 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=15031)
+Multi-thread evaluating:  27%|██▋       | 27/100 [07:09<25:24, 20.88s/it]Task 427 FAILED at turn 6 in envs [0] data_source=triviaqa (physical_idx=6713)
+Multi-thread evaluating:  28%|██▊       | 28/100 [07:53<33:22, 27.81s/it]Task 429 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=21367)
+Multi-thread evaluating:  29%|██▉       | 29/100 [07:56<24:02, 20.31s/it]Task 431 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7434)
+Multi-thread evaluating:  30%|███       | 30/100 [08:17<24:05, 20.64s/it]Task 430 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=15224)
+Multi-thread evaluating:  31%|███       | 31/100 [08:26<19:41, 17.13s/it]Task 425 FAILED at turn 12 in envs [0] data_source=nq (physical_idx=1894)
+Multi-thread evaluating:  32%|███▏      | 32/100 [08:32<15:37, 13.78s/it]Task 433 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=43600)
+Multi-thread evaluating:  33%|███▎      | 33/100 [08:47<15:51, 14.20s/it]Task 435 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=48979)
+Multi-thread evaluating:  34%|███▍      | 34/100 [09:09<18:11, 16.54s/it]Task 436 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=15065)
+Multi-thread evaluating:  35%|███▌      | 35/100 [09:42<23:11, 21.41s/it]Task 437 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=10403)
+Multi-thread evaluating:  36%|███▌      | 36/100 [10:12<25:32, 23.95s/it]Task 438 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23372)
+Multi-thread evaluating:  37%|███▋      | 37/100 [10:47<28:42, 27.34s/it]Task 439 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32947)
+Multi-thread evaluating:  38%|███▊      | 38/100 [11:25<31:34, 30.56s/it]Task 432 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=17177)
+Multi-thread evaluating:  39%|███▉      | 39/100 [12:12<36:07, 35.54s/it]Task 434 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=29656)
+Multi-thread evaluating:  40%|████      | 40/100 [12:34<31:25, 31.43s/it]Task 440 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=38021)
+Multi-thread evaluating:  41%|████      | 41/100 [12:49<25:51, 26.29s/it]Task 441 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44675)
+Multi-thread evaluating:  42%|████▏     | 42/100 [12:59<20:47, 21.50s/it]Task 442 FAILED at turn 3 in envs [2] data_source=popqa (physical_idx=24388)
+Multi-thread evaluating:  43%|████▎     | 43/100 [13:13<18:12, 19.17s/it]Task 444 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46207)
+Multi-thread evaluating:  44%|████▍     | 44/100 [13:19<14:11, 15.20s/it][Search Request ID: 2e3418f7-c36c-4cea-87e3-527ce8c41586] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b3da6479-56cb-4315-91c2-8d33b0434b4e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ea0c292c-6e31-4c1b-bfe6-dde314e07d07] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5dee2a74-6482-4003-a05b-2e66d8500e56] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82ae2d60-d8c3-41b6-a572-fc9df8ceab3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a9c42bf9-f35e-451a-bea8-13ae354b2250] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e62ab880-7f10-4290-9d29-b068e86d376a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ab128a78-9fc5-430d-a053-90b25bebbc4b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1b8cd67e-a7cf-4207-b778-de82446301ff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c89024a5-4d2f-437b-b320-c4c961385c3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 53ecca2a-1311-4d9c-aeae-ea990e98d2e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b3da6479-56cb-4315-91c2-8d33b0434b4e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2e3418f7-c36c-4cea-87e3-527ce8c41586] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ea0c292c-6e31-4c1b-bfe6-dde314e07d07] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82ae2d60-d8c3-41b6-a572-fc9df8ceab3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5dee2a74-6482-4003-a05b-2e66d8500e56] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e62ab880-7f10-4290-9d29-b068e86d376a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a9c42bf9-f35e-451a-bea8-13ae354b2250] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ab128a78-9fc5-430d-a053-90b25bebbc4b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1b8cd67e-a7cf-4207-b778-de82446301ff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 53ecca2a-1311-4d9c-aeae-ea990e98d2e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c89024a5-4d2f-437b-b320-c4c961385c3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ea0c292c-6e31-4c1b-bfe6-dde314e07d07] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b3da6479-56cb-4315-91c2-8d33b0434b4e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2e3418f7-c36c-4cea-87e3-527ce8c41586] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82ae2d60-d8c3-41b6-a572-fc9df8ceab3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5dee2a74-6482-4003-a05b-2e66d8500e56] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a9c42bf9-f35e-451a-bea8-13ae354b2250] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ab128a78-9fc5-430d-a053-90b25bebbc4b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e62ab880-7f10-4290-9d29-b068e86d376a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c89024a5-4d2f-437b-b320-c4c961385c3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1b8cd67e-a7cf-4207-b778-de82446301ff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 53ecca2a-1311-4d9c-aeae-ea990e98d2e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b3da6479-56cb-4315-91c2-8d33b0434b4e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ea0c292c-6e31-4c1b-bfe6-dde314e07d07] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2e3418f7-c36c-4cea-87e3-527ce8c41586] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82ae2d60-d8c3-41b6-a572-fc9df8ceab3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5dee2a74-6482-4003-a05b-2e66d8500e56] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a9c42bf9-f35e-451a-bea8-13ae354b2250] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e62ab880-7f10-4290-9d29-b068e86d376a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ab128a78-9fc5-430d-a053-90b25bebbc4b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c89024a5-4d2f-437b-b320-c4c961385c3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 53ecca2a-1311-4d9c-aeae-ea990e98d2e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1b8cd67e-a7cf-4207-b778-de82446301ff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b3da6479-56cb-4315-91c2-8d33b0434b4e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ea0c292c-6e31-4c1b-bfe6-dde314e07d07] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2e3418f7-c36c-4cea-87e3-527ce8c41586] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82ae2d60-d8c3-41b6-a572-fc9df8ceab3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5dee2a74-6482-4003-a05b-2e66d8500e56] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e62ab880-7f10-4290-9d29-b068e86d376a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a9c42bf9-f35e-451a-bea8-13ae354b2250] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ab128a78-9fc5-430d-a053-90b25bebbc4b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c89024a5-4d2f-437b-b320-c4c961385c3b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 53ecca2a-1311-4d9c-aeae-ea990e98d2e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1b8cd67e-a7cf-4207-b778-de82446301ff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Task 443 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=31391)
+Multi-thread evaluating:  45%|████▌     | 45/100 [19:17<1:48:22, 118.23s/it]Task 446 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=20921)
+Multi-thread evaluating:  46%|████▌     | 46/100 [20:01<1:26:14, 95.82s/it] Task 447 SUCCESS at turn 5 in envs [0] data_source=triviaqa (physical_idx=5005)
+Multi-thread evaluating:  47%|████▋     | 47/100 [20:34<1:07:59, 76.97s/it]Task 448 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=22105)
+Multi-thread evaluating:  48%|████▊     | 48/100 [20:45<49:43, 57.37s/it]  Task 449 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12171)
+Multi-thread evaluating:  49%|████▉     | 49/100 [21:06<39:24, 46.37s/it]Task 445 FAILED at turn 9 in envs [0] data_source=popqa (physical_idx=24419)
+Multi-thread evaluating:  50%|█████     | 50/100 [21:10<28:07, 33.75s/it]Task 451 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=344)
+Multi-thread evaluating:  51%|█████     | 51/100 [21:36<25:29, 31.21s/it]Task 453 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=24515)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [22:32<30:54, 38.64s/it]Task 454 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35060)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [23:07<29:31, 37.70s/it]Task 450 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=nq (physical_idx=738)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [25:51<57:58, 75.62s/it]Task 452 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=50706)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [26:31<48:35, 64.79s/it]Task 455 FAILED at turn 9 in envs [0] data_source=popqa (physical_idx=27928)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [26:48<37:02, 50.51s/it]Task 456 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=13584)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [26:55<26:55, 37.58s/it]Task 459 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29570)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [27:40<27:42, 39.58s/it]Task 458 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=33646)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [27:45<19:58, 29.23s/it]Task 460 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27623)
+Multi-thread evaluating:  60%|██████    | 60/100 [28:04<17:27, 26.18s/it]Task 461 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=20633)
+Multi-thread evaluating:  61%|██████    | 61/100 [28:07<12:33, 19.32s/it]Task 457 FAILED at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=41176)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [28:13<09:37, 15.19s/it]Task 462 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1159)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [28:26<09:02, 14.67s/it]Task 463 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1968)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [28:30<06:51, 11.44s/it]Task 464 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12916)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [28:33<05:08,  8.83s/it][Search Request ID: ba9a9e0a-c61e-4ba4-a3fc-435faf69a365] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be40a736-83db-4b65-8239-97c4353a6e68] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 861c562c-8dfe-422b-8d5e-c91aefc18bff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 06eaa52a-5f07-452f-8c00-c42690ab2940] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1625a7fe-a897-4889-8162-31c9c756213b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20dd6b94-8762-4b1f-acfa-4d2fa6a463e6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6abf89e5-21fd-4bc1-8247-cf85c545bbe0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 121141c3-3d8c-4831-bf96-ca455364975e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 397b2a6e-7de9-4496-95c9-29279df9458c] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5669a9e6-d557-4973-b6b4-560aca28e4f7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: bd7b8429-6f81-47a0-a378-c0d0546cac64] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 94cb40bc-1e99-4fcb-af15-5c1112ff1f95] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ba9a9e0a-c61e-4ba4-a3fc-435faf69a365] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 861c562c-8dfe-422b-8d5e-c91aefc18bff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be40a736-83db-4b65-8239-97c4353a6e68] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 06eaa52a-5f07-452f-8c00-c42690ab2940] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1625a7fe-a897-4889-8162-31c9c756213b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20dd6b94-8762-4b1f-acfa-4d2fa6a463e6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6abf89e5-21fd-4bc1-8247-cf85c545bbe0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 121141c3-3d8c-4831-bf96-ca455364975e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 397b2a6e-7de9-4496-95c9-29279df9458c] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5669a9e6-d557-4973-b6b4-560aca28e4f7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: bd7b8429-6f81-47a0-a378-c0d0546cac64] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 94cb40bc-1e99-4fcb-af15-5c1112ff1f95] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ba9a9e0a-c61e-4ba4-a3fc-435faf69a365] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 861c562c-8dfe-422b-8d5e-c91aefc18bff] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be40a736-83db-4b65-8239-97c4353a6e68] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 06eaa52a-5f07-452f-8c00-c42690ab2940] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1625a7fe-a897-4889-8162-31c9c756213b] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 397b2a6e-7de9-4496-95c9-29279df9458c] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20dd6b94-8762-4b1f-acfa-4d2fa6a463e6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6abf89e5-21fd-4bc1-8247-cf85c545bbe0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 121141c3-3d8c-4831-bf96-ca455364975e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5669a9e6-d557-4973-b6b4-560aca28e4f7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: bd7b8429-6f81-47a0-a378-c0d0546cac64] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 94cb40bc-1e99-4fcb-af15-5c1112ff1f95] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Task 465 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33550)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [32:21<42:17, 74.62s/it]Task 468 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2918)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [32:53<34:06, 62.02s/it]Task 469 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2877)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [33:25<28:15, 52.99s/it][Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] API Request Failed after 10 attempts: [Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 1a1b316e-4d01-436d-b398-41e72bb1b3e1] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] API Request Failed after 10 attempts: [Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: f1e8e690-cbaf-49e3-a00c-2114a9178a75] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] API Request Failed after 10 attempts: [Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 5f81ca60-c24f-44a6-aecc-130652edb484] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] API Request Failed after 10 attempts: [Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 40514dd1-cb36-43a5-a7b9-e40e24037741] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] API Request Failed after 10 attempts: [Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 20d938ab-05be-4e55-b44e-fec9c491f6c9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] API Request Failed after 10 attempts: [Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: ad6e09f6-0a54-49fa-b449-6078351c6adb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] API Request Failed after 10 attempts: [Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 8083ca7c-2f8d-4f13-b55b-2964b82484f2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] API Request Failed after 10 attempts: [Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 21db4f3b-e967-481f-97ef-863cff9ab4ca] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] API Request Failed after 10 attempts: [Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 82f1bb36-f048-47f5-b873-4c9821588497] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] API Request Failed after 10 attempts: [Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: c0688b43-a4cf-4604-8211-e4759b49bdd0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] API Request Failed after 10 attempts: [Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 7f3a95e6-a153-4e6b-9e57-bc9528ec91d2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] API Request Failed after 10 attempts: [Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 87d38f04-0f1c-4b13-beef-b46ab5b40a03] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] API Request Failed after 10 attempts: [Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: adf9abe5-1aae-404e-bdd2-7d429dda3141] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] API Request Failed after 10 attempts: [Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 6f454979-c455-4531-b050-d0668393bc3a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] API Request Failed after 10 attempts: [Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 850b63fa-6beb-42a5-a343-fb934cabfd5e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] API Request Failed after 10 attempts: [Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: de5771a0-b61e-4d6d-9bf5-5760ecc90cf9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] API Request Failed after 10 attempts: [Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 670bda80-47f8-4f88-9be0-f2c4679c8edc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] API Request Failed after 10 attempts: [Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 35983913-026f-4d56-9bb8-684f8fcfd917] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] API Request Failed after 10 attempts: [Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: d0fca7ec-fd4d-490c-9269-2e55b85f8a92] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] API Request Failed after 10 attempts: [Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 2c46a6fd-8e22-488e-93e2-6526781f87bb] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] API Request Failed after 10 attempts: [Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: a8d44043-de6a-4709-a79a-c53899f65ac0] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] API Request Failed after 10 attempts: [Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: f2f11b44-d5e1-43bf-be1c-15c8bd51b0e4] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] API Request Failed after 10 attempts: [Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: f46470a3-0203-4976-9d08-4745832e38b6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] API Request Failed after 10 attempts: [Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] API Request Failed after 10 attempts: [Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 4ec73904-26a0-41a1-9e1c-2942b7e7fe32] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Batch search: API error occurred: [Search Request ID: 4c7bcca6-4342-429c-9eb0-62e7372ac6e3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: be71d6d2-048b-486d-a99f-c7b31393cac7] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: e0a97f68-a843-4b41-b296-3cf5ed86b6c6] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 2c34ccca-1d9e-4003-a5b1-eb153ddb4d35] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 118307a2-b314-4776-a5ee-b8383e3d9d67] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: de6ce617-f5f4-4f99-bc4f-e517a2ecab0a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: b221e7b0-147f-4087-a779-fbe2e38e7e43] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: c03bbf54-9803-4f0a-9186-61fb174ae051] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f80fd11c-a56b-4ca3-a531-39d818bfb1a9] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 141a9e66-0d6e-4d1c-b050-aae5d246b2fc] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Task 467 FAILED at turn 9 in envs [0] data_source=2wikimultihopqa (physical_idx=43201)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [1:05:54<5:21:15, 621.79s/it]Task 466 FAILED at turn 10 in envs [0] data_source=triviaqa (physical_idx=3813)
+Multi-thread evaluating:  70%|███████   | 70/100 [1:06:03<3:38:58, 437.96s/it]Task 471 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42557)
+Multi-thread evaluating:  71%|███████   | 71/100 [1:06:16<2:30:00, 310.36s/it]Task 470 SUCCESS at turn 6 in envs [0] data_source=popqa (physical_idx=25875)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [1:06:21<1:42:08, 218.88s/it]Task 473 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=26175)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [1:06:38<1:11:11, 158.22s/it]Task 474 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=7665)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [1:06:40<48:11, 111.23s/it]  Task 472 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=23432)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [1:06:54<34:10, 82.02s/it] Task 475 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=25523)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [1:07:05<24:17, 60.73s/it]Task 477 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34641)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [1:07:13<17:12, 44.90s/it]Task 478 FAILED at turn 7 in envs [0] data_source=2wikimultihopqa (physical_idx=39432)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [1:08:56<22:53, 62.41s/it]Task 476 FAILED at turn 10 in envs [0] data_source=popqa (physical_idx=19452)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [1:08:58<15:33, 44.47s/it]Task 480 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=4586)
+Multi-thread evaluating:  80%|████████  | 80/100 [1:09:34<13:53, 41.67s/it]Task 481 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=35259)
+Multi-thread evaluating:  81%|████████  | 81/100 [1:09:52<10:59, 34.70s/it]Task 479 SUCCESS at turn 11 in envs [0] data_source=triviaqa (physical_idx=14460)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [1:09:56<07:39, 25.54s/it]Task 482 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=21872)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [1:10:09<06:09, 21.72s/it]Task 484 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=26999)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [1:10:15<04:32, 17.00s/it]Task 483 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44431)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [1:10:22<03:31, 14.08s/it]Task 485 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=7749)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [1:10:36<03:17, 14.09s/it]Task 486 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=21518)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [1:10:44<02:36, 12.01s/it]Task 487 SUCCESS at turn 5 in envs [0] data_source=hotpotqa (physical_idx=32582)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [1:11:11<03:21, 16.80s/it]Task 488 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=22373)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [1:11:25<02:54, 15.86s/it]Task 490 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=47006)
+Multi-thread evaluating:  90%|█████████ | 90/100 [1:11:40<02:34, 15.41s/it]Task 489 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=15851)
+Multi-thread evaluating:  91%|█████████ | 91/100 [1:11:43<01:47, 11.92s/it]Task 493 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=28417)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [1:12:06<02:01, 15.24s/it]Task 492 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44488)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [1:12:16<01:35, 13.70s/it]Task 494 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45580)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [1:12:31<01:23, 13.85s/it]Task 495 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=7216)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [1:12:38<00:59, 11.82s/it]Task 496 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2346)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [1:12:50<00:48, 12.08s/it]Task 497 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26283)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [1:12:59<00:33, 11.08s/it]Task 499 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=13578)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [1:13:29<00:33, 16.71s/it]Task 498 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=4031)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [1:13:32<00:12, 12.53s/it]Task 491 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=50909)
+Multi-thread evaluating: 100%|██████████| 100/100 [1:14:25<00:00, 24.66s/it]Multi-thread evaluating: 100%|██████████| 100/100 [1:14:25<00:00, 44.65s/it]
+
+============================================================
+Total: 100, Success: 35, Rate: 35.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_400_499.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_400_499_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_5epoch/search_coldstart_400_499_seperated.json
+Seperated count: 100
+Elapsed time: 4465.4s
+
+================================================================================
+All chunks completed!
+================================================================================

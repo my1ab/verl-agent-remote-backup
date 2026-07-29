@@ -1,0 +1,29 @@
+{
+    // 以下语言：超长行不自动换行，超出部分显示水平滚动条
+    "[markdown]": {
+        "editor.wordWrap": "off"
+    },
+    "[plaintext]": {
+        "editor.wordWrap": "off"
+    },
+    "[log]": {
+        "editor.wordWrap": "off"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always",
+        }
+    },
+    "files.associations": {
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp"
+    },
+    "iis.configDir": "",
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "trae.tab.enableRename": false,
+    "trae.tab.enableAutoImport": false
+}

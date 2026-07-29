@@ -1,0 +1,82 @@
+[
+	{
+		"name": "DeepSeek",
+		"vendor": "deepseek",
+		"settings": {
+			"deepseek-v4-pro": {
+				"reasoningEffort": "none"
+			}
+		}
+	},
+	{
+		"name": "Copilot",
+		"vendor": "copilot",
+		"settings": {
+			"gpt-5-mini": {
+				"reasoningEffort": "medium"
+			}
+		}
+	},
+	{
+		"name": "chatanywhere",
+		"vendor": "customendpoint",
+		"apiKey": "${input:chat.lm.secret.22596f67}",
+		"apiType": "messages",
+		"models": [
+			{
+				"id": "deepseek-v4-flash",
+				"name": "v4-flash-chatany",
+				"url": "https://api.chatanywhere.tech/v1",
+				"toolCalling": true,
+				"vision": true,
+				"thinking": true,
+				"maxInputTokens": 1280000,
+				"maxOutputTokens": 160000
+			}
+		]
+	},
+	{
+		"name": "CE for ds4",
+		"vendor": "customendpoint",
+		"apiKey": "${input:chat.lm.secret.2ffe857e}",
+		"apiType": "chat-completions",
+		"models": [
+			{
+				"id": "deepseek-v4-flash",
+				"name": "CE-for-ds4",
+				"url": "https://api.deepseek.com",
+				"toolCalling": true,
+				"vision": true,
+				"thinking": true,
+				"maxInputTokens": 1280000,
+				"maxOutputTokens": 160000
+			}
+		]
+	},
+	{
+		"name": "ark-glm",
+		"vendor": "customendpoint",
+		"apiKey": "${input:chat.lm.secret.78e7f017}",
+		"apiType": "chat-completions",
+		"settings": {
+			"glm-5-2-260617": {
+				"thinking": {
+					"type": "enabled"
+				},
+				"temperature": 1.0
+			}
+		},
+		"models": [
+			{
+				"id": "glm-5-2-260617",
+				"name": "ark-glm",
+				"url": "https://ark.cn-beijing.volces.com/api/coding/v3",
+				"toolCalling": true,
+				"vision": true,
+				"thinking": true,
+				"maxInputTokens": 1280000,
+				"maxOutputTokens": 65536
+			}
+		]
+	}
+]

@@ -1,0 +1,24 @@
+Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1
+Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+Traceback (most recent call last):
+  File "/diskpool/home/xuxz/verl-agent/eval_webshop/coldstart_test_new/coldstart_para_his_test_1.5B_hislen8_epoch3.5_v2.py", line 22, in <module>
+    from agent_system.environments.env_package.webshop.webshop.web_agent_site.envs.web_agent_text_env import WebAgentTextEnv
+  File "/diskpool/home/xuxz/verl-agent/agent_system/environments/env_package/webshop/webshop/web_agent_site/envs/__init__.py", line 4, in <module>
+    from .web_agent_site_env import WebAgentSiteEnv
+  File "/diskpool/home/xuxz/verl-agent/agent_system/environments/env_package/webshop/webshop/web_agent_site/envs/web_agent_site_env.py", line 16, in <module>
+    from ..engine.engine import parse_action, END_BUTTON
+  File "/diskpool/home/xuxz/verl-agent/agent_system/environments/env_package/webshop/webshop/web_agent_site/engine/engine.py", line 16, in <module>
+    from pyserini.search.lucene import LuceneSearcher
+  File "/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/pyserini/search/__init__.py", line 19, in <module>
+    from .lucene import JLuceneSearcherResult, LuceneSimilarities, LuceneFusionSearcher, LuceneSearcher
+  File "/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/pyserini/search/lucene/__init__.py", line 18, in <module>
+    from ._impact_searcher import JImpactSearcherResult, LuceneImpactSearcher
+  File "/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/pyserini/search/lucene/_impact_searcher.py", line 28, in <module>
+    from pyserini.encode import QueryEncoder, TokFreqQueryEncoder, UniCoilQueryEncoder, \
+  File "/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/pyserini/encode/__init__.py", line 17, in <module>
+    from ._base import DocumentEncoder, QueryEncoder, JsonlCollectionIterator,\
+  File "/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/pyserini/encode/_base.py", line 19, in <module>
+    import faiss
+ModuleNotFoundError: No module named 'faiss'

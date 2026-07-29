@@ -1,0 +1,16 @@
+Evaluating search coldstart (MULTITHREAD): 3610 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=3610, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+Task 1 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2867)
+Task 2 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1035)
+Task 0 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2132)
+Task 3 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1716)
+Task 4 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2755)
+Task 6 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2070)
+Task 8 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2334)
+Task 7 SUCCESS at turn 3 in envs [0] data_source=nq (physical_idx=2676)
+Task 5 FAILED at turn 3 in envs [0] data_source=nq (physical_idx=1672)

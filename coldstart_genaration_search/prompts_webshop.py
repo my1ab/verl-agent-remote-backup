@@ -67,35 +67,6 @@ Now it's your turn to choose environments and take actions following the detaile
 10.For more rules, refer to the message in the beginning(from role:system).
 """
 
-# ════════════════════════════════════════════════════════════════
-# reason_prompt_para_his — 带交互历史的多环境并行 user prompt
-# ════════════════════════════════════════════════════════════════
-#
-# 继承自 prompt/webshop.py :: WEBSHOP_TEMPLATE，为支持并行探索而改造。
-#
-# ── 继承的原有变量 ─────────────────────────────────────
-#   {task_description}      — 任务描述 (同官方)
-#
-# ── 新增变量 (并行化) ──────────────────────────────────
-#   {initial_observation}   — 各环境的起始观察 (<observation_i> 标签)
-#   {history_info}          — 多环境独立历史 (In Environment i: Action/Observation)
-#                             替换官方的单环境 {action_history}
-#   {last_history}          — 最近一步各环境的动作/观察/可执行动作
-#   {total_envs}            — 总环境数 (group_n * env_num)
-#   {num_parallel}          — 每轮最大并行动作数
-#
-# ── 移除的官方变量 ─────────────────────────────────────
-#   {step_count} / {history_length} / {current_step}
-#       — 不再需要，步数信息嵌入 history_info 中
-#   {current_observation} / {available_actions}
-#       — 历史轮不再独立传入，改为首轮通过 reason_prompt_para 传入
-#
-# ── 规则改动 ───────────────────────────────────────────
-#   1. 单环境 (.format(action_history, current_observation, available_actions))
-#      → 多环境并行 (actions 用 <env_i> 标签包装在 <parallel> 内)
-#   2. 动作标签从 <action> 改为 <env_i> 内嵌 search/click
-#   3. 新增并行探索规则 (环境选择、null 动作、环境切换等)
-# ============================================================
 reason_prompt_para_his = """You are an expert agent operating in the Webshop Environment.
 Your task is to: {task_description}.
 Your initial observation is: 

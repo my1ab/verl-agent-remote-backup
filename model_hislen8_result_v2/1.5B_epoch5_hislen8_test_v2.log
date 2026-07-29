@@ -1,0 +1,11 @@
+Evaluating test samples (idx 0 to 99) with 50 max turns each...
+group_n: 5, env_num: 1, num_para: 5
+load_all: 0, human_goals: False, limit_goals: -1, seed: 42, start_index: 0, end_idx: 99
+using local model (Qwen2.5-1.5/3/7B), path: /diskpool/home/xuxz/ms-swift/checkpoint/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260602-201729/checkpoint-8800
+prompt: 3, his_len: 8, Max context length: 32768
+Task 0 SUCCESS at turn 18 in environments [4]
+Task 1 SUCCESS at turn 6 in environments [0, 1]
+Task 2 SUCCESS at turn 19 in environments [0, 1, 2]
+Task 3 SUCCESS at turn 5 in environments [2, 3]
+Task 4 FAILED at turn 11 in environments [3]
+Task 5 FAILED at turn 22 in environments [0, 1, 2, 4]

@@ -1,0 +1,729 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+import build_search_envs success
+
+============================================================
+Loading tokenizer and model from checkpoint: /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8_seed1/v0-20260709-204552/checkpoint-5250
+============================================================
+Loading tokenizer...
+Tokenizer loaded: Qwen2TokenizerFast
+Set tokenizer model_max_length to: 32768
+Set tokenizer truncation_side to: right
+============================================================
+
+Loading model weights from /diskpool/home/xuxz/ms-swift/checkpoint_search/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8_seed1/v0-20260709-204552/checkpoint-5250
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+============================================================
+Model loaded successfully!
+Model type: Qwen2ForCausalLM
+Model device: cuda:0
+Model dtype: torch.bfloat16
+Number of parameters: 1,543,714,304
+Max context length: 32768
+============================================================
+load_local_model success
+============================================================
+============================================================
+Testing Local model connectivity...
+============================================================
+
+Response: user
+I need to know your name and what you do.
+
+============================================================
+Local model test PASSED!
+============================================================
+[DEBUG] test done
+SearchTaskSampler loading: /diskpool/home/xuxz/data/searchR1_processed_direct/test.parquet
+  Total rows: 51713
+  Split 'test': goal_idxs = [0, 51713)  (51713 tasks)
+Sampling mode: random (seed=1)
+
+================================================================================
+Generating with sampler: SearchTaskSampler(total=51713, shuffle_table=unbuilt, sequential=False)
+Parallel config: group_n=5, env_num=1, total_envs=5, num_para=5
+Slice ranges: [(0, 99), (100, 199), (200, 299), (300, 399), (400, 499)]
+================================================================================
+
+────────────────────────────────────────────────────────────
+Processing chunk [0, 99] → search_coldstart_0_99.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 08:45:56
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_0_99.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [0, 99]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 0 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9403)
+Multi-thread evaluating:   1%|          | 1/100 [00:06<11:23,  6.91s/it]Task 2 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=16613)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:18<15:36,  9.56s/it]Task 3 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=28376)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:28<16:00,  9.91s/it]Task 4 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=19007)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:34<13:25,  8.39s/it]Task 5 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9246)
+Multi-thread evaluating:   5%|▌         | 5/100 [00:44<14:02,  8.87s/it]Task 6 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45530)
+Multi-thread evaluating:   6%|▌         | 6/100 [00:53<13:52,  8.86s/it]Task 7 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=22667)
+Multi-thread evaluating:   7%|▋         | 7/100 [01:09<17:13, 11.12s/it]Task 9 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33754)
+Multi-thread evaluating:   8%|▊         | 8/100 [01:35<24:20, 15.88s/it]Task 1 FAILED at turn 12 in envs [0] data_source=musique (physical_idx=50544)
+Multi-thread evaluating:   9%|▉         | 9/100 [01:56<26:34, 17.52s/it]Task 10 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=18196)
+Multi-thread evaluating:  10%|█         | 10/100 [02:03<21:30, 14.34s/it]Task 12 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=31108)
+Multi-thread evaluating:  11%|█         | 11/100 [02:38<30:32, 20.59s/it]Task 13 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=22151)
+Multi-thread evaluating:  12%|█▏        | 12/100 [02:55<28:42, 19.58s/it]Task 11 FAILED at turn 6 in envs [0] data_source=nq (physical_idx=3415)
+Multi-thread evaluating:  13%|█▎        | 13/100 [02:58<21:15, 14.66s/it]Task 14 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45984)
+Multi-thread evaluating:  14%|█▍        | 14/100 [03:17<22:46, 15.89s/it]Task 16 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=116)
+Multi-thread evaluating:  15%|█▌        | 15/100 [03:42<26:23, 18.63s/it]Task 8 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=41251)
+Multi-thread evaluating:  16%|█▌        | 16/100 [03:58<24:44, 17.68s/it]Task 17 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7091)
+Multi-thread evaluating:  17%|█▋        | 17/100 [04:12<23:02, 16.66s/it]Task 18 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=22856)
+Multi-thread evaluating:  18%|█▊        | 18/100 [04:23<20:27, 14.97s/it]Task 15 FAILED at turn 8 in envs [0] data_source=2wikimultihopqa (physical_idx=40404)
+Multi-thread evaluating:  19%|█▉        | 19/100 [04:42<21:56, 16.25s/it]Task 20 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12983)
+Multi-thread evaluating:  20%|██        | 20/100 [04:43<15:31, 11.64s/it]Task 19 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=48658)
+Multi-thread evaluating:  21%|██        | 21/100 [04:44<11:08,  8.46s/it]Task 22 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5330)
+Multi-thread evaluating:  22%|██▏       | 22/100 [04:57<12:48,  9.85s/it]Task 23 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46017)
+Multi-thread evaluating:  23%|██▎       | 23/100 [04:58<09:10,  7.15s/it]Task 24 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=26819)
+Multi-thread evaluating:  24%|██▍       | 24/100 [05:17<13:41, 10.80s/it]Task 25 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=16106)
+Multi-thread evaluating:  25%|██▌       | 25/100 [05:20<10:36,  8.49s/it]Task 26 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29915)
+Multi-thread evaluating:  26%|██▌       | 26/100 [05:34<12:27, 10.11s/it]Task 21 FAILED at turn 8 in envs [0] data_source=2wikimultihopqa (physical_idx=42339)
+Multi-thread evaluating:  27%|██▋       | 27/100 [05:51<14:32, 11.95s/it]Task 29 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40626)
+Multi-thread evaluating:  28%|██▊       | 28/100 [06:15<18:42, 15.59s/it]Task 30 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40931)
+Multi-thread evaluating:  29%|██▉       | 29/100 [06:49<25:08, 21.24s/it]Task 31 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=12119)
+Multi-thread evaluating:  30%|███       | 30/100 [07:23<29:07, 24.97s/it]Task 32 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2343)
+Multi-thread evaluating:  31%|███       | 31/100 [07:50<29:28, 25.63s/it]Task 27 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=46654)
+Multi-thread evaluating:  32%|███▏      | 32/100 [08:19<30:23, 26.81s/it]Task 33 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=41207)
+Multi-thread evaluating:  33%|███▎      | 33/100 [08:21<21:36, 19.36s/it]Task 28 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=15129)
+Multi-thread evaluating:  34%|███▍      | 34/100 [08:41<21:31, 19.56s/it]Task 35 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35648)
+Multi-thread evaluating:  35%|███▌      | 35/100 [08:49<17:27, 16.11s/it]Task 34 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=41436)
+Multi-thread evaluating:  36%|███▌      | 36/100 [08:53<13:04, 12.26s/it]Task 36 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21703)
+Multi-thread evaluating:  37%|███▋      | 37/100 [08:59<11:05, 10.57s/it]Task 38 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=48390)
+Multi-thread evaluating:  38%|███▊      | 38/100 [09:14<12:09, 11.77s/it]Task 39 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27560)
+Multi-thread evaluating:  39%|███▉      | 39/100 [09:26<12:05, 11.89s/it]Task 40 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33568)
+Multi-thread evaluating:  40%|████      | 40/100 [09:42<13:11, 13.19s/it]Task 41 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2924)
+Multi-thread evaluating:  41%|████      | 41/100 [09:54<12:27, 12.67s/it]Task 43 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47558)
+Multi-thread evaluating:  42%|████▏     | 42/100 [10:16<14:54, 15.42s/it]Task 42 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=27438)
+Multi-thread evaluating:  43%|████▎     | 43/100 [10:18<10:56, 11.52s/it]Task 44 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=24139)
+Multi-thread evaluating:  44%|████▍     | 44/100 [10:35<12:18, 13.19s/it]Task 45 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=13987)
+Multi-thread evaluating:  45%|████▌     | 45/100 [10:38<09:21, 10.21s/it]Task 46 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27733)
+Multi-thread evaluating:  46%|████▌     | 46/100 [10:53<10:19, 11.48s/it]Task 47 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38706)
+Multi-thread evaluating:  47%|████▋     | 47/100 [10:54<07:20,  8.31s/it]Task 48 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46206)
+Multi-thread evaluating:  48%|████▊     | 48/100 [11:11<09:34, 11.05s/it]Task 49 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23353)
+Multi-thread evaluating:  49%|████▉     | 49/100 [11:14<07:12,  8.49s/it]Task 37 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=51462)
+Multi-thread evaluating:  50%|█████     | 50/100 [11:26<08:04,  9.68s/it]Task 51 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46940)
+Multi-thread evaluating:  51%|█████     | 51/100 [11:31<06:49,  8.35s/it]Task 50 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=39567)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [11:37<06:07,  7.65s/it]Task 52 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12593)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [11:43<05:28,  6.99s/it]Task 53 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2721)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [11:48<05:02,  6.57s/it]Task 54 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29600)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [11:52<04:20,  5.79s/it]Task 55 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31150)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [11:57<04:00,  5.46s/it]Task 56 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=3666)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [12:02<03:40,  5.13s/it]Task 58 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23397)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [12:09<04:06,  5.87s/it]Task 59 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27812)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [12:12<03:22,  4.93s/it]Task 61 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=28069)
+Multi-thread evaluating:  60%|██████    | 60/100 [12:47<09:19, 14.00s/it]Task 57 FAILED at turn 8 in envs [0] data_source=musique (physical_idx=51315)
+Multi-thread evaluating:  61%|██████    | 61/100 [13:07<10:21, 15.94s/it]Task 62 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=26147)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [13:16<08:44, 13.80s/it]Task 60 FAILED at turn 9 in envs [0] data_source=triviaqa (physical_idx=14357)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [13:48<11:47, 19.13s/it]Task 64 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35940)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [14:00<10:08, 16.91s/it]Task 63 FAILED at turn 5 in envs [0] data_source=hotpotqa (physical_idx=32668)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [14:05<07:56, 13.61s/it]Task 66 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=795)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [14:19<07:37, 13.47s/it]Task 65 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=27348)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [14:22<05:40, 10.32s/it]Task 67 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=14873)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [14:25<04:23,  8.23s/it]Task 69 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6631)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [14:38<05:02,  9.77s/it]Task 70 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5411)
+Multi-thread evaluating:  70%|███████   | 70/100 [14:43<04:06,  8.20s/it]Task 68 FAILED at turn 5 in envs [0] data_source=nq (physical_idx=121)
+Multi-thread evaluating:  71%|███████   | 71/100 [15:15<07:22, 15.26s/it]Task 72 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=8764)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [15:24<06:19, 13.56s/it]Task 71 SUCCESS at turn 4 in envs [0] data_source=hotpotqa (physical_idx=34656)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [15:29<04:59, 11.08s/it]Task 73 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=19582)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [15:34<03:56,  9.08s/it]Task 75 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7456)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [15:44<03:55,  9.41s/it]Task 74 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=28656)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [15:46<02:55,  7.30s/it]Task 77 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=8400)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [16:07<04:22, 11.40s/it]Task 78 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2676)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [16:10<03:13,  8.81s/it]Task 76 FAILED at turn 5 in envs [0] data_source=triviaqa (physical_idx=7745)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [16:18<02:59,  8.54s/it]Task 80 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14349)
+Multi-thread evaluating:  80%|████████  | 80/100 [16:26<02:46,  8.30s/it]Task 79 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=34287)
+Multi-thread evaluating:  81%|████████  | 81/100 [16:31<02:22,  7.48s/it]Task 81 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42419)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [16:37<02:06,  7.05s/it]Task 83 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=24081)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [16:47<02:14,  7.90s/it]Task 82 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=21667)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [17:01<02:32,  9.56s/it]Task 84 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=31007)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [17:02<01:45,  7.04s/it]Task 85 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=9771)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [17:05<01:21,  5.79s/it]Task 86 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46959)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [17:12<01:21,  6.26s/it]Task 87 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38278)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [17:16<01:04,  5.40s/it]Task 88 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=24305)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [17:20<00:56,  5.14s/it]Task 91 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35930)
+Multi-thread evaluating:  90%|█████████ | 90/100 [17:38<01:28,  8.90s/it]Task 92 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11868)
+Multi-thread evaluating:  91%|█████████ | 91/100 [18:05<02:10, 14.47s/it]Task 89 SUCCESS at turn 5 in envs [0] data_source=hotpotqa (physical_idx=34982)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [18:06<01:23, 10.46s/it]Task 94 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33105)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [18:33<01:46, 15.19s/it]Task 90 FAILED at turn 7 in envs [0] data_source=triviaqa (physical_idx=6024)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [18:37<01:11, 11.91s/it]Task 93 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=37372)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [18:47<00:57, 11.52s/it]Task 95 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11783)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [18:50<00:35,  8.97s/it]Task 96 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1926)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [18:53<00:20,  6.99s/it]Task 99 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1923)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [19:10<00:20, 10.05s/it]Task 97 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=19868)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [19:13<00:07,  7.87s/it]Task 98 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=22496)
+Multi-thread evaluating: 100%|██████████| 100/100 [19:14<00:00,  5.78s/it]Multi-thread evaluating: 100%|██████████| 100/100 [19:14<00:00, 11.54s/it]
+
+============================================================
+Total: 100, Success: 39, Rate: 39.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_0_99.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_0_99_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_0_99_seperated.json
+Seperated count: 100
+Elapsed time: 1154.3s
+────────────────────────────────────────────────────────────
+Processing chunk [100, 199] → search_coldstart_100_199.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 09:05:11
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_100_199.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [100, 199]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 100 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30768)
+Multi-thread evaluating:   1%|          | 1/100 [00:08<14:50,  9.00s/it]Task 101 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=41581)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:12<09:23,  5.75s/it]Task 103 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46872)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:38<24:12, 14.98s/it]Task 104 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=25220)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:39<15:00,  9.38s/it]Task 102 FAILED at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=44089)
+Multi-thread evaluating:   5%|▌         | 5/100 [00:52<16:58, 10.72s/it]Task 105 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=12668)
+Multi-thread evaluating:   6%|▌         | 6/100 [01:05<18:13, 11.63s/it]Task 106 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=18412)
+Multi-thread evaluating:   7%|▋         | 7/100 [01:06<12:37,  8.14s/it]Task 108 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=22806)
+Multi-thread evaluating:   8%|▊         | 8/100 [01:27<18:46, 12.24s/it]Task 107 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=20664)
+Multi-thread evaluating:   9%|▉         | 9/100 [01:36<16:52, 11.13s/it]Task 110 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=9924)
+Multi-thread evaluating:  10%|█         | 10/100 [01:51<18:23, 12.26s/it]Task 109 FAILED at turn 5 in envs [0] data_source=triviaqa (physical_idx=11973)
+Multi-thread evaluating:  11%|█         | 11/100 [02:09<20:59, 14.15s/it]Task 112 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2843)
+Multi-thread evaluating:  12%|█▏        | 12/100 [02:16<17:39, 12.04s/it]Task 113 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10373)
+Multi-thread evaluating:  13%|█▎        | 13/100 [02:24<15:30, 10.70s/it]Task 115 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42624)
+Multi-thread evaluating:  14%|█▍        | 14/100 [02:52<22:56, 16.01s/it]Task 114 SUCCESS at turn 5 in envs [0] data_source=nq (physical_idx=1415)
+Multi-thread evaluating:  15%|█▌        | 15/100 [03:28<31:11, 22.02s/it]Task 116 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40223)
+Multi-thread evaluating:  16%|█▌        | 16/100 [03:48<29:59, 21.43s/it]Task 118 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=18256)
+Multi-thread evaluating:  17%|█▋        | 17/100 [04:09<29:20, 21.21s/it]Task 119 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=36337)
+Multi-thread evaluating:  18%|█▊        | 18/100 [04:40<33:14, 24.32s/it]Task 117 FAILED at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=47491)
+Multi-thread evaluating:  19%|█▉        | 19/100 [04:50<26:39, 19.74s/it]Task 111 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=triviaqa (physical_idx=14070)
+Multi-thread evaluating:  20%|██        | 20/100 [04:54<20:06, 15.08s/it]Task 120 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=26335)
+Multi-thread evaluating:  21%|██        | 21/100 [04:59<16:03, 12.19s/it]Task 123 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=691)
+Multi-thread evaluating:  22%|██▏       | 22/100 [05:17<18:02, 13.88s/it]Task 122 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=44846)
+Multi-thread evaluating:  23%|██▎       | 23/100 [05:35<19:23, 15.11s/it]Task 121 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=45409)
+Multi-thread evaluating:  24%|██▍       | 24/100 [05:40<15:09, 11.96s/it]Task 124 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47453)
+Multi-thread evaluating:  25%|██▌       | 25/100 [05:42<11:28,  9.18s/it]Task 127 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=43851)
+Multi-thread evaluating:  26%|██▌       | 26/100 [05:58<13:42, 11.11s/it]Task 126 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=10950)
+Multi-thread evaluating:  27%|██▋       | 27/100 [06:08<13:13, 10.87s/it]Task 128 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32699)
+Multi-thread evaluating:  28%|██▊       | 28/100 [06:27<15:44, 13.12s/it]Task 129 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38574)
+Multi-thread evaluating:  29%|██▉       | 29/100 [06:31<12:19, 10.41s/it]Task 131 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=44485)
+Multi-thread evaluating:  30%|███       | 30/100 [06:43<12:51, 11.02s/it]Task 130 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=24566)
+Multi-thread evaluating:  31%|███       | 31/100 [06:45<09:39,  8.39s/it]Task 132 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47237)
+Multi-thread evaluating:  32%|███▏      | 32/100 [07:14<16:27, 14.52s/it]Task 125 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=30406)
+Multi-thread evaluating:  33%|███▎      | 33/100 [08:55<45:01, 40.32s/it]Task 134 FAILED at turn 8 in envs [0] data_source=triviaqa (physical_idx=5687)
+Multi-thread evaluating:  34%|███▍      | 34/100 [09:24<40:43, 37.02s/it]Task 135 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=11519)
+Multi-thread evaluating:  35%|███▌      | 35/100 [09:30<30:03, 27.75s/it]Task 133 out of max turn (physical_idx=49174)
+Multi-thread evaluating:  36%|███▌      | 36/100 [10:29<39:29, 37.02s/it]Task 137 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=47113)
+Multi-thread evaluating:  37%|███▋      | 37/100 [10:36<29:26, 28.04s/it]Task 139 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7861)
+Multi-thread evaluating:  38%|███▊      | 38/100 [10:56<26:30, 25.65s/it]Task 138 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=42033)
+Multi-thread evaluating:  39%|███▉      | 39/100 [11:19<25:18, 24.90s/it]Task 140 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33733)
+Multi-thread evaluating:  40%|████      | 40/100 [11:25<19:05, 19.10s/it]Task 141 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14508)
+Multi-thread evaluating:  41%|████      | 41/100 [11:43<18:39, 18.97s/it]Task 142 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44095)
+Multi-thread evaluating:  42%|████▏     | 42/100 [12:00<17:44, 18.35s/it]Task 143 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21185)
+Multi-thread evaluating:  43%|████▎     | 43/100 [12:07<14:09, 14.91s/it]Task 144 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5374)
+Multi-thread evaluating:  44%|████▍     | 44/100 [12:32<16:46, 17.97s/it]Task 136 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=19802)
+Multi-thread evaluating:  45%|████▌     | 45/100 [12:40<13:42, 14.95s/it]Task 146 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31904)
+Multi-thread evaluating:  46%|████▌     | 46/100 [12:54<13:10, 14.63s/it]Task 145 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=35897)
+Multi-thread evaluating:  47%|████▋     | 47/100 [13:02<11:14, 12.73s/it]Task 147 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=11617)
+Multi-thread evaluating:  48%|████▊     | 48/100 [13:06<08:39,  9.99s/it]Task 149 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4157)
+Multi-thread evaluating:  49%|████▉     | 49/100 [13:20<09:26, 11.10s/it]Task 150 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=15320)
+Multi-thread evaluating:  50%|█████     | 50/100 [13:38<11:01, 13.24s/it]Task 151 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4511)
+Multi-thread evaluating:  51%|█████     | 51/100 [13:40<07:58,  9.77s/it]Task 148 FAILED at turn 6 in envs [0] data_source=hotpotqa (physical_idx=35069)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [13:52<08:28, 10.59s/it]Task 153 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=15187)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [13:57<06:54,  8.82s/it]Task 152 FAILED at turn 3 in envs [0] data_source=musique (physical_idx=49643)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [14:01<05:48,  7.57s/it]Task 154 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=25527)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [14:05<04:53,  6.51s/it]Task 155 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33476)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [14:09<04:06,  5.59s/it]Task 156 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=8090)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [14:12<03:22,  4.71s/it]Task 157 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39330)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [14:16<03:12,  4.58s/it]Task 158 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1049)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [14:20<02:57,  4.32s/it]Task 160 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46268)
+Multi-thread evaluating:  60%|██████    | 60/100 [14:29<03:51,  5.79s/it]Task 161 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=19814)
+Multi-thread evaluating:  61%|██████    | 61/100 [14:46<05:53,  9.07s/it]Task 162 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=37293)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [15:00<06:44, 10.64s/it]Task 163 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31876)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [15:08<06:06,  9.90s/it]Task 164 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=28993)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [15:19<06:03, 10.09s/it]Task 165 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39505)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [15:27<05:35,  9.59s/it]Task 166 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=34267)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [15:45<06:56, 12.25s/it]Task 168 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46889)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [16:21<10:34, 19.24s/it]Task 159 FAILED at turn 14 in envs [0] data_source=popqa (physical_idx=19624)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [16:26<07:57, 14.92s/it]Task 169 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=38239)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [16:53<09:34, 18.52s/it]Task 167 FAILED at turn 12 in envs [0] data_source=2wikimultihopqa (physical_idx=44765)
+Multi-thread evaluating:  70%|███████   | 70/100 [17:30<12:07, 24.25s/it]Task 171 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=3695)
+Multi-thread evaluating:  71%|███████   | 71/100 [17:34<08:41, 17.97s/it]Task 173 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=22131)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [18:16<11:44, 25.16s/it]Task 172 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=17734)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [18:22<08:50, 19.64s/it]Task 174 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=47043)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [18:32<07:15, 16.75s/it]Task 176 FAILED at turn 3 in envs [3] data_source=hotpotqa (physical_idx=31723)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [19:17<10:28, 25.15s/it]Task 170 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=37836)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [19:22<07:36, 19.00s/it]Task 175 FAILED at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=39245)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [19:30<05:59, 15.64s/it]Task 177 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=17841)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [19:33<04:25, 12.05s/it]Task 179 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21882)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [19:49<04:34, 13.09s/it]Task 180 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=38260)
+Multi-thread evaluating:  80%|████████  | 80/100 [19:57<03:51, 11.56s/it]Task 181 SUCCESS at turn 3 in envs [0] data_source=nq (physical_idx=973)
+Multi-thread evaluating:  81%|████████  | 81/100 [20:14<04:12, 13.26s/it]Task 182 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=8355)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [20:21<03:23, 11.33s/it]Task 178 SUCCESS at turn 9 in envs [0] data_source=2wikimultihopqa (physical_idx=37734)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [20:31<03:06, 10.99s/it]Task 184 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=34374)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [20:51<03:37, 13.60s/it]Task 183 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=47318)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [21:01<03:07, 12.51s/it]Task 185 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=29796)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [21:04<02:18,  9.91s/it]Task 187 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7910)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [21:18<02:21, 10.90s/it]Task 188 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=40875)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [21:22<01:48,  9.06s/it]Task 190 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14425)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [21:44<02:19, 12.72s/it]Task 191 FAILED at turn 2 in envs [0] data_source=musique (physical_idx=51402)
+Multi-thread evaluating:  90%|█████████ | 90/100 [22:03<02:26, 14.64s/it]Task 189 SUCCESS at turn 5 in envs [0] data_source=hotpotqa (physical_idx=34621)
+Multi-thread evaluating:  91%|█████████ | 91/100 [22:08<01:45, 11.72s/it]Task 192 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=16936)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [22:26<01:50, 13.78s/it]Task 186 SUCCESS at turn 10 in envs [0] data_source=hotpotqa (physical_idx=35611)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [22:32<01:19, 11.37s/it]Task 193 FAILED at turn 3 in envs [0] data_source=musique (physical_idx=51381)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [22:37<00:56,  9.40s/it]Task 194 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32772)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [22:43<00:41,  8.28s/it]Task 195 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38760)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [22:44<00:25,  6.29s/it]Task 196 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=26996)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [22:49<00:17,  5.82s/it]Task 197 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=43057)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [23:07<00:18,  9.50s/it]Task 198 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=38343)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [23:18<00:09,  9.81s/it]Task 199 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=33055)
+Multi-thread evaluating: 100%|██████████| 100/100 [23:25<00:00,  8.99s/it]Multi-thread evaluating: 100%|██████████| 100/100 [23:25<00:00, 14.05s/it]
+
+============================================================
+Total: 100, Success: 43, Rate: 43.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_100_199.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_100_199_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_100_199_seperated.json
+Seperated count: 100
+Elapsed time: 1405.2s
+────────────────────────────────────────────────────────────
+Processing chunk [200, 299] → search_coldstart_200_299.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 09:28:36
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_200_299.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [200, 299]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 202 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6702)
+Multi-thread evaluating:   1%|          | 1/100 [00:13<22:54, 13.89s/it]Task 200 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30971)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:16<11:59,  7.34s/it]Task 201 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=36758)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:27<14:27,  8.94s/it]Task 203 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7580)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:28<09:13,  5.77s/it]Task 204 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34173)
+Multi-thread evaluating:   5%|▌         | 5/100 [00:31<07:32,  4.76s/it]Task 205 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11210)
+Multi-thread evaluating:   6%|▌         | 6/100 [00:41<10:15,  6.55s/it]Task 207 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35269)
+Multi-thread evaluating:   7%|▋         | 7/100 [00:52<12:35,  8.12s/it]Task 208 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4477)
+Multi-thread evaluating:   8%|▊         | 8/100 [00:54<09:27,  6.17s/it]Task 206 FAILED at turn 7 in envs [0] data_source=musique (physical_idx=49210)
+Multi-thread evaluating:   9%|▉         | 9/100 [01:43<29:22, 19.37s/it]Task 209 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=24851)
+Multi-thread evaluating:  10%|█         | 10/100 [01:52<24:36, 16.41s/it]Task 212 SUCCESS at turn 4 in envs [0] data_source=popqa (physical_idx=21426)
+Multi-thread evaluating:  11%|█         | 11/100 [02:36<36:28, 24.59s/it]Task 211 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=23427)
+Multi-thread evaluating:  12%|█▏        | 12/100 [02:44<28:48, 19.64s/it]Task 213 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=11524)
+Multi-thread evaluating:  13%|█▎        | 13/100 [03:00<26:57, 18.59s/it]Task 214 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42158)
+Multi-thread evaluating:  14%|█▍        | 14/100 [03:06<21:20, 14.88s/it]Task 216 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31332)
+Multi-thread evaluating:  15%|█▌        | 15/100 [03:32<25:31, 18.01s/it]Task 215 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=23808)
+Multi-thread evaluating:  16%|█▌        | 16/100 [03:34<18:47, 13.42s/it]Task 210 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=24691)
+Multi-thread evaluating:  17%|█▋        | 17/100 [03:47<18:17, 13.23s/it]Task 218 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=41833)
+Multi-thread evaluating:  18%|█▊        | 18/100 [03:54<15:39, 11.46s/it]Task 217 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44022)
+Multi-thread evaluating:  19%|█▉        | 19/100 [04:02<14:02, 10.40s/it]Task 220 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29263)
+Multi-thread evaluating:  20%|██        | 20/100 [04:16<15:17, 11.47s/it]Task 222 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=42137)
+Multi-thread evaluating:  21%|██        | 21/100 [05:00<27:43, 21.05s/it]Task 223 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=24327)
+Multi-thread evaluating:  22%|██▏       | 22/100 [05:33<32:07, 24.72s/it]Task 219 FAILED at turn 8 in envs [0] data_source=hotpotqa (physical_idx=35271)
+Multi-thread evaluating:  23%|██▎       | 23/100 [05:38<24:02, 18.74s/it]Task 224 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35624)
+Multi-thread evaluating:  24%|██▍       | 24/100 [06:08<28:01, 22.13s/it]Task 226 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=5048)
+Multi-thread evaluating:  25%|██▌       | 25/100 [08:37<1:15:07, 60.10s/it]Task 227 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11464)
+Multi-thread evaluating:  26%|██▌       | 26/100 [09:02<1:01:27, 49.83s/it]Task 221 out of max turn (physical_idx=51119)
+Multi-thread evaluating:  27%|██▋       | 27/100 [09:29<51:59, 42.74s/it]  Task 228 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11103)
+Multi-thread evaluating:  28%|██▊       | 28/100 [09:30<36:28, 30.39s/it]Task 229 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26441)
+Multi-thread evaluating:  29%|██▉       | 29/100 [10:00<35:46, 30.23s/it]Task 230 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10866)
+Multi-thread evaluating:  30%|███       | 30/100 [10:06<26:42, 22.89s/it]Task 231 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=20569)
+Multi-thread evaluating:  31%|███       | 31/100 [11:02<37:44, 32.82s/it]Task 232 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=12942)
+Multi-thread evaluating:  32%|███▏      | 32/100 [11:06<27:37, 24.37s/it]Task 225 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=45153)
+Multi-thread evaluating:  33%|███▎      | 33/100 [11:10<20:10, 18.07s/it]Task 233 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7633)
+Multi-thread evaluating:  34%|███▍      | 34/100 [11:20<17:20, 15.76s/it]Task 235 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4647)
+Multi-thread evaluating:  35%|███▌      | 35/100 [11:23<12:47, 11.82s/it]Task 236 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=10753)
+Multi-thread evaluating:  36%|███▌      | 36/100 [11:47<16:32, 15.51s/it]Task 237 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=43448)
+Multi-thread evaluating:  37%|███▋      | 37/100 [13:54<51:17, 48.84s/it]Task 238 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=47541)
+Multi-thread evaluating:  38%|███▊      | 38/100 [14:53<53:48, 52.07s/it]Task 234 FAILED at turn 13 in envs [0] data_source=musique (physical_idx=51329)
+Multi-thread evaluating:  39%|███▉      | 39/100 [16:06<59:11, 58.21s/it]Task 241 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=48472)
+Multi-thread evaluating:  40%|████      | 40/100 [16:29<47:37, 47.62s/it]Task 242 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6071)
+Multi-thread evaluating:  41%|████      | 41/100 [17:01<42:21, 43.08s/it]Task 243 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=43269)
+Multi-thread evaluating:  42%|████▏     | 42/100 [17:33<38:17, 39.60s/it]Task 239 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=30213)
+Multi-thread evaluating:  43%|████▎     | 43/100 [17:41<28:36, 30.12s/it]Task 244 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14464)
+Multi-thread evaluating:  44%|████▍     | 44/100 [18:06<26:51, 28.78s/it]Task 245 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33623)
+Multi-thread evaluating:  45%|████▌     | 45/100 [18:07<18:41, 20.38s/it]Task 247 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21387)
+Multi-thread evaluating:  46%|████▌     | 46/100 [18:34<20:06, 22.34s/it]Task 240 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=34999)
+Multi-thread evaluating:  47%|████▋     | 47/100 [18:44<16:32, 18.73s/it]Task 246 SUCCESS at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=43732)
+Multi-thread evaluating:  48%|████▊     | 48/100 [18:54<13:59, 16.14s/it]Task 248 FAILED at turn 5 in envs [0] data_source=triviaqa (physical_idx=11235)
+Multi-thread evaluating:  49%|████▉     | 49/100 [19:41<21:27, 25.25s/it]Task 250 SUCCESS at turn 4 in envs [0] data_source=popqa (physical_idx=22982)
+Multi-thread evaluating:  50%|█████     | 50/100 [19:49<16:44, 20.10s/it]Task 249 SUCCESS at turn 7 in envs [0] data_source=popqa (physical_idx=27312)
+Multi-thread evaluating:  51%|█████     | 51/100 [20:06<15:36, 19.12s/it]Task 252 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23262)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [20:08<11:17, 14.11s/it]Task 251 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=17540)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [20:11<08:28, 10.81s/it]Task 253 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32638)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [20:21<08:03, 10.52s/it]Task 256 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21183)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [20:46<11:01, 14.69s/it]Task 257 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=6365)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [21:16<14:08, 19.28s/it]Task 258 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=3626)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [21:46<16:07, 22.50s/it]Task 259 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1999)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [22:10<16:09, 23.09s/it]Task 254 FAILED at turn 12 in envs [0] data_source=2wikimultihopqa (physical_idx=44832)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [22:44<17:54, 26.21s/it]Task 260 FAILED at turn 3 in envs [0] data_source=musique (physical_idx=50249)
+Multi-thread evaluating:  60%|██████    | 60/100 [22:59<15:21, 23.04s/it]Task 261 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=23616)
+Multi-thread evaluating:  61%|██████    | 61/100 [23:11<12:48, 19.70s/it]Task 255 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=musique (physical_idx=51494)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [23:42<14:34, 23.00s/it]Task 263 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=19190)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [23:49<11:21, 18.41s/it]Task 262 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=30111)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [23:57<09:02, 15.07s/it]Task 264 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7433)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [24:00<06:41, 11.47s/it]Task 265 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34074)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [24:06<05:32,  9.77s/it]Task 267 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=13002)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [24:19<05:56, 10.79s/it]Task 268 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=28689)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [24:39<07:17, 13.66s/it]Task 269 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39998)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [24:40<05:07,  9.92s/it]Task 271 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10036)
+Multi-thread evaluating:  70%|███████   | 70/100 [24:57<05:56, 11.88s/it]Task 266 SUCCESS at turn 7 in envs [0] data_source=nq (physical_idx=3367)
+Multi-thread evaluating:  71%|███████   | 71/100 [24:58<04:11,  8.67s/it]Task 270 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=8045)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [25:18<05:34, 11.94s/it]Task 272 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26894)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [25:19<03:59,  8.89s/it]Task 273 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1739)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [25:22<03:01,  6.99s/it]Task 274 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26711)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [25:31<03:14,  7.76s/it]Task 275 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=15979)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [25:32<02:16,  5.68s/it]Task 276 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=39938)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [25:48<03:16,  8.55s/it]Task 278 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4888)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [25:54<02:53,  7.87s/it]Task 277 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=17366)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [26:07<03:17,  9.40s/it]Task 280 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=22612)
+Multi-thread evaluating:  80%|████████  | 80/100 [26:09<02:24,  7.24s/it]Task 279 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=11627)
+Multi-thread evaluating:  81%|████████  | 81/100 [26:10<01:41,  5.33s/it]Task 282 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21957)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [26:23<02:17,  7.62s/it]Task 281 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=37631)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [26:26<01:47,  6.32s/it]Task 285 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=6213)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [26:47<02:52, 10.77s/it]Task 286 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39285)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [27:01<02:53, 11.56s/it]Task 284 FAILED at turn 7 in envs [0] data_source=hotpotqa (physical_idx=30757)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [27:34<04:14, 18.21s/it]Task 287 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=16111)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [27:47<03:35, 16.60s/it]Task 288 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=46596)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [28:17<04:08, 20.67s/it]Task 289 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=33940)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [28:29<03:16, 17.84s/it]Task 283 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=2wikimultihopqa (physical_idx=37080)
+Multi-thread evaluating:  90%|█████████ | 90/100 [29:02<03:43, 22.37s/it]Task 292 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29575)
+Multi-thread evaluating:  91%|█████████ | 91/100 [29:30<03:38, 24.29s/it]Task 290 FAILED at turn 6 in envs [0] data_source=musique (physical_idx=51201)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [29:35<02:28, 18.54s/it]Task 293 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=16861)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [29:43<01:47, 15.38s/it]Task 294 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=41247)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [29:58<01:30, 15.07s/it]Task 295 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=36615)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [30:09<01:08, 13.79s/it]Task 291 FAILED at turn 9 in envs [0] data_source=musique (physical_idx=50296)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [30:16<00:46, 11.74s/it]Task 296 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1635)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [30:20<00:28,  9.66s/it]Task 297 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=28477)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [30:25<00:16,  8.13s/it]Task 299 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=15727)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [30:30<00:07,  7.26s/it]Task 298 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=30412)
+Multi-thread evaluating: 100%|██████████| 100/100 [30:39<00:00,  7.77s/it]Multi-thread evaluating: 100%|██████████| 100/100 [30:39<00:00, 18.40s/it]
+
+============================================================
+Total: 100, Success: 33, Rate: 33.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_200_299.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_200_299_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_200_299_seperated.json
+Seperated count: 100
+Elapsed time: 1839.8s
+────────────────────────────────────────────────────────────
+Processing chunk [300, 399] → search_coldstart_300_399.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 09:59:16
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_300_399.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [300, 399]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 301 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11528)
+Multi-thread evaluating:   1%|          | 1/100 [00:11<19:43, 11.95s/it]Task 302 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21700)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:16<12:42,  7.78s/it]Task 300 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40342)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:19<08:54,  5.51s/it]Task 303 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26215)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:23<07:28,  4.68s/it]Task 304 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32266)
+Multi-thread evaluating:   5%|▌         | 5/100 [00:26<06:53,  4.35s/it]Task 305 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34662)
+Multi-thread evaluating:   6%|▌         | 6/100 [00:33<08:10,  5.21s/it]Task 306 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=44815)
+Multi-thread evaluating:   7%|▋         | 7/100 [00:41<09:12,  5.95s/it]Task 308 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31039)
+Multi-thread evaluating:   8%|▊         | 8/100 [00:49<10:18,  6.72s/it]Task 307 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=47146)
+Multi-thread evaluating:   9%|▉         | 9/100 [00:50<07:28,  4.93s/it]Task 309 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10515)
+Multi-thread evaluating:  10%|█         | 10/100 [00:52<05:54,  3.94s/it]Task 310 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46027)
+Multi-thread evaluating:  11%|█         | 11/100 [01:03<09:01,  6.09s/it]Task 311 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=25668)
+Multi-thread evaluating:  12%|█▏        | 12/100 [01:04<06:36,  4.51s/it]Task 312 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=7312)
+Multi-thread evaluating:  13%|█▎        | 13/100 [01:06<05:43,  3.95s/it]Task 314 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32284)
+Multi-thread evaluating:  14%|█▍        | 14/100 [01:22<10:58,  7.66s/it]Task 315 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34556)
+Multi-thread evaluating:  15%|█▌        | 15/100 [01:26<09:14,  6.52s/it]Task 313 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=41133)
+Multi-thread evaluating:  16%|█▌        | 16/100 [01:30<08:03,  5.76s/it]Task 316 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26239)
+Multi-thread evaluating:  17%|█▋        | 17/100 [01:41<09:49,  7.10s/it]Task 317 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=6790)
+Multi-thread evaluating:  18%|█▊        | 18/100 [01:55<12:55,  9.45s/it]Task 319 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=25933)
+Multi-thread evaluating:  19%|█▉        | 19/100 [02:00<10:39,  7.90s/it]Task 318 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=47531)
+Multi-thread evaluating:  20%|██        | 20/100 [02:21<16:01, 12.01s/it]Task 321 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=6372)
+Multi-thread evaluating:  21%|██        | 21/100 [02:27<13:11, 10.01s/it]Task 320 SUCCESS at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=47228)
+Multi-thread evaluating:  22%|██▏       | 22/100 [02:40<14:26, 11.11s/it]Task 322 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=14200)
+Multi-thread evaluating:  23%|██▎       | 23/100 [02:41<10:19,  8.05s/it]Task 323 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=37710)
+Multi-thread evaluating:  24%|██▍       | 24/100 [02:44<08:14,  6.51s/it]Task 325 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=3278)
+Multi-thread evaluating:  25%|██▌       | 25/100 [02:59<11:18,  9.05s/it]Task 326 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=15597)
+Multi-thread evaluating:  26%|██▌       | 26/100 [03:00<08:07,  6.58s/it]Task 324 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=4088)
+Multi-thread evaluating:  27%|██▋       | 27/100 [03:01<05:56,  4.89s/it]Task 327 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1968)
+Multi-thread evaluating:  28%|██▊       | 28/100 [03:11<07:41,  6.41s/it]Task 328 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=28224)
+Multi-thread evaluating:  29%|██▉       | 29/100 [03:25<10:14,  8.66s/it]Task 330 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=40000)
+Multi-thread evaluating:  30%|███       | 30/100 [03:35<10:38,  9.12s/it]Task 332 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=10230)
+Multi-thread evaluating:  31%|███       | 31/100 [04:11<19:37, 17.06s/it]Task 331 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=11114)
+Multi-thread evaluating:  32%|███▏      | 32/100 [04:14<14:34, 12.86s/it]Task 333 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=3305)
+Multi-thread evaluating:  33%|███▎      | 33/100 [04:35<17:06, 15.33s/it]Task 334 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2278)
+Multi-thread evaluating:  34%|███▍      | 34/100 [04:36<12:07, 11.03s/it]Task 335 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32551)
+Multi-thread evaluating:  35%|███▌      | 35/100 [04:55<14:33, 13.44s/it]Task 336 FAILED at turn 4 in envs [0] data_source=musique (physical_idx=49655)
+Multi-thread evaluating:  36%|███▌      | 36/100 [05:16<16:43, 15.68s/it]Task 329 SUCCESS at turn 15 in envs [0, 1, 2, 3, 4] data_source=triviaqa (physical_idx=10591)
+Multi-thread evaluating:  37%|███▋      | 37/100 [05:52<23:06, 22.00s/it]Task 338 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40529)
+Multi-thread evaluating:  38%|███▊      | 38/100 [05:59<18:00, 17.42s/it]Task 340 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31590)
+Multi-thread evaluating:  39%|███▉      | 39/100 [06:18<18:06, 17.81s/it]Task 339 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44674)
+Multi-thread evaluating:  40%|████      | 40/100 [06:22<13:47, 13.79s/it]Task 337 SUCCESS at turn 11 in envs [0] data_source=popqa (physical_idx=26672)
+Multi-thread evaluating:  41%|████      | 41/100 [07:25<28:04, 28.55s/it]Task 342 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=39141)
+Multi-thread evaluating:  42%|████▏     | 42/100 [07:59<28:57, 29.96s/it]Task 343 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1297)
+Multi-thread evaluating:  43%|████▎     | 43/100 [08:01<20:28, 21.56s/it]Task 344 FAILED at turn 2 in envs [0] data_source=musique (physical_idx=49261)
+Multi-thread evaluating:  44%|████▍     | 44/100 [08:21<19:56, 21.37s/it]Task 341 FAILED at turn 9 in envs [0] data_source=bamboogle (physical_idx=51676)
+Multi-thread evaluating:  45%|████▌     | 45/100 [08:41<19:11, 20.94s/it]Task 347 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=13629)
+Multi-thread evaluating:  46%|████▌     | 46/100 [09:28<25:43, 28.59s/it]Task 346 FAILED at turn 6 in envs [0] data_source=musique (physical_idx=49462)
+Multi-thread evaluating:  47%|████▋     | 47/100 [09:44<22:00, 24.92s/it]Task 348 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40831)
+Multi-thread evaluating:  48%|████▊     | 48/100 [10:13<22:39, 26.14s/it]Task 349 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2860)
+Multi-thread evaluating:  49%|████▉     | 49/100 [10:16<16:23, 19.28s/it]Task 351 FAILED at turn 4 in envs [0] data_source=hotpotqa (physical_idx=34589)
+Multi-thread evaluating:  50%|█████     | 50/100 [11:07<23:54, 28.69s/it]Task 345 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=hotpotqa (physical_idx=33190)
+Multi-thread evaluating:  51%|█████     | 51/100 [11:19<19:19, 23.65s/it]Task 350 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=17702)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [11:23<14:08, 17.68s/it]Task 354 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21658)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [11:47<15:22, 19.63s/it]Task 353 FAILED at turn 3 in envs [0] data_source=nq (physical_idx=2156)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [12:09<15:30, 20.23s/it]Task 352 FAILED at turn 7 in envs [0] data_source=popqa (physical_idx=17191)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [12:36<16:42, 22.29s/it]Task 355 FAILED at turn 4 in envs [0] data_source=musique (physical_idx=50827)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [12:39<12:13, 16.67s/it]Task 357 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=38419)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [12:58<12:20, 17.21s/it]Task 358 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46513)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [12:59<08:37, 12.33s/it]Task 360 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=8913)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [13:24<11:02, 16.17s/it]Task 359 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=29506)
+Multi-thread evaluating:  60%|██████    | 60/100 [13:35<09:52, 14.82s/it]Task 356 FAILED at turn 6 in envs [0] data_source=popqa (physical_idx=18458)
+Multi-thread evaluating:  61%|██████    | 61/100 [13:42<07:57, 12.23s/it]Task 361 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35805)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [13:56<08:12, 12.95s/it]Task 362 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=25428)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [14:15<09:00, 14.60s/it]Task 364 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=4417)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [14:18<06:39, 11.09s/it]Task 363 FAILED at turn 5 in envs [0] data_source=musique (physical_idx=51185)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [14:29<06:31, 11.18s/it]Task 366 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10561)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [14:38<05:59, 10.56s/it]Task 365 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=30303)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [14:44<05:03,  9.21s/it]Task 367 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=6682)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [14:59<05:48, 10.89s/it][Search Request ID: 77aaa339-b5bf-4535-b475-fe6083427a30] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f2fca123-1fdd-4ff8-8722-4de360e9b469] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: ae9a1add-2c6a-4cd9-81ca-fe301df7b02e] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 6b9b12d3-50e6-4399-8e26-0043e6255ed2] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: dd0f07c3-9853-4e65-ba14-fb5ab6620bf3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 24672e25-bf6a-45ae-a759-898bfb5f8eb3] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: f9c13cee-1aab-4c5b-904a-0d01da936492] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: a7574052-26ca-46a1-93a9-0c974be15918] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 1a1c8f2a-3ef6-42a6-8a17-28d3703c527a] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+[Search Request ID: 25e8c71e-80e4-4b5c-b2da-e0e0533eaaea] Timeout Error: HTTPConnectionPool(host='127.0.0.1', port=8010): Read timed out. (read timeout=60)
+Task 369 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=13851)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [16:14<15:35, 30.18s/it]Task 370 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=40763)
+Multi-thread evaluating:  70%|███████   | 70/100 [16:23<11:55, 23.84s/it]Task 368 FAILED at turn 5 in envs [0] data_source=triviaqa (physical_idx=8567)
+Multi-thread evaluating:  71%|███████   | 71/100 [16:36<09:52, 20.45s/it]Task 371 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=15953)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [16:37<06:49, 14.61s/it]Task 372 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10544)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [16:39<04:55, 10.94s/it]Task 375 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4441)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [16:51<04:54, 11.33s/it]Task 374 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=37871)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [17:10<05:35, 13.41s/it]Task 373 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=38440)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [17:20<04:59, 12.48s/it]Task 378 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=14603)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [17:38<05:27, 14.24s/it]Task 377 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=3818)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [17:43<04:09, 11.35s/it]Task 379 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=9026)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [17:54<03:53, 11.14s/it]Task 380 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=18319)
+Multi-thread evaluating:  80%|████████  | 80/100 [17:54<02:41,  8.05s/it]Task 381 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42792)
+Multi-thread evaluating:  81%|████████  | 81/100 [18:09<03:10, 10.03s/it]Task 382 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27872)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [18:11<02:15,  7.53s/it]Task 383 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=20188)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [18:21<02:23,  8.42s/it]Task 384 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=25533)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [18:25<01:50,  6.89s/it]Task 386 SUCCESS at turn 4 in envs [0] data_source=hotpotqa (physical_idx=33059)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [19:27<05:52, 23.51s/it]Task 376 FAILED at turn 15 in envs [0, 1, 2, 3, 4] data_source=popqa (physical_idx=26395)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [19:29<03:59, 17.09s/it]Task 387 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42878)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [19:39<03:16, 15.10s/it]Task 389 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21138)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [20:00<03:20, 16.69s/it]Task 390 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35541)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [20:50<04:55, 26.85s/it]Task 385 SUCCESS at turn 13 in envs [0] data_source=2wikimultihopqa (physical_idx=44335)
+Multi-thread evaluating:  90%|█████████ | 90/100 [21:19<04:32, 27.24s/it]Task 391 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1877)
+Multi-thread evaluating:  91%|█████████ | 91/100 [21:22<03:00, 20.01s/it]Task 392 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35473)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [21:59<03:22, 25.28s/it]Task 393 SUCCESS at turn 3 in envs [0] data_source=musique (physical_idx=51032)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [22:00<02:06, 18.06s/it]Task 388 FAILED at turn 13 in envs [0] data_source=popqa (physical_idx=25656)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [22:13<01:38, 16.48s/it]Task 394 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46083)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [22:16<01:01, 12.39s/it]Task 396 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=36203)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [22:27<00:48, 12.04s/it]Task 397 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=45144)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [22:32<00:29,  9.75s/it]Task 398 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=839)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [22:46<00:22, 11.17s/it]Task 399 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=5629)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [22:49<00:08,  8.71s/it]Task 395 FAILED at turn 8 in envs [0] data_source=popqa (physical_idx=17644)
+Multi-thread evaluating: 100%|██████████| 100/100 [23:05<00:00, 10.76s/it]Multi-thread evaluating: 100%|██████████| 100/100 [23:05<00:00, 13.85s/it]
+
+============================================================
+Total: 100, Success: 36, Rate: 36.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_300_399.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_300_399_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_300_399_seperated.json
+Seperated count: 100
+Elapsed time: 1385.3s
+────────────────────────────────────────────────────────────
+Processing chunk [400, 499] → search_coldstart_400_499.json
+ThreadPool workers: 3
+────────────────────────────────────────────────────────────
+Shuffle table built: 51713/51713 entries
+────────────────────────────────────────────────────────────
+Start time: 2026-07-10 10:22:21
+log_file: /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_400_499.log
+────────────────────────────────────────────────────────────────────────────────
+Evaluating search coldstart (MULTITHREAD): 51713 samples
+max_turns: 15, his_len: 8
+use_local_model: True
+sampler: SearchTaskSampler(total=51713, shuffle_table=built, sequential=False)
+search_url: http://127.0.0.1:8010/retrieve, topk: 3
+group_n: 5, env_num: 1, total_envs: 5, num_para: 5
+max_workers: 3
+每个线程将独立创建 env（无需加锁，I/O 可并行）
+Processing logical range: [400, 499]
+
+Total tasks to process: 100
+ThreadPool workers: 3
+============================================================
+
+Multi-thread evaluating:   0%|          | 0/100 [00:00<?, ?it/s]Task 402 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=30561)
+Multi-thread evaluating:   1%|          | 1/100 [00:16<26:47, 16.24s/it]Task 401 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=47500)
+Multi-thread evaluating:   2%|▏         | 2/100 [00:20<14:58,  9.17s/it]Task 400 SUCCESS at turn 4 in envs [0] data_source=popqa (physical_idx=19118)
+Multi-thread evaluating:   3%|▎         | 3/100 [00:33<17:19, 10.72s/it]Task 405 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23615)
+Multi-thread evaluating:   4%|▍         | 4/100 [00:59<26:55, 16.83s/it]Task 403 SUCCESS at turn 4 in envs [0] data_source=hotpotqa (physical_idx=33602)
+Multi-thread evaluating:   5%|▌         | 5/100 [01:03<19:25, 12.27s/it]Task 404 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=43106)
+Multi-thread evaluating:   6%|▌         | 6/100 [01:06<14:28,  9.24s/it]Task 406 SUCCESS at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=44691)
+Multi-thread evaluating:   7%|▋         | 7/100 [01:26<19:24, 12.52s/it]Task 407 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=12939)
+Multi-thread evaluating:   8%|▊         | 8/100 [01:28<14:29,  9.45s/it]Task 408 SUCCESS at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=38186)
+Multi-thread evaluating:   9%|▉         | 9/100 [01:39<14:59,  9.88s/it]Task 409 SUCCESS at turn 3 in envs [0] data_source=hotpotqa (physical_idx=30566)
+Multi-thread evaluating:  10%|█         | 10/100 [01:47<13:36,  9.08s/it]Task 410 SUCCESS at turn 3 in envs [0] data_source=popqa (physical_idx=17999)
+Multi-thread evaluating:  11%|█         | 11/100 [01:48<09:49,  6.62s/it]Task 411 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=41429)
+Multi-thread evaluating:  12%|█▏        | 12/100 [01:48<07:07,  4.86s/it]Task 412 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=1067)
+Multi-thread evaluating:  13%|█▎        | 13/100 [01:58<09:07,  6.29s/it]Task 413 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=10886)
+Multi-thread evaluating:  14%|█▍        | 14/100 [01:59<06:38,  4.63s/it]Task 414 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39648)
+Multi-thread evaluating:  15%|█▌        | 15/100 [02:00<04:56,  3.49s/it]Task 415 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=118)
+Multi-thread evaluating:  16%|█▌        | 16/100 [02:09<07:16,  5.20s/it]Task 416 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26238)
+Multi-thread evaluating:  17%|█▋        | 17/100 [02:11<05:57,  4.31s/it]Task 417 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39290)
+Multi-thread evaluating:  18%|█▊        | 18/100 [02:13<05:04,  3.72s/it]Task 419 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=17377)
+Multi-thread evaluating:  19%|█▉        | 19/100 [02:31<10:35,  7.85s/it]Task 420 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=7260)
+Multi-thread evaluating:  20%|██        | 20/100 [02:40<10:52,  8.15s/it]Task 421 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=43622)
+Multi-thread evaluating:  21%|██        | 21/100 [02:46<09:55,  7.54s/it]Task 418 SUCCESS at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=39610)
+Multi-thread evaluating:  22%|██▏       | 22/100 [02:52<09:08,  7.03s/it]Task 422 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=39690)
+Multi-thread evaluating:  23%|██▎       | 23/100 [02:56<08:09,  6.36s/it]Task 423 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=11242)
+Multi-thread evaluating:  24%|██▍       | 24/100 [03:03<08:02,  6.34s/it]Task 424 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=37753)
+Multi-thread evaluating:  25%|██▌       | 25/100 [03:09<07:44,  6.20s/it]Task 425 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1894)
+Multi-thread evaluating:  26%|██▌       | 26/100 [03:14<07:23,  5.99s/it]Task 426 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=8023)
+Multi-thread evaluating:  27%|██▋       | 27/100 [03:18<06:27,  5.31s/it]Task 427 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=6713)
+Multi-thread evaluating:  28%|██▊       | 28/100 [03:28<08:02,  6.71s/it]Task 428 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=15031)
+Multi-thread evaluating:  29%|██▉       | 29/100 [03:31<06:32,  5.53s/it]Task 429 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=21367)
+Multi-thread evaluating:  30%|███       | 30/100 [03:36<06:17,  5.40s/it]Task 430 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=15224)
+Multi-thread evaluating:  31%|███       | 31/100 [03:39<05:35,  4.86s/it]Task 432 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=17177)
+Multi-thread evaluating:  32%|███▏      | 32/100 [03:51<07:49,  6.90s/it]Task 431 FAILED at turn 5 in envs [0] data_source=triviaqa (physical_idx=7434)
+Multi-thread evaluating:  33%|███▎      | 33/100 [04:16<13:50, 12.40s/it]Task 433 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=43600)
+Multi-thread evaluating:  34%|███▍      | 34/100 [04:32<14:41, 13.35s/it]Task 435 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=48979)
+Multi-thread evaluating:  35%|███▌      | 35/100 [04:45<14:16, 13.17s/it]Task 436 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=15065)
+Multi-thread evaluating:  36%|███▌      | 36/100 [04:48<10:50, 10.17s/it]Task 438 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=23372)
+Multi-thread evaluating:  37%|███▋      | 37/100 [05:12<15:09, 14.44s/it]Task 439 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32947)
+Multi-thread evaluating:  38%|███▊      | 38/100 [05:48<21:36, 20.90s/it]Task 434 FAILED at turn 10 in envs [0] data_source=hotpotqa (physical_idx=29656)
+Multi-thread evaluating:  39%|███▉      | 39/100 [05:53<16:22, 16.11s/it]Task 440 FAILED at turn 5 in envs [0] data_source=2wikimultihopqa (physical_idx=38021)
+Multi-thread evaluating:  40%|████      | 40/100 [07:05<32:48, 32.81s/it]Task 441 FAILED at turn 6 in envs [0] data_source=2wikimultihopqa (physical_idx=44675)
+Multi-thread evaluating:  41%|████      | 41/100 [07:24<28:15, 28.73s/it]Task 437 FAILED at turn 12 in envs [0] data_source=triviaqa (physical_idx=10403)
+Multi-thread evaluating:  42%|████▏     | 42/100 [07:46<25:49, 26.71s/it]Task 442 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=24388)
+Multi-thread evaluating:  43%|████▎     | 43/100 [07:47<18:00, 18.96s/it]Task 443 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=31391)
+Multi-thread evaluating:  44%|████▍     | 44/100 [07:48<12:38, 13.54s/it]Task 444 FAILED at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=46207)
+Multi-thread evaluating:  45%|████▌     | 45/100 [07:58<11:22, 12.41s/it]Task 446 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=20921)
+Multi-thread evaluating:  46%|████▌     | 46/100 [08:18<13:13, 14.70s/it]Task 447 FAILED at turn 2 in envs [0] data_source=triviaqa (physical_idx=5005)
+Multi-thread evaluating:  47%|████▋     | 47/100 [08:20<09:37, 10.90s/it]Task 445 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=24419)
+Multi-thread evaluating:  48%|████▊     | 48/100 [08:23<07:22,  8.51s/it]Task 449 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12171)
+Multi-thread evaluating:  49%|████▉     | 49/100 [08:39<09:08, 10.76s/it]Task 451 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=344)
+Multi-thread evaluating:  50%|█████     | 50/100 [08:58<11:07, 13.35s/it]Task 448 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=22105)
+Multi-thread evaluating:  51%|█████     | 51/100 [09:08<10:11, 12.48s/it]Task 453 FAILED at turn 2 in envs [2] data_source=popqa (physical_idx=24515)
+Multi-thread evaluating:  52%|█████▏    | 52/100 [09:34<13:07, 16.40s/it]Task 452 FAILED at turn 4 in envs [0] data_source=musique (physical_idx=50706)
+Multi-thread evaluating:  53%|█████▎    | 53/100 [09:53<13:25, 17.13s/it]Task 454 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=35060)
+Multi-thread evaluating:  54%|█████▍    | 54/100 [10:00<10:56, 14.27s/it]Task 456 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=13584)
+Multi-thread evaluating:  55%|█████▌    | 55/100 [10:30<14:03, 18.73s/it]Task 455 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=27928)
+Multi-thread evaluating:  56%|█████▌    | 56/100 [10:31<09:50, 13.42s/it]Task 450 FAILED at turn 13 in envs [0] data_source=nq (physical_idx=738)
+Multi-thread evaluating:  57%|█████▋    | 57/100 [11:00<13:09, 18.36s/it]Task 458 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=33646)
+Multi-thread evaluating:  58%|█████▊    | 58/100 [11:08<10:39, 15.24s/it]Task 457 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=41176)
+Multi-thread evaluating:  59%|█████▉    | 59/100 [11:15<08:33, 12.53s/it]Task 459 SUCCESS at turn 2 in envs [0] data_source=hotpotqa (physical_idx=29570)
+Multi-thread evaluating:  60%|██████    | 60/100 [11:17<06:14,  9.37s/it]Task 460 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=27623)
+Multi-thread evaluating:  61%|██████    | 61/100 [11:19<04:48,  7.39s/it]Task 462 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=1159)
+Multi-thread evaluating:  62%|██████▏   | 62/100 [11:35<06:14,  9.86s/it]Task 461 FAILED at turn 3 in envs [0] data_source=popqa (physical_idx=20633)
+Multi-thread evaluating:  63%|██████▎   | 63/100 [11:38<04:51,  7.87s/it]Task 463 FAILED at turn 3 in envs [0] data_source=nq (physical_idx=1968)
+Multi-thread evaluating:  64%|██████▍   | 64/100 [11:51<05:39,  9.44s/it]Task 464 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=12916)
+Multi-thread evaluating:  65%|██████▌   | 65/100 [11:53<04:14,  7.26s/it]Task 465 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=33550)
+Multi-thread evaluating:  66%|██████▌   | 66/100 [11:57<03:25,  6.04s/it]Task 468 SUCCESS at turn 2 in envs [0] data_source=nq (physical_idx=2918)
+Multi-thread evaluating:  67%|██████▋   | 67/100 [12:17<05:36, 10.19s/it]Task 466 FAILED at turn 3 in envs [0] data_source=triviaqa (physical_idx=3813)
+Multi-thread evaluating:  68%|██████▊   | 68/100 [12:21<04:26,  8.33s/it]Task 467 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=43201)
+Multi-thread evaluating:  69%|██████▉   | 69/100 [12:22<03:13,  6.24s/it]Task 469 FAILED at turn 2 in envs [0] data_source=nq (physical_idx=2877)
+Multi-thread evaluating:  70%|███████   | 70/100 [12:33<03:48,  7.62s/it]Task 471 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=42557)
+Multi-thread evaluating:  71%|███████   | 71/100 [12:42<03:53,  8.04s/it]Task 470 SUCCESS at turn 4 in envs [0] data_source=popqa (physical_idx=25875)
+Multi-thread evaluating:  72%|███████▏  | 72/100 [13:02<05:28, 11.74s/it]Task 473 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26175)
+Multi-thread evaluating:  73%|███████▎  | 73/100 [13:04<03:57,  8.78s/it]Task 474 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=7665)
+Multi-thread evaluating:  74%|███████▍  | 74/100 [13:22<04:57, 11.46s/it]Task 475 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=25523)
+Multi-thread evaluating:  75%|███████▌  | 75/100 [13:25<03:44,  8.98s/it]Task 476 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=19452)
+Multi-thread evaluating:  76%|███████▌  | 76/100 [13:41<04:24, 11.03s/it]Task 477 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=34641)
+Multi-thread evaluating:  77%|███████▋  | 77/100 [13:42<03:03,  8.00s/it]Task 479 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=14460)
+Multi-thread evaluating:  78%|███████▊  | 78/100 [14:04<04:27, 12.18s/it]Task 478 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=39432)
+Multi-thread evaluating:  79%|███████▉  | 79/100 [14:14<04:04, 11.65s/it]Task 480 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=4586)
+Multi-thread evaluating:  80%|████████  | 80/100 [14:26<03:53, 11.70s/it]Task 472 FAILED at turn 12 in envs [0] data_source=popqa (physical_idx=23432)
+Multi-thread evaluating:  81%|████████  | 81/100 [14:42<04:07, 13.01s/it]Task 481 FAILED at turn 3 in envs [0] data_source=hotpotqa (physical_idx=35259)
+Multi-thread evaluating:  82%|████████▏ | 82/100 [14:43<02:48,  9.38s/it]Task 484 SUCCESS at turn 2 in envs [0] data_source=popqa (physical_idx=26999)
+Multi-thread evaluating:  83%|████████▎ | 83/100 [14:56<02:59, 10.55s/it]Task 482 FAILED at turn 5 in envs [0] data_source=popqa (physical_idx=21872)
+Multi-thread evaluating:  84%|████████▍ | 84/100 [15:06<02:43, 10.25s/it]Task 483 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=44431)
+Multi-thread evaluating:  85%|████████▌ | 85/100 [15:10<02:05,  8.36s/it]Task 486 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=21518)
+Multi-thread evaluating:  86%|████████▌ | 86/100 [15:20<02:04,  8.87s/it]Task 487 FAILED at turn 2 in envs [0] data_source=hotpotqa (physical_idx=32582)
+Multi-thread evaluating:  87%|████████▋ | 87/100 [15:22<01:30,  6.99s/it]Task 485 FAILED at turn 7 in envs [0] data_source=triviaqa (physical_idx=7749)
+Multi-thread evaluating:  88%|████████▊ | 88/100 [15:57<03:02, 15.25s/it]Task 489 FAILED at turn 4 in envs [0] data_source=popqa (physical_idx=15851)
+Multi-thread evaluating:  89%|████████▉ | 89/100 [16:00<02:08, 11.71s/it]Task 490 FAILED at turn 4 in envs [0] data_source=2wikimultihopqa (physical_idx=47006)
+Multi-thread evaluating:  90%|█████████ | 90/100 [16:45<03:37, 21.78s/it]Task 488 FAILED at turn 9 in envs [0] data_source=popqa (physical_idx=22373)
+Multi-thread evaluating:  91%|█████████ | 91/100 [17:06<03:12, 21.34s/it]Task 492 SUCCESS at turn 2 in envs [0] data_source=2wikimultihopqa (physical_idx=44488)
+Multi-thread evaluating:  92%|█████████▏| 92/100 [17:19<02:31, 18.98s/it]Task 493 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=28417)
+Multi-thread evaluating:  93%|█████████▎| 93/100 [17:35<02:06, 18.03s/it]Task 494 FAILED at turn 3 in envs [0] data_source=2wikimultihopqa (physical_idx=45580)
+Multi-thread evaluating:  94%|█████████▍| 94/100 [17:54<01:50, 18.41s/it]Task 495 FAILED at turn 4 in envs [0] data_source=triviaqa (physical_idx=7216)
+Multi-thread evaluating:  95%|█████████▌| 95/100 [18:31<01:59, 23.99s/it]Task 496 FAILED at turn 4 in envs [0] data_source=nq (physical_idx=2346)
+Multi-thread evaluating:  96%|█████████▌| 96/100 [18:58<01:39, 24.87s/it]Task 497 FAILED at turn 2 in envs [0] data_source=popqa (physical_idx=26283)
+Multi-thread evaluating:  97%|█████████▋| 97/100 [19:02<00:55, 18.37s/it]Task 491 FAILED at turn 13 in envs [0] data_source=musique (physical_idx=50909)
+Multi-thread evaluating:  98%|█████████▊| 98/100 [19:08<00:29, 14.75s/it]Task 499 SUCCESS at turn 2 in envs [0] data_source=triviaqa (physical_idx=13578)
+Multi-thread evaluating:  99%|█████████▉| 99/100 [19:23<00:14, 14.78s/it]Task 498 SUCCESS at turn 3 in envs [0] data_source=triviaqa (physical_idx=4031)
+Multi-thread evaluating: 100%|██████████| 100/100 [19:24<00:00, 10.61s/it]Multi-thread evaluating: 100%|██████████| 100/100 [19:24<00:00, 11.64s/it]
+
+============================================================
+Total: 100, Success: 36, Rate: 36.00%
+============================================================
+Trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_400_499.json
+Success trajectories saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_400_499_success.json
+Seperated data saved to /diskpool/home/xuxz/verl-agent/coldstart_test_search_seed1/test_3.5epoch/search_coldstart_400_499_seperated.json
+Seperated count: 100
+Elapsed time: 1164.2s
+
+================================================================================
+All chunks completed!
+================================================================================

@@ -1,0 +1,122 @@
+Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1
+Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/typer/completion.py:122: DeprecationWarning: 'BaseCommand' is deprecated and will be removed in Click 9.0. Use 'Command' instead.
+  cli: click.BaseCommand,
+/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/weasel/util/config.py:8: DeprecationWarning: Importing 'parser.split_arg_string' is deprecated, it will only be available in 'shell_completion' in Click 9.0.
+  from click.parser import split_arg_string
+/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:857: PydanticDeprecatedSince20: The `__fields__` attribute is deprecated, use the `model_fields` class property instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+  if key in schema.__fields__ and not resolve:
+/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:937: PydanticDeprecatedSince20: The `parse_obj` method is deprecated; use `model_validate` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+  result = schema.parse_obj(validation)
+/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:956: PydanticDeprecatedSince20: The `dict` method is deprecated; use `model_dump` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+  validation.update(result.dict(exclude=exclude_validation))
+import WebAgentTextEnv success
+
+================================================================================
+
+Output file: /diskpool/home/xuxz/verl-agent/eval_webshop/coldstart_test_new/model_hislen8_result_v2/1.5B_epoch3.5_hislen8_test_v2_3.json
+
+================================================================================
+
+
+============================================================
+Loading tokenizer and model from checkpoint: /diskpool/home/xuxz/ms-swift/checkpoint/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260602-201729/checkpoint-6250
+ 
+============================================================
+Loading tokenizer...
+Tokenizer loaded: Qwen2TokenizerFast
+Set tokenizer model_max_length to: 32768
+Set tokenizer truncation_side to: right
+============================================================
+============================================================
+load_local_model success
+============================================================
+
+================================================================================
+
+Warning: log file exists (/diskpool/home/xuxz/verl-agent/eval_webshop/coldstart_test_new/model_hislen8_result_v2/1.5B_epoch3.5_hislen8_test_v2_3.log) but output file does not exist.
+This indicates a previous run was interrupted.
+Deleting incomplete log file and starting fresh...
+Start time: 2026-07-31 08:54:16
+log_file: /diskpool/home/xuxz/verl-agent/eval_webshop/coldstart_test_new/model_hislen8_result_v2/1.5B_epoch3.5_hislen8_test_v2_3.log
+
+================================================================================
+
+Evaluating test samples (idx 0 to 99) with 50 max turns each...
+group_n: 5, env_num: 1, num_para: 5
+load_all: 0, human_goals: False, limit_goals: -1, seed: 42, start_index: 0, end_idx: 99
+using local model (Qwen2.5-1.5/3/7B), path: /diskpool/home/xuxz/ms-swift/checkpoint/Qwen2.5-1.5B-Instruct-Parallel-Epoch5-hislen8/v0-20260602-201729/checkpoint-6250
+prompt: 3, his_len: 8, Max context length: 32768
+
+================================================================================
+
+file_path: /diskpool/home/xuxz/data/items_shuffle_1000.json 
+ attr_path: /diskpool/home/xuxz/data/items_ins_v2_1000.json
+/diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/opentelemetry/util/_importlib_metadata.py:32: DeprecationWarning: SelectableGroups dict interface is deprecated. Use select.
+  return EntryPoints(ep for group_eps in eps.values() for ep in group_eps)
+2026-07-31 08:54:19,837	INFO worker.py:1908 -- Started a local Ray instance. View the dashboard at [1m[32mhttp://127.0.0.1:8265 [39m[22m
+[36m(pid=250706)[0m Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1
+[36m(pid=250706)[0m Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+[36m(pid=250706)[0m Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+[36m(pid=250706)[0m See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+[36m(WebshopWorker pid=250706)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/typer/completion.py:122: DeprecationWarning: 'BaseCommand' is deprecated and will be removed in Click 9.0. Use 'Command' instead.
+[36m(WebshopWorker pid=250706)[0m   cli: click.BaseCommand,
+[36m(pid=250704)[0m Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1[32m [repeated 4x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+[36m(pid=250704)[0m Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.[32m [repeated 4x across cluster][0m
+[36m(pid=250704)[0m Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.[32m [repeated 4x across cluster][0m
+[36m(pid=250704)[0m See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250706)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/weasel/util/config.py:8: DeprecationWarning: Importing 'parser.split_arg_string' is deprecated, it will only be available in 'shell_completion' in Click 9.0.
+[36m(WebshopWorker pid=250706)[0m   from click.parser import split_arg_string
+[36m(WebshopWorker pid=250706)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:857: PydanticDeprecatedSince20: The `__fields__` attribute is deprecated, use the `model_fields` class property instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+[36m(WebshopWorker pid=250706)[0m   if key in schema.__fields__ and not resolve:
+[36m(WebshopWorker pid=250706)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:937: PydanticDeprecatedSince20: The `parse_obj` method is deprecated; use `model_validate` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+[36m(WebshopWorker pid=250706)[0m   result = schema.parse_obj(validation)
+[36m(WebshopWorker pid=250706)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:956: PydanticDeprecatedSince20: The `dict` method is deprecated; use `model_dump` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+[36m(WebshopWorker pid=250706)[0m   validation.update(result.dict(exclude=exclude_validation))
+[36m(WebshopWorker pid=250706)[0m Products loaded.
+[36m(WebshopWorker pid=250706)[0m Keys cleaned.
+[36m(WebshopWorker pid=250706)[0m Attributes loaded.
+[36m(WebshopWorker pid=250706)[0m   0%|          | 0/1000 [00:00<?, ?it/s]
+[36m(WebshopWorker pid=250706)[0m 100%|██████████| 1000/1000 [00:00<00:00, 139861.42it/s]
+[36m(WebshopWorker pid=250706)[0m Loaded 6910 goals.
+ Split: test, Goal indices: range(0, 500), Exclude: True, Sequential: True 
+
+
+Environment built, took 13.453604936599731 seconds[36m(WebshopWorker pid=250706)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/bs4/element.py:784: DeprecationWarning: The 'text' argument to find()-type methods is deprecated. Use 'string' instead.
+
+[36m(WebshopWorker pid=250706)[0m   warnings.warn(
+Evaluating test data:   0%|          | 0/100 [00:00<?, ?it/s] 
+*** SIGTERM received at time=1785459411 on cpu 109 ***
+PC: @     0x70096c61de9b  (unknown)  at::native::as_strided_tensorimpl()
+    @     0x700dd0042520  146391264  (unknown)
+    @     0x5fb780bcef51  (unknown)  PyObject_SetAttr
+    @        0x100000002  (unknown)  (unknown)
+    @     0x700987f464e0  (unknown)  (unknown)
+    @ 0xec8348fb89485355  (unknown)  (unknown)
+[2026-07-31 08:56:51,854 E 241827 241827] logging.cc:496: *** SIGTERM received at time=1785459411 on cpu 109 ***
+[2026-07-31 08:56:51,854 E 241827 241827] logging.cc:496: PC: @     0x70096c61de9b  (unknown)  at::native::as_strided_tensorimpl()
+[2026-07-31 08:56:51,858 E 241827 241827] logging.cc:496:     @     0x700dd0042520  146391264  (unknown)
+[2026-07-31 08:56:51,858 E 241827 241827] logging.cc:496:     @     0x5fb780bcef51  (unknown)  PyObject_SetAttr
+[2026-07-31 08:56:51,862 E 241827 241827] logging.cc:496:     @        0x100000002  (unknown)  (unknown)
+[2026-07-31 08:56:51,866 E 241827 241827] logging.cc:496:     @     0x700987f464e0  (unknown)  (unknown)
+[2026-07-31 08:56:51,870 E 241827 241827] logging.cc:496:     @ 0xec8348fb89485355  (unknown)  (unknown)
+Evaluating test data:   0%|          | 0/100 [02:22<?, ?it/s]
+[36m(WebshopWorker pid=250704)[0m Products loaded.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m Keys cleaned.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m Attributes loaded.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m Loaded 6910 goals.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/typer/completion.py:122: DeprecationWarning: 'BaseCommand' is deprecated and will be removed in Click 9.0. Use 'Command' instead.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m   cli: click.BaseCommand,[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/weasel/util/config.py:8: DeprecationWarning: Importing 'parser.split_arg_string' is deprecated, it will only be available in 'shell_completion' in Click 9.0.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m   from click.parser import split_arg_string[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:857: PydanticDeprecatedSince20: The `__fields__` attribute is deprecated, use the `model_fields` class property instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m   if key in schema.__fields__ and not resolve:[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:937: PydanticDeprecatedSince20: The `parse_obj` method is deprecated; use `model_validate` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m   result = schema.parse_obj(validation)[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/confection/__init__.py:956: PydanticDeprecatedSince20: The `dict` method is deprecated; use `model_dump` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m   validation.update(result.dict(exclude=exclude_validation))[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m   0%|          | 0/1000 [00:00<?, ?it/s]100%|██████████| 1000/1000 [00:00<00:00, 169125.16it/s][32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m /diskpool/home/xuxz/miniconda3/envs/verl_train_2/lib/python3.11/site-packages/bs4/element.py:784: DeprecationWarning: The 'text' argument to find()-type methods is deprecated. Use 'string' instead.[32m [repeated 4x across cluster][0m
+[36m(WebshopWorker pid=250704)[0m   warnings.warn([32m [repeated 4x across cluster][0m

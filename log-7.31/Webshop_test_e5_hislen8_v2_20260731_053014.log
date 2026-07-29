@@ -1,0 +1,20 @@
+Warning: Gym version v0.24.0 has a number of critical issues with `gym.make` such that the `reset` and `step` functions are called before returning the environment. It is recommend to downgrading to v0.23.1 or upgrading to v0.25.1
+Additionally, Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+Traceback (most recent call last):
+  File "/diskpool/home/xuxz/verl-agent/eval_webshop/coldstart_test_new/coldstart_para_his_test_1.5B_hislen8_epoch5_v2.py", line 21, in <module>
+    from agent_system.environments.env_package.webshop.webshop.web_agent_site.envs.web_agent_text_env import WebAgentTextEnv
+  File "/diskpool/home/xuxz/verl-agent/agent_system/environments/env_package/webshop/webshop/web_agent_site/envs/__init__.py", line 4, in <module>
+    from .web_agent_site_env import WebAgentSiteEnv
+  File "/diskpool/home/xuxz/verl-agent/agent_system/environments/env_package/webshop/webshop/web_agent_site/envs/web_agent_site_env.py", line 16, in <module>
+    from ..engine.engine import parse_action, END_BUTTON
+  File "/diskpool/home/xuxz/verl-agent/agent_system/environments/env_package/webshop/webshop/web_agent_site/engine/engine.py", line 18, in <module>
+    from ..utils import (
+  File "/diskpool/home/xuxz/verl-agent/agent_system/environments/env_package/webshop/webshop/web_agent_site/utils.py", line 11, in <module>
+    _DPEPO_USER_HOME = os.environ.get('DPEPO_USER_HOME', '/diskpool/home/xuxz')
+                       ^^
+NameError: name 'os' is not defined
